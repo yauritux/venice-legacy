@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <jar destfile="/home/fedora/Documents/Projects/Venice/Venice-Batch/target/batch-jars/SalesRecordGeneratorBatchJob.jar">
+    <fileset dir="/home/fedora/Documents/Projects/Venice/Venice-Batch/target/classes">
+      <include name="**/SalesRecordGeneratorBatchJob.class"/>
+    </fileset>
+    <manifest>
+      <attribute name="Class-Path" value="lib/Venice-Interface-Model-1.0.jar lib/Venice-Utilities-1.0.jar lib/joda-time-2.3.jar lib/log4j-1.2.13.jar lib/commons-lang-2.4.jar lib/openejb-client-3.1.4.jar lib/geronimo-ejb_3.0_spec-1.0.1.jar lib/hibernate-core-3.3.0.SP1.jar"/>
+      <attribute name="Main-Class" value="com.gdn.venice.finance.batch.SalesRecordGeneratorBatchJob"/>
+    </manifest>
+  </jar>
+</target>
+</project>

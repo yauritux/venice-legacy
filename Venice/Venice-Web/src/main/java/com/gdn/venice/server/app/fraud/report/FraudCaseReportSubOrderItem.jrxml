@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudCaseReportSubOrderItem" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.4157650000000035"/>
+	<property name="ireport.x" value="497"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table Header" hAlign="Left" vAlign="Middle" fontSize="8" isBold="true">
+		<box leftPadding="3" rightPadding="5">
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table Content" hAlign="Left" vAlign="Middle" isBlankWhenNull="true" fontSize="8">
+		<box leftPadding="3" rightPadding="3"/>
+	</style>
+	<style name="Box">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="orderItemId" class="java.lang.String">
+		<fieldDescription><![CDATA[orderItemId]]></fieldDescription>
+	</field>
+	<field name="price" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[price]]></fieldDescription>
+	</field>
+	<field name="productName" class="java.lang.String">
+		<fieldDescription><![CDATA[productName]]></fieldDescription>
+	</field>
+	<field name="productSku" class="java.lang.String">
+		<fieldDescription><![CDATA[productSku]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+		<fieldDescription><![CDATA[quantity]]></fieldDescription>
+	</field>
+	<field name="recipientAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientAddress1]]></fieldDescription>
+	</field>
+	<field name="recipientAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientAddress2]]></fieldDescription>
+	</field>
+	<field name="recipientCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="recipientKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="recipientName" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientName]]></fieldDescription>
+	</field>
+	<field name="recipientStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientStateCountry]]></fieldDescription>
+	</field>
+	<field name="shippingType" class="java.lang.String">
+		<fieldDescription><![CDATA[shippingType]]></fieldDescription>
+	</field>
+	<field name="totalPrice" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPrice]]></fieldDescription>
+	</field>
+	<field name="productCategory1" class="java.lang.String">
+		<fieldDescription><![CDATA[productCategory1]]></fieldDescription>
+	</field>
+	<field name="productCategory2" class="java.lang.String">
+		<fieldDescription><![CDATA[productCategory2]]></fieldDescription>
+	</field>
+	<field name="productCategory3" class="java.lang.String">
+		<fieldDescription><![CDATA[productCategory3]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="6" y="11" width="65" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Item ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="5" y="0" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Order Item Information :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="71" y="11" width="270" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Product]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="341" y="11" width="40" height="10" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="381" y="11" width="80" height="10" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="461" y="11" width="80" height="10" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45">
+			<frame>
+				<reportElement style="Box" x="6" y="0" width="65" height="45"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="6" y="0" width="40" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderItemId}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" x="341" y="0" width="40" height="45"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="341" y="0" width="40" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" x="381" y="0" width="80" height="45"/>
+			</frame>
+			<staticText>
+				<reportElement style="Table Content" x="381" y="0" width="15" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement style="Table Content" x="396" y="0" width="65" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" x="461" y="0" width="80" height="45"/>
+			</frame>
+			<staticText>
+				<reportElement style="Table Content" x="461" y="0" width="15" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement style="Table Content" x="476" y="0" width="65" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPrice}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" x="71" y="0" width="270" height="45"/>
+				<staticText>
+					<reportElement style="Table Content" x="0" y="18" width="55" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Category C1: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Table Content" x="0" y="27" width="55" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Category C2: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Table Content" x="0" y="36" width="55" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Category C3: ]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Table Content" x="0" y="0" width="270" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Table Content" x="0" y="9" width="270" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productSku}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Table Content" x="55" y="18" width="215" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productCategory1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Table Content" x="55" y="27" width="215" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productCategory2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Table Content" x="55" y="36" width="215" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productCategory3}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

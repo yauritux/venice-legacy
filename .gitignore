@@ -1,0 +1,8 @@
+target/classes
+*.class
+.classpath
+.DS_Store
+.swp
+*~
+.svn
+.Servers

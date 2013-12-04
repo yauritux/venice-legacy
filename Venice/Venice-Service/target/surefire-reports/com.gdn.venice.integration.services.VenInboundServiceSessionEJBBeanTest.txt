@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.gdn.venice.integration.services.VenInboundServiceSessionEJBBeanTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.12 sec

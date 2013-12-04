@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>Venice</artifactId>
+        <groupId>com.gdn.venice</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <!--   <groupId>com.gdn.venice</groupId> -->
+    <artifactId>Venice-Web</artifactId>
+    <packaging>war</packaging>
+    <!--   <version>1.0</version> -->
+    <name>Venice-Web</name>
+    <url>http://maven.apache.org</url>
+
+    <repositories>
+        <repository>
+            <id>org.ourproject.kune</id>
+            <url>http://kune.ourproject.org/mavenrepo/</url>
+        </repository>
+    </repositories>
+    <properties>
+        <lib.dir>${project.basedir}/src/main/webapp/WEB-INF/lib</lib.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.gwt.inject</groupId>
+            <artifactId>gin</artifactId>
+            <version>r137</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>javax.inject</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+            <version>2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.inject</groupId>
+                    <artifactId>guice</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.guice</groupId>
+            <artifactId>guice</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>        
+        <dependency>
+            <groupId>com.google.code.gwt-log</groupId>
+            <artifactId>gwt-log</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gwtplatform</groupId>
+            <artifactId>gwtp</artifactId>
+            <version>0.4-bLOCAL</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+            <version>${gwt.version}</version>
+            <scope>provided</scope>
+        </dependency> 
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.1.1</version>
+            <scope>provided</scope>
+        </dependency>     
+        <dependency>
+            <groupId>com.smartgwt</groupId>
+            <artifactId>smartgwt</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency> 
+        <dependency>
+            <groupId>com.smartgwt</groupId>
+            <artifactId>smartgwt-skins</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+            <version>1.1.1</version>
+            <scope>provided</scope>
+        </dependency>          
+        <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+                    
+<!--        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwt.version}</version>
+            <scope>provided</scope>
+        </dependency>        -->
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-xmlbeans</artifactId>
+            <version>1.5.2</version>
+            <scope>provided</scope>
+        </dependency>        
+        
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.12</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>      
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>1.0</version>
+        </dependency>  
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Venice-Utilities</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Venice-Interface-Model</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${lib.dir}</outputDirectory>
+                            <silent>false</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>Venice-Interface-Model</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>Venice-Utilities</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <property name="src" value="${project.basedir}/src"/>
+                                <property name="build" value="${project.basedir}/target/classes" />
+                                <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"/>
+                                <delete>
+                                    <fileset dir="${src}">
+                                        <include name="**/*.jasper" />
+                                    </fileset>
+                                </delete>
+                                <jrc>
+                                    <src>
+                                        <fileset dir="${src}">
+                                            <include name="**/*.jrxml" />
+                                        </fileset>
+                                    </src>
+                                </jrc>
+                                <copy todir="${build}">
+									<fileset dir="${src}/main/java">
+										<include name="**/*.jasper" />
+									</fileset>
+								</copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.jasperreports</groupId>
+                        <artifactId>jasperreports</artifactId>
+                        <version>4.1.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                        <version>1.7.5</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+           
+<!--             <plugin> -->
+<!-- 		        <artifactId>maven-resources-plugin</artifactId> -->
+<!-- 		        <version>2.6</version> -->
+<!-- 		        <executions> -->
+<!-- 		          <execution> -->
+<!-- 		            <id>copy-resources</id> -->
+<!-- 		            here the phase you need -->
+<!-- 		            <phase>validate</phase> -->
+<!-- 		            <goals> -->
+<!-- 		              <goal>copy-resources</goal> -->
+<!-- 		            </goals> -->
+<!-- 		            <configuration> -->
+<!-- 		              <outputDirectory>${basedir}/target/extra-resources</outputDirectory> -->
+<!-- 		              <resources>           -->
+<!-- 		                <resource> -->
+<!-- 		                  <directory>src/non-packaged-resources</directory> -->
+<!-- 		                  <filtering>true</filtering> -->
+<!-- 		                </resource> -->
+<!-- 		              </resources>               -->
+<!-- 		            </configuration>             -->
+<!-- 		          </execution> -->
+<!-- 		        </executions> -->
+<!-- 	      	</plugin> -->
+	      	
+	      	
+<!-- 	      	 <resources> -->
+<!-- 		      <resource> -->
+<!-- 		        directory>src/my-resources</directory -->
+<!-- 		        <includes> -->
+<!-- 		          <include>**/*.jasper</include> -->
+<!-- 		        </includes> -->
+<!-- 		      </resource> -->
+<!-- 		    </resources> -->
+	      	
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>    
+            <!-- gwt-maven-plugin -->
+            <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <version>2.1.0-1</version>
+                    <executions>
+                            <execution>
+                                    <configuration>
+
+                                            <!--<modules>-->
+                                                    <!--<module>com.gdn.venice.client.Venice</module>-->
+                                                    <!--module>com.smartgwt.extensions.eventbus.EventbusExample</module-->                                                   
+                                                    <!--module>com.smartgwt.extensions.fileuploader.FileUploaderExample</module-->
+                                                    <!--module>com.smartgwt.extensions.gwtrpcds.GwtRpcDsExample</module-->
+                                                    <!--module>com.smartgwt.extensions.htmleditor.HTMLEditorExample</module-->
+<!--                                                    <module>com.smartgwt.extensions.hwc.HWC</module>
+                                                    <module>com.smartgwt.extensions.modal.ModalExample</module>-->
+                                                    <!--module>com.smartgwt.extensions.notes.NotesExample</module-->
+<!--                                                    <module>com.smartgwt.extensions.showcase.Showcase</module>-->
+                                               
+                                            <!--</modules>-->
+
+                                            <!--<runTarget>com.gdn.venice.client.view.LoginView/LoginView.html</runTarget>-->
+                                            <!--runTarget>com.smartgwt.extensions.eventbus.EventbusExample/EventbusExample.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.fileuploader.FileUploaderExample/FileUploaderExample.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.gwtrpcds.GwtRpcDsExample/GwtRpcDsExample.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.htmleditor.HTMLEditorExample/HTMLEditorExample.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.hwc.HWC/HWC.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.modal.ModalExample/ModalExample.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.notes.NotesExample/NotesExample.html</runTarget-->
+                                            <!--runTarget>com.smartgwt.extensions.showcase.Showcase/Showcase.html</runTarget-->
+
+<!--                                            <runTarget>com.smartgwt.extensions.showcase.Showcase/Showcase.html</runTarget>-->
+
+<!--                                            <hostedWebapp>${project.build.directory}/war</hostedWebapp> 
+                                            <webappDirectory>${project.build.directory}/war</webappDirectory>                                                       
+                                            <buildDir>${project.build.directory}/war/WEB-INF</buildDir> 
+                                            <gwtVersion>${gwt.version}</gwtVersion>
+                                            <extraJvmArgs>-Xmx1024M -Xss1024k -Dgwt.jjs.permutationWorkerFactory=com.google.gwt.dev.ThreadedPermutationWorkerFactory</extraJvmArgs>-->
+                                            <logLevel>INFO</logLevel>
+                                            <style>OBF</style>
+                                            <copyWebapp>true</copyWebapp>
+                                            <webappDirectory>src/main/webapp</webappDirectory>
+                                            <force>true</force>
+                                            <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
+                                    </configuration>
+                                    <id>gwtcompile</id>
+                                    <phase>prepare-package</phase>
+                                    <goals>         
+                                                                                
+                                        <goal>resources</goal>
+                                        <goal>compile</goal>
+                                    </goals>
+                            </execution>
+                    </executions>
+            </plugin>
+              
+        </plugins>
+    </build>
+</project>

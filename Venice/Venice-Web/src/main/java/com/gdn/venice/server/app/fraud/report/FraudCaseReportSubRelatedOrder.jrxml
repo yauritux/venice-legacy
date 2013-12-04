@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudCaseReportSubRelatedOrder" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.996500000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table Header" hAlign="Left" vAlign="Middle" fontSize="8" isBold="true">
+		<box leftPadding="3" rightPadding="5">
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table Content" hAlign="Left" vAlign="Middle" isBlankWhenNull="true" fontSize="8">
+		<box leftPadding="3" rightPadding="3"/>
+	</style>
+	<style name="Box">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[amount]]></fieldDescription>
+	</field>
+	<field name="customerName" class="java.lang.String">
+		<fieldDescription><![CDATA[customerName]]></fieldDescription>
+	</field>
+	<field name="firstTimeFlag" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[firstTimeFlag]]></fieldDescription>
+	</field>
+	<field name="ipAddress" class="java.lang.String">
+		<fieldDescription><![CDATA[ipAddress]]></fieldDescription>
+	</field>
+	<field name="orderDate" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[orderDate]]></fieldDescription>
+	</field>
+	<field name="orderStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[orderStatus]]></fieldDescription>
+	</field>
+	<field name="wcsOrderId" class="java.lang.String">
+		<fieldDescription><![CDATA[wcsOrderId]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="5" y="0" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Related Order Information :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="6" y="11" width="50" height="10" isPrintInFirstWholeBand="true" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Order ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="401" y="11" width="55" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[First Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="456" y="11" width="85" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[IP Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="56" y="11" width="120" height="10" isPrintInFirstWholeBand="true" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="176" y="11" width="80" height="10" isPrintInFirstWholeBand="true" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="256" y="11" width="90" height="10" isPrintInFirstWholeBand="true" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Order Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="346" y="11" width="55" height="10" isPrintInFirstWholeBand="true" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10">
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="6" y="0" width="50" height="9"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="6" y="0" width="50" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wcsOrderId}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="56" y="0" width="120" height="9"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" stretchType="RelativeToBandHeight" x="56" y="0" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="176" y="0" width="80" height="9"/>
+			</frame>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement style="Table Content" stretchType="RelativeToBandHeight" x="191" y="0" width="65" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="256" y="0" width="90" height="9"/>
+			</frame>
+			<textField pattern="dd/MM/yyyy hh:mm">
+				<reportElement style="Table Content" x="256" y="0" width="90" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderDate}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="346" y="0" width="55" height="9"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="346" y="0" width="55" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderStatus}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="401" y="0" width="55" height="9"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="401" y="0" width="55" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{firstTimeFlag} ? "Yes" : "No"]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToBandHeight" x="456" y="0" width="85" height="9"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="456" y="0" width="85" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ipAddress}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" mode="Transparent" x="176" y="0" width="15" height="9" isPrintInFirstWholeBand="true"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

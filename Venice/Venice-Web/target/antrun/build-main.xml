@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <property name="src" value="/home/fedora/Documents/Projects/Venice/Venice-Web/src"/>
+  <property name="build" value="/home/fedora/Documents/Projects/Venice/Venice-Web/target/classes"/>
+  <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"/>
+  <delete>
+    <fileset dir="${src}">
+      <include name="**/*.jasper"/>
+    </fileset>
+  </delete>
+  <jrc>
+    <src>
+      <fileset dir="${src}">
+        <include name="**/*.jrxml"/>
+      </fileset>
+    </src>
+  </jrc>
+  <copy todir="org.apache.maven.model.Build@4cd4544">
+    <fileset dir="${src}/main/java">
+      <include name="**/*.jasper"/>
+    </fileset>
+  </copy>
+</target>
+</project>

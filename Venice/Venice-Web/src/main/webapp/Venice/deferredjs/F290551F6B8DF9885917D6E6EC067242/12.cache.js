@@ -1,0 +1,15 @@
+function tSc(){}
+function vUc(){}
+function vYd(){}
+function BYd(){}
+function oQ(b){b.c.bf(MN(b.b.b))}
+function cue(){Ise.call(this,(ECe(),CCe))}
+function mJ(b,c,d){return new vSc(b,c,d)}
+function Ise(b){this.M=new Object;this.M[cif]=dUf;this.M[uNf]=b.b}
+function vSc(b,c,d){iY.call(this,b,c);this.d=d;Sld(this.j,263).Wc(this);Sld(Sld(this.j,263).Xc(),3).b=Sld(this.d,264).Tc()}
+function DYd(){yYd=new BYd;Yad((Vad(),Uad),12);!!$stats&&$stats(Nbd(hUf,Aif,-1,-1));yYd.Ve();!!$stats&&$stats(Nbd(hUf,qEf,-1,-1))}
+function AYd(){var b,d,e;while(wYd){d=b9c;e=wYd;wYd=wYd.c;!wYd&&(xYd=null);if(!d){oQ(e.b)}else{try{oQ(e.b)}catch(b){b=YVd(b);if(!Vld(b,209))throw b}}}}
+function MN(b){var c;!b.oc&&(b.oc=(c=mJ((!b.Jc&&(b.Jc=new Sne),b.Jc),(!b.vc&&(b.vc=new yUc),b.vc),(!b.nc&&(b.nc=new CSc),b.nc),!b.Ic&&(b.Ic=(new Jme).hf(new sme,new wme))),c.Pc(),c));return b.oc}
+function lSc(){var b,c,d,e,f,g,i;if(jSc){return jSc}else{jSc=new $1c;jSc.se(UTf);c=new cue;_He(c.M,cEf,(aVe(),aVe(),_Ue));i=new due(uNf,XKf);f=new due(VTf,hLf);b=new due(WTf,XTf);e=new Ste(YTf,ZTf);g=new Ste($Tf,_Tf);d=new due(OIf,aUf);X1c(jSc,Eld(UUd,{272:1,322:1},103,[c,i,f,b,e,g,d]));jSc.re(bUf);v1c(jSc,cUf,_Ue,false);return jSc}}
+function yUc(){var b,c,d,e,f,g,i,j,k,n;this.b=new v8c;Xub(this.b,Eld(yVd,{272:1,322:1},137,[(b=new hkb,Qhb(b)?(j=b.fd(),j.setProperty(Scf,Pcf),undefined):(b.o[Scf]=Pcf,undefined),Qhb(b)?(k=b.fd(),k.setProperty(Ocf,Pcf),undefined):(b.o[Ocf]=Pcf,undefined),Xhb(b,jGf,(aVe(),aVe(),_Ue),true),Qhb(b)?(n=b.fd(),n.setProperty(kGf,0),undefined):(b.o[kGf]=0,undefined),f=new pQe(dUf,eUf,100),i=new pQe(uNf,XKf,200),i.M[eEf]=jHe(Eld(NVd,{272:1,322:1,323:1},1,[fUf,gUf])),d=new pQe(VTf,hLf,400),c=new pQe(YTf,ZTf,100),e=new pQe($Tf,_Tf,100),g=new oQe(OIf,aUf),Qhb(b)?dib(b,gEf,jHe(Eld(DVd,{272:1,322:1},190,[f,i,d,c,e,g]))):(b.o[gEf]=jHe(Eld(DVd,{272:1,322:1},190,[f,i,d,c,e,g])),undefined),Xhb(b,jEf,_Ue,true),Xhb(b,mEf,_Ue,true),Whb(b,fEf,s1c(lSc())),Xhb(b,hEf,_Ue,false),Qhb(b)?undefined:(b.o[jRf]=uNf,undefined),Shb(b,(PCe(),MCe)),Xhb(b,kEf,_Ue,true),Xhb(b,IMf,_Ue,true),b)]))}
+var UTf='/assignedtask/tasks/task',iUf='AssignedTaskPresenter',jUf='AssignedTaskView',kUf='AsyncLoader12',fUf='Human Resources - Recruitment',gUf='Human Resources - Travel Management',WTf='assignee',bUf='ds/test_data/assignedtask.data.xml',hUf='runCallbacks12',YTf='taskdate',VTf='taskdesc',$Tf='taskduedate',dUf='taskid';var jSc=null;_=vSc.prototype=tSc.prototype=new NX;_.gC=function wSc(){return KId};_.Rc=function xSc(){Rne(this.g,this,new Qqe((R3c(),P3c),this))};_.cM={87:1,309:1};_=yUc.prototype=vUc.prototype=new yZ;_.Xc=function zUc(){return this.b};_.gC=function AUc(){return _Id};_.cM={263:1};_.b=null;_=BYd.prototype=vYd.prototype=new aI;_.gC=function CYd(){return EMd};_.Ve=function GYd(){AYd()};_.cM={};_=cue.prototype=aue.prototype;var KId=rVe(Muf,iUf),_Id=rVe(AHf,jUf),EMd=rVe(Tyf,kUf);$entry(DYd)();

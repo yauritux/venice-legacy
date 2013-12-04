@@ -1,0 +1,60 @@
+CREATE or REPLACE FUNCTION get_last_idx() RETURNS integer AS $$
+  DECLARE
+  	mviews RECORD;
+  	pkColName VARCHAR;
+  	sviews RECORD;
+  	lastId VARCHAR;
+  BEGIN
+		ALTER TABLE openjpaseq ALTER COLUMN id TYPE varchar;
+  		TRUNCATE TABLE openjpaseq;
+  		INSERT INTO openjpaseq(id) SELECT relname FROM pg_statio_all_tables WHERE SCHEMANAME='venice';
+  		DELETE FROM openjpaseq WHERE id='fin_ap_invoice_journal_transaction';
+		DELETE FROM openjpaseq WHERE id='fin_ap_payment_journal_transaction';
+		DELETE FROM openjpaseq WHERE id='fin_ar_funds_in_journal_transaction';
+		DELETE FROM openjpaseq WHERE id='fin_ar_funds_in_recon_comments';
+		DELETE FROM openjpaseq WHERE id='fin_sales_record_journal_transaction';
+		DELETE FROM openjpaseq WHERE id='frd_fraud_case_history';
+		DELETE FROM openjpaseq WHERE id='frd_payment_fraud_suspicion';
+		DELETE FROM openjpaseq WHERE id='frd_related_fraud_case';
+		DELETE FROM openjpaseq WHERE id='frd_rule_config_treshold';
+		DELETE FROM openjpaseq WHERE id='hibernate_sequences';
+		DELETE FROM openjpaseq WHERE id='log_activity_recon_comment_history';
+		DELETE FROM openjpaseq WHERE id='log_invoice_recon_comment_history';
+		DELETE FROM openjpaseq WHERE id='log_pickup_report_cell';
+		DELETE FROM openjpaseq WHERE id='log_schedule_days';
+		DELETE FROM openjpaseq WHERE id='openjpaseq';
+		DELETE FROM openjpaseq WHERE id='raf_user_permission';
+		DELETE FROM openjpaseq WHERE id='ven_order_item_adjustment';
+		DELETE FROM openjpaseq WHERE id='ven_order_item_status_history';
+		DELETE FROM openjpaseq WHERE id='ven_order_payment_allocation';
+		DELETE FROM openjpaseq WHERE id='ven_order_status_history';
+		DELETE FROM openjpaseq WHERE id='ven_party_address';
+		DELETE FROM openjpaseq WHERE id='ven_party_promotion_share';
+		DELETE FROM openjpaseq WHERE id='ven_product_categories';
+		DELETE FROM openjpaseq WHERE id='ven_transaction_fees';
+		
+	  	UPDATE openjpaseq SET sequence_value=0;
+	  	
+	  	FOR mviews IN SELECT id FROM openjpaseq LOOP
+	  	
+	  		SELECT pg_attribute.attname INTO pkColName
+				FROM pg_index, pg_class, pg_attribute 
+				WHERE 
+			  		pg_class.oid = mviews.id::regclass AND
+					indrelid = pg_class.oid AND
+					pg_attribute.attrelid = pg_class.oid AND 
+					pg_attribute.attnum = any(pg_index.indkey)
+					AND indisprimary;	
+					
+				EXECUTE 'SELECT MAX('||quote_ident(pkColName)||') FROM '||quote_ident(mviews.id) INTO lastId ;
+				
+				RAISE INFO 'SELECT MAX(%) FROM %',(pkColName),(mviews.id);	  
+				RAISE INFO 'UPDATE openjpaseq SET sequence_value= %	WHERE id=%', (lastId), (mviews.id);
+				
+				IF(lastID IS NOT NULL) THEN
+					EXECUTE 'UPDATE openjpaseq SET sequence_value= CAST('||quote_literal(lastId)||' AS BIGINT) + 1 WHERE id=CAST('||quote_literal(mviews.id)||' AS TEXT)';
+				END IF;
+	  	END LOOP;	
+	  	RETURN 1;
+  END;
+  $$ LANGUAGE plpgsql;

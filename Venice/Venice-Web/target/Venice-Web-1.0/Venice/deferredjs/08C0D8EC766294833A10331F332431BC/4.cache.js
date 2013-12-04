@@ -1,0 +1,21 @@
+function d9(){}
+function j9(){}
+function uob(){}
+function Aob(){}
+function Fob(){}
+function Kob(){}
+function O7d(){}
+function I7d(){}
+function l9(b){this.b=b}
+function Cob(b){this.b=b}
+function Hob(b){this.b=b}
+function Mob(b){this.b=b}
+function EO(b){b.c.Ze(bN(b.b.b))}
+function EI(b,c,d){return new g9(b,c,d)}
+function Q7d(){L7d=new O7d;Uad((Rad(),Qad),4);!!$stats&&$stats(Jbd(bHf,Whf,-1,-1));L7d.Re();!!$stats&&$stats(Jbd(bHf,HDf,-1,-1))}
+function g9(b,c,d){eY.call(this,b,c);this.d=d;vld(this.j,15).Wc(this);vld(vld(this.j,15).Xc(),3).b=vld(this.d,16).Tc();pyb(vld(this.j,15).d,a6())}
+function N7d(){var b,d,e;while(J7d){d=Z8c;e=J7d;J7d=J7d.c;!J7d&&(K7d=null);if(!d){EO(e.b)}else{try{EO(e.b)}catch(b){b=xVd(b);if(!yld(b,209))throw b}}}}
+function bN(b){var c;!b.t&&(b.t=(c=EI((!b.Jc&&(b.Jc=new mne),b.Jc),(!b.K&&(b.K=new xob),b.K),(!b.s&&(b.s=new s9),b.s),!b.Ic&&(b.Ic=(new dme).df(new Ole,new Sle))),c.Pc(),c));return b.t}
+function f9(b,c){var d,e,f,g;g=new Hre;f=new Q3e;for(e=0;e<c.c;++e){f.ll(UGf+(e+1),vld((Y0e(e,c.c),c.b[e]),1))}d=m_e(f);g.M[adf]=d;g.M[bdf]=Vbd()+VGf;g.M[ddf]=edf;vHe(g.M,fdf,(wUe(),wUe(),vUe));vHe(g.M,WGf,vUe);$wnd.isc.RPCManager.addClassProperties({promptStyle:(pEe(),oEe).Qk()});yGe();$wnd.isc.RPCManager.defaultPrompt=XGf;$wnd.isc.RPCManager.showPrompt=true;nze(g,new l9(b))}
+function xob(){var b,e,f,g;this.c=new r8c;b=new eTe;Mhb(b)?(e=b.fd(),e.setProperty(mcf,jcf),undefined):(b.o[mcf]=jcf,undefined);Rhb(b,Odf,jWe(2));this.f=new kTe;Nhb(this.f,jFf,nFf,true);Pib(this.f,oFf);Nhb(this.f,zhf,pFf,true);f=this.f.ud();f.disable();cTe(b,this.f);this.e=new kTe;Nhb(this.e,jFf,qFf,true);Pib(this.e,YGf);Nhb(this.e,zhf,wof,true);cTe(b,this.e);this.b=new kTe;Nhb(this.b,jFf,sFf,true);Pib(this.b,ZGf);Nhb(this.b,zhf,rgf,true);g=this.b.ud();g.disable();cTe(b,this.b);this.d=new uyb(this);Tub(this.c,hld(ZUd,{272:1,322:1},137,[b,this.d]));zib(this.f,new Cob(this));zib(this.b,new Hob(this));zib(this.e,new Mob(this));lyb(this.d)}
+var jHf='AsyncLoader4',cHf='JournalPresenter',dHf='JournalPresenter$1',VGf='JournalPresenterServlet?method=submitJournalForApproval&type=RPC',fHf='JournalView',gHf='JournalView$1',hHf='JournalView$2',iHf='JournalView$3',YGf='Print Journal Details',XGf='Submitting journals for approval...',_Gf='Venice/JournalReportLauncherServlet?journalGroupId=',bHf='runCallbacks4';_=g9.prototype=d9.prototype=new JX;_.gC=function h9(){return Kpd};_.Rc=function i9(){lne(this.g,this,new kqe((N3c(),L3c),this))};_.cM={35:1,87:1,309:1};_=l9.prototype=j9.prototype=new YH;_.Sc=function m9(b,c,d){var e,f;e=c.tM==t6e||c.cM&&!!c.cM[1]?c.tS():c.toString?c.toString():dcf;if(e.indexOf(Uif)==0){qyb(vld(vld(this.b.j,15),17).d);$wnd.isc.say(VDf)}else{f=wXe(e,jdf,0);f.length>1?cIe(f[1],null):cIe(WDf,null)}yGe();$wnd.isc.RPCManager.defaultPrompt=XDf;$wnd.isc.RPCManager.showPrompt=false};_.gC=function n9(){return Hpd};_.cM={};_.b=null;_=xob.prototype=uob.prototype=new uZ;_.Xc=function yob(){return this.c};_.gC=function zob(){return Jrd};_.cM={15:1,17:1};_.b=null;_.c=null;_.d=null;_.e=null;_.f=null;_=Cob.prototype=Aob.prototype=new YH;_.gC=function Dob(){return Grd};_.Yc=function Eob(b){var c,d,e,f,g,i;e=(f=this.b.d.f.ud(),g=f.getSelection(),hkb(g));d=new D2e;for(c=0;c<e.length;++c){q2e(d,(i=e[c].M[$Gf],i===undefined||i==null?null:String(i)))}f9(vld(this.b.B,35),d)};_.cM={292:1,324:1};_.b=null;_=Hob.prototype=Fob.prototype=new YH;_.gC=function Iob(){return Hrd};_.Yc=function Job(b){var c,d,e,f,g,i;e=(f=this.b.d.f.ud(),g=f.getSelection(),hkb(g));d=(i=e[0].M[$Gf],i===undefined||i==null?null:String(i));c=Vbd();c.indexOf(ZFf)!=-1&&(c=SFf);c.indexOf($Ff)!=-1&&(c=c.substr(0,c.indexOf($Ff)-0));$wnd.open(c+_Gf+d,aHf,null)};_.cM={292:1,324:1};_.b=null;_=Mob.prototype=Kob.prototype=new YH;_.gC=function Nob(){return Ird};_.Yc=function Oob(b){z5c(this.b.d)};_.cM={292:1,324:1};_.b=null;_=O7d.prototype=I7d.prototype=new YH;_.gC=function P7d(){return gOd};_.Re=function T7d(){N7d()};_.cM={};var Kpd=NUe(Fsf,cHf),Hpd=NUe(Fsf,dHf),Jrd=NUe(eHf,fHf),Grd=NUe(eHf,gHf),Hrd=NUe(eHf,hHf),Ird=NUe(eHf,iHf),gOd=NUe(jyf,jHf);$entry(Q7d)();

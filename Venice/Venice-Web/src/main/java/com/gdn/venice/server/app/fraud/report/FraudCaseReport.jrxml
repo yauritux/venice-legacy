@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudCaseReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="Dataset Order Item">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="SUBREPORT_ORDER_ITEM" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_PAYMENT" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_MIGS" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_RISK_POINT" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_RELATED_ORDER" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_ACTION_LOG" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="fraudStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudStatus]]></fieldDescription>
+	</field>
+	<field name="migsList" class="java.util.List">
+		<fieldDescription><![CDATA[migsList]]></fieldDescription>
+	</field>
+	<field name="customerEmail" class="java.lang.String">
+		<fieldDescription><![CDATA[customerEmail]]></fieldDescription>
+	</field>
+	<field name="fraudNotes" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudNotes]]></fieldDescription>
+	</field>
+	<field name="customerStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[customerStateCountry]]></fieldDescription>
+	</field>
+	<field name="totalRiskPoint" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalRiskPoint]]></fieldDescription>
+	</field>
+	<field name="wcsOrderId" class="java.lang.String">
+		<fieldDescription><![CDATA[wcsOrderId]]></fieldDescription>
+	</field>
+	<field name="customerCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[customerCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="ipAddress" class="java.lang.String">
+		<fieldDescription><![CDATA[ipAddress]]></fieldDescription>
+	</field>
+	<field name="customerAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[customerAddress2]]></fieldDescription>
+	</field>
+	<field name="customerContact" class="java.lang.String">
+		<fieldDescription><![CDATA[customerContact]]></fieldDescription>
+	</field>
+	<field name="customerType" class="java.lang.String">
+		<fieldDescription><![CDATA[customerType]]></fieldDescription>
+	</field>
+	<field name="paymentList" class="java.util.List">
+		<fieldDescription><![CDATA[paymentList]]></fieldDescription>
+	</field>
+	<field name="orderAmount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[orderAmount]]></fieldDescription>
+	</field>
+	<field name="customerAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[customerAddress1]]></fieldDescription>
+	</field>
+	<field name="fraudReason" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudReason]]></fieldDescription>
+	</field>
+	<field name="riskPointList" class="java.util.List">
+		<fieldDescription><![CDATA[riskPointList]]></fieldDescription>
+	</field>
+	<field name="orderItemList" class="java.util.List">
+		<fieldDescription><![CDATA[orderItemList]]></fieldDescription>
+	</field>
+	<field name="customerId" class="java.lang.String">
+		<fieldDescription><![CDATA[customerId]]></fieldDescription>
+	</field>
+	<field name="customerBirthDate" class="java.util.Date">
+		<fieldDescription><![CDATA[customerBirthDate]]></fieldDescription>
+	</field>
+	<field name="customerKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[customerKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="fraudDescription" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudDescription]]></fieldDescription>
+	</field>
+	<field name="customerName" class="java.lang.String">
+		<fieldDescription><![CDATA[customerName]]></fieldDescription>
+	</field>
+	<field name="relatedOrderList" class="java.util.List">
+		<fieldDescription><![CDATA[relatedOrderList]]></fieldDescription>
+	</field>
+	<field name="actionLogList" class="java.util.List">
+		<fieldDescription><![CDATA[actionLogList]]></fieldDescription>
+	</field>
+	<field name="investigator" class="java.lang.String">
+		<fieldDescription><![CDATA[investigator]]></fieldDescription>
+	</field>
+	<field name="autoOrManualFP" class="java.lang.String">
+		<fieldDescription><![CDATA[autoOrManualFP]]></fieldDescription>
+	</field>
+	<field name="orderStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[orderStatus]]></fieldDescription>
+	</field>
+	<field name="recipientStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientStateCountry]]></fieldDescription>
+	</field>
+	<field name="recipientName" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientName]]></fieldDescription>
+	</field>
+	<field name="recipientKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="recipientCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="recipientAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientAddress2]]></fieldDescription>
+	</field>
+	<field name="recipientAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientAddress1]]></fieldDescription>
+	</field>
+	<field name="shippingType" class="java.lang.String">
+		<fieldDescription><![CDATA[shippingType]]></fieldDescription>
+	</field>
+	<field name="orderTimeStamp" class="java.lang.String">
+		<fieldDescription><![CDATA[orderTimeStamp]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="4" y="0" width="536" height="15" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ORDER DETAIL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="194" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="4" y="0" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Order Detail :                                                         Customer Detail :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="55" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Fraud Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="55" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="55" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudStatus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="10" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Order ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="10" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="10" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wcsOrderId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="19" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Order Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="19" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="19" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderTimeStamp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="28" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Total Shopping Cart]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="28" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="28" width="15" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="95" y="28" width="85" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderAmount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="37" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[IP Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="37" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="37" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ipAddress}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="10" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="10" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="245" y="10" width="120" height="9"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="19" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="19" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="245" y="19" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="28" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="28" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="245" y="28" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="37" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="37" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="245" y="37" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerAddress1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="245" y="50" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerAddress2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="245" y="63" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerKecamatanKelurahan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="245" y="76" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerCityPostalCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="245" y="89" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerStateCountry}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="102" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Contact]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="102" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="245" y="102" width="120" height="9"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerContact}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="111" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="111" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="245" y="111" width="120" height="9"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerEmail}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="120" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Birth Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="120" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="245" y="120" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerBirthDate}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="147" width="555" height="1"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{orderItemList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_ORDER_ITEM}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="151" width="555" height="1"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{paymentList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_PAYMENT}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="155" width="555" height="1"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{migsList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_MIGS}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="159" width="555" height="1"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{riskPointList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_RISK_POINT}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="163" width="555" height="1"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{relatedOrderList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_RELATED_ORDER}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="167" width="555" height="1"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{actionLogList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_ACTION_LOG}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="4" y="179" width="45" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fraud Desc.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="56" y="179" width="80" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudDescription}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="4" y="168" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Investigation Detail :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="46" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="46" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderStatus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="46" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Order Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="64" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="80" y="64" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{autoOrManualFP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="64" width="70" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Auto / Manual FP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="10" width="65" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Recipient]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="19" width="65" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Shipping Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="84" width="65" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Shipping Method]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="10" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="19" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="84" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="435" y="10" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="435" y="19" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientAddress1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="435" y="32" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientAddress2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="435" y="58" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientCityPostalCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="435" y="45" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientKecamatanKelurahan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement x="435" y="71" width="120" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientStateCountry}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="435" y="84" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shippingType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="49" y="179" width="7" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="186" y="179" width="7" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="136" y="179" width="50" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fraud Reason]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="193" y="179" width="80" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudReason}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="318" y="179" width="7" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="325" y="179" width="80" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudNotes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="273" y="179" width="45" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fraud Notes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="450" y="179" width="7" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="457" y="179" width="80" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{investigator}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="405" y="179" width="45" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Investigator]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

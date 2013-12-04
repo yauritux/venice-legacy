@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudCaseReportSubPayment" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.657341500000001"/>
+	<property name="ireport.x" value="873"/>
+	<property name="ireport.y" value="4"/>
+	<style name="Table Header" hAlign="Left" vAlign="Middle" fontSize="8" isBold="true">
+		<box leftPadding="3" rightPadding="5">
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table Content" hAlign="Left" vAlign="Middle" isBlankWhenNull="true" fontSize="8">
+		<box leftPadding="3" rightPadding="3"/>
+	</style>
+	<style name="Box">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[amount]]></fieldDescription>
+	</field>
+	<field name="billingAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[billingAddress1]]></fieldDescription>
+	</field>
+	<field name="billingAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[billingAddress2]]></fieldDescription>
+	</field>
+	<field name="billingCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[billingCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="billingKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[billingKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="billingStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[billingStateCountry]]></fieldDescription>
+	</field>
+	<field name="cardLimit" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[cardLimit]]></fieldDescription>
+	</field>
+	<field name="cardType" class="java.lang.String">
+		<fieldDescription><![CDATA[cardType]]></fieldDescription>
+	</field>
+	<field name="installment" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[installment]]></fieldDescription>
+	</field>
+	<field name="interest" class="java.lang.Float">
+		<fieldDescription><![CDATA[interest]]></fieldDescription>
+	</field>
+	<field name="paymentInfo" class="java.lang.String">
+		<fieldDescription><![CDATA[paymentInfo]]></fieldDescription>
+	</field>
+	<field name="paymentType" class="java.lang.String">
+		<fieldDescription><![CDATA[paymentType]]></fieldDescription>
+	</field>
+	<field name="wcsPaymentId" class="java.lang.String">
+		<fieldDescription><![CDATA[wcsPaymentId]]></fieldDescription>
+	</field>
+	<field name="internetBankingId" class="java.lang.String">
+		<fieldDescription><![CDATA[internetBankingId]]></fieldDescription>
+	</field>
+	<field name="eci" class="java.lang.String">
+		<fieldDescription><![CDATA[eci]]></fieldDescription>
+	</field>
+	<field name="cardDescription" class="java.lang.String">
+		<fieldDescription><![CDATA[cardDescription]]></fieldDescription>
+	</field>
+	<field name="tenor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[tenor]]></fieldDescription>
+	</field>
+	<field name="issuingBank" class="java.lang.String">
+		<fieldDescription><![CDATA[issuingBank]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="5" y="0" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Billing Information :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="6" y="11" width="60" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Payment ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="66" y="11" width="70" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Method]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="136" y="11" width="165" height="10" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Additional Info]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="301" y="11" width="70" height="10" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="371" y="11" width="170" height="10" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="83">
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToTallestObject" x="6" y="0" width="60" height="83"/>
+			</frame>
+			<textField>
+				<reportElement style="Table Content" x="6" y="0" width="60" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wcsPaymentId}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToTallestObject" x="136" y="0" width="165" height="83"/>
+				<staticText>
+					<reportElement style="Table Content" x="65" y="36" width="15" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Rp.]]></text>
+				</staticText>
+			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="0" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paymentType} == "KlikBCA" || $F{paymentType} == "Debit Mandiri" ? "ID" : "No."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="0" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paymentInfo} != null && !$F{paymentInfo}.equalsIgnoreCase("") ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Table Content" x="201" y="0" width="100" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paymentInfo} != null ? $F{paymentInfo} : $F{internetBankingId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="9" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardType} != null && !$F{cardType}.equalsIgnoreCase("") ? "Visa/Master" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="9" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardType} != null && !$F{cardType}.equalsIgnoreCase("") ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="9" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardType}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="18" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardDescription} != null && !$F{cardDescription}.equalsIgnoreCase("") ? "Card Desc." : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="18" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardDescription} != null && !$F{cardDescription}.equalsIgnoreCase("") ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="18" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardDescription}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="45" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eci} != null && !$F{eci}.equalsIgnoreCase("") ? "ECI" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="45" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eci} != null && !$F{eci}.equalsIgnoreCase("") ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="45" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eci}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="36" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardLimit} != null ? "Limit" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="36" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardLimit} != null ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Table Content" x="216" y="36" width="85" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardLimit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="54" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenor} != null ? "Tenor" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="54" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenor} != null ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="54" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="63" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{installment} != null ? "Inst." : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="63" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{installment} != null ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="63" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{installment}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="72" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interest} != null ? "Int." : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="181" y="63" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interest} != null ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="72" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interest}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToTallestObject" x="301" y="0" width="70" height="83"/>
+			</frame>
+			<staticText>
+				<reportElement style="Table Content" x="301" y="0" width="15" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement style="Table Content" x="316" y="0" width="55" height="9"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToTallestObject" x="371" y="0" width="170" height="83"/>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table Content" x="371" y="0" width="170" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingAddress1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Table Content" x="371" y="13" width="170" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingAddress2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table Content" x="371" y="26" width="170" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingKecamatanKelurahan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table Content" x="371" y="39" width="170" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingCityPostalCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Table Content" x="371" y="52" width="170" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingStateCountry}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Box" stretchType="RelativeToTallestObject" x="66" y="0" width="70" height="83"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Table Content" x="0" y="0" width="70" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{paymentType}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="72" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interest} != null ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="196" y="27" width="5" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuingBank} != null ? ":" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="136" y="27" width="60" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuingBank} != null && !$F{issuingBank}.equalsIgnoreCase("") ? "Bank Name" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Table Content" x="201" y="27" width="100" height="9" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuingBank}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

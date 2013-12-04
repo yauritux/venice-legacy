@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file is used as input into the facade generator and must be maintained when new classes are created -->
+<!-- Author: 	david@pwsindonesia.com: David Forden -->
+<!-- Version: 	1.0 -->
+<!-- Since:		2011 -->
+
+<config>
+	<facade>
+<!--		<entity name="FinAccount" pkmethod="getAccountId" />-->
+<!--		<entity name="FinAccountCategory" pkmethod="getAccountCategoryId" />-->
+<!--		<entity name="FinAccountType" pkmethod="getAccountTypeId" />-->
+<!--		<entity name="FinApInvoice" pkmethod="getApInvoiceId" />-->
+<!--		<entity name="FinApPayment" pkmethod="getApPaymentId" />-->
+<!--		<entity name="FinApprovalStatus" pkmethod="getApprovalStatusId" />-->
+<!--		<entity name="FinApManualJournalTransaction" pkmethod="getManualJournalTransactionId" />-->
+<!--		<entity name="FinApPaymentType" pkmethod="getPaymentTypeId" />-->
+<!--		<entity name="FinArFundsInActionApplied" pkmethod="getActionAppliedId" />-->
+<!--		<entity name="FinArFundsInReconComment" pkmethod="getId" />-->
+<!--		<entity name="FinArFundsInReconRecord" pkmethod="getReconciliationRecordId" />-->
+<!--		<entity name="FinArFundsInRefund" pkmethod="getRefundRecordId" />-->
+<!--		<entity name="FinArFundsInReport" pkmethod="getPaymentReportId" />-->
+<!--		<entity name="FinArFundsInReportType" pkmethod="getPaymentReportTypeId" />-->
+<!--		<entity name="FinArReconResult" pkmethod="getReconResultId" />-->
+<!--		<entity name="FinBankAccount" pkmethod="getAccountId" />-->
+<!--		<entity name="FinJournal" pkmethod="getJournalId" />-->
+<!--		<entity name="FinJournalApprovalGroup" pkmethod="getJournalGroupId" />-->
+<!--		<entity name="FinJournalTransaction" pkmethod="getTransactionId" />-->
+<!--		<entity name="FinJournalType" pkmethod="getJournalTypeId" />-->
+<!--		<entity name="FinPeriod" pkmethod="getPeriodId" />-->
+<!--		<entity name="FinRolledUpJournalEntry" pkmethod="getFinanceJournalEntryId" />-->
+<!--		<entity name="FinRolledUpJournalHeader" pkmethod="getRuJournalHeaderId" />-->
+<!--		<entity name="FinRolledUpJournalStatus" pkmethod="getJournalEntryStatusId" />-->
+<!--		<entity name="FinRolledUpJournalType" pkmethod="getFinanceJournalTypeId" />-->
+<!--		<entity name="FinSalesRecord" pkmethod="getSalesRecordId" />-->
+<!--		<entity name="FinTransactionStatus" pkmethod="getTransactionStatusId" />-->
+<!--		<entity name="FinTransactionType" pkmethod="getTransactionTypeId" />-->
+<!--		<entity name="FrdFraudActionLog" pkmethod="getFraudActionId" />-->
+<!--		<entity name="FrdEntityBlacklist" pkmethod="getEntityBlacklistId" />-->
+<!--		<entity name="FrdEntityBlacklistHistory" pkmethod="getEntityBlacklistHistoryId" />-->
+<!--		<entity name="FrdFraudCaseHistory" pkmethod="getId" />-->
+<!--		<entity name="FrdFraudCaseStatus" pkmethod="getFraudCaseStatusId" />-->
+<!--		<entity name="FrdFraudFileAttachment" pkmethod="getFraudFileAttachmentId" />-->
+<!--		<entity name="FrdFraudRelatedOrderInfo" pkmethod="getId" />-->
+<!--		<entity name="FrdFraudSuspicionCase" pkmethod="getFraudSuspicionCaseId" />-->
+<!--		<entity name="FrdFraudSuspicionPoint" pkmethod="getFraudSuspicionPointsId" />-->
+<!--		<entity name="FrdRelatedFraudCase" pkmethod="getId" />-->
+<!--		<entity name="KpiKeyPerformanceIndicator" pkmethod="getKpiId" />-->
+<!--		<entity name="KpiMeasurementPeriod" pkmethod="getKpiPeriodId" />-->
+<!--		<entity name="KpiPartyMeasurementPeriod" pkmethod="getId" />-->
+<!--		<entity name="KpiPartyPeriodActual" pkmethod="getId" />-->
+<!--		<entity name="KpiPartyPeriodTransaction" pkmethod="getKpiPartyPeriodTransactionId" />-->
+<!--		<entity name="KpiPartySla" pkmethod="getPartySlaId" />-->
+<!--		<entity name="KpiPartyTarget" pkmethod="getId" />-->
+<!--		<entity name="KpiTargetBaseline" pkmethod="getTargetBaselineId" />-->
+<!--		<entity name="LogActionApplied" pkmethod="getActionAppliedId" />-->
+<!--		<entity name="LogActivityReconRecord" pkmethod="getActivityReconRecordId" />-->
+<!--		<entity name="LogActivityReportUpload" pkmethod="getActivityReportUploadId" />-->
+<!--		<entity name="LogAirwayBill" pkmethod="getAirwayBillId" />-->
+<!--		<entity name="LogAirwayBillHistory" pkmethod="getAirwayBillHistoryId" />-->
+<!--		<entity name="LogApprovalStatus" pkmethod="getApprovalStatusId" />-->
+<!--		<entity name="LogInvoiceReconRecord" pkmethod="getInvoiceReconRecordId" />-->
+<!--		<entity name="LogInvoiceReportUpload" pkmethod="getInvoiceReportUploadId" />-->
+<!--		<entity name="LogLogisticService" pkmethod="getLogisticsServiceId" />-->
+<!--		<entity name="LogLogisticsProvider" pkmethod="getLogisticsProviderId" />-->
+<!--		<entity name="LogLogisticsServiceType" pkmethod="getLogisticsServiceTypeId" />-->
+<!--		<entity name="LogMerchantPickupInstruction" pkmethod="getMerchantPickupDetailsId" />-->
+<!--		<entity name="LogPickupReportCell" pkmethod="getId" />-->
+<!--		<entity name="LogPickupReportColumn" pkmethod="getPickupReportColumnId" />-->
+<!--		<entity name="LogPickupSchedule" pkmethod="getPickupSchedulesId" />-->
+<!--		<entity name="LogProviderAgreement" pkmethod="getProviderAgreementId" />-->
+<!--		<entity name="LogProviderPickupOrderReport" pkmethod="getProviderInstructionsReportId" />-->
+<!--		<entity name="LogReconActivityRecordResult" pkmethod="getReconRecordResultId" />-->
+<!--		<entity name="LogReconInvoiceRecordResult" pkmethod="getReconRecordResultId" />-->
+<!--		<entity name="LogReconRecordStatus" pkmethod="getRecordStatusId" />-->
+<!--		<entity name="LogReportColumnMapping" pkmethod="getColumnMappingId" />-->
+<!--		<entity name="LogReportStatus" pkmethod="getReportStatusId" />-->
+<!--		<entity name="LogReportTemplate" pkmethod="getTemplateId" />-->
+<!--		<entity name="LogScheduleDayOfWeek" pkmethod="getScheduleDayId" />-->
+<!--		<entity name="RafApplicationObject" pkmethod="getApplicationObjectId" />-->
+<!--		<entity name="RafApplicationObjectType" pkmethod="getApplicationObjectTypeId" />-->
+<!--		<entity name="RafGroup" pkmethod="getGroupId" />-->
+<!--		<entity name="RafLoginHistory" pkmethod="getLoginHistoryId" />-->
+<!--		<entity name="RafObjectAttribute" pkmethod="getObjectAttributeId" />-->
+<!--		<entity name="RafObjectParameter" pkmethod="getObjectParameterId" />-->
+<!--		<entity name="RafPermissionType" pkmethod="getPermissionTypeId" />-->
+<!--		<entity name="RafProcess" pkmethod="getProcessId" />-->
+<!--		<entity name="RafProcessInstance" pkmethod="getProcessInstanceId" />-->
+<!--		<entity name="RafProfile" pkmethod="getProfileId" />-->
+<!--		<entity name="RafProfilePermission" pkmethod="getRafProfilePermissionId" />-->
+<!--		<entity name="RafRole" pkmethod="getRoleId" />-->
+<!--		<entity name="RafTaskInstance" pkmethod="getTaskInstanceId" />-->
+<!--		<entity name="RafUser" pkmethod="getUserId" />-->
+<!--		<entity name="RafUserPermission" pkmethod="getId" />-->
+<!--		<entity name="VenAddress" pkmethod="getAddressId" />-->
+<!--		<entity name="VenAddressType" pkmethod="getAddressTypeId" />-->
+<!--		<entity name="VenBank" pkmethod="getBankId" />-->
+<!--		<entity name="VenBinCreditLimitEstimate" pkmethod="getBinCreditLimitEstimateId" />-->
+<!--		<entity name="VenCardType" pkmethod="getCardTypeId" />-->
+<!--		<entity name="VenCity" pkmethod="getCityId" />-->
+<!--		<entity name="VenContactDetail" pkmethod="getContactDetailId" />-->
+<!--		<entity name="VenContactDetailType" pkmethod="getContactDetailTypeId" />-->
+<!--		<entity name="VenCountry" pkmethod="getCountryId" />-->
+<!--		<entity name="VenCustomer" pkmethod="getCustomerId" />-->
+<!--		<entity name="VenDeliveryDocket" pkmethod="getDeliveryDocketId" />-->
+<!--		<entity name="VenDistributionCart" pkmethod="getDistributionCartId" />-->
+<!--		<entity name="VenFraudCheckStatus" pkmethod="getFraudCheckStatusId" />-->
+<!--		<entity name="VenHoliday" pkmethod="getHolidayId" />-->
+<!--		<entity name="VenMigsTransaction" pkmethod="getMigsId" />-->
+<!--		<entity name="VenMigsUploadTemporary" pkmethod="getMigsId" />-->
+<!--		<entity name="VenMasterChangeType" pkmethod="getMasterChangeId" />-->
+<!--		<entity name="VenMerchant" pkmethod="getMerchantId" />-->
+<!--		<entity name="VenMerchantAgreement" pkmethod="getMerchantAgreementId" />-->
+<!--		<entity name="VenMerchantProduct" pkmethod="getProductId" />-->
+<!--		<entity name="VenOrder" pkmethod="getOrderId" />-->
+<!--		<entity name="VenOrderBlockingSource" pkmethod="getBlockingSourceId" />-->
+<!--		<entity name="VenOrderHistory" pkmethod="getOrderHistoryId" />-->
+<!--		<entity name="VenOrderItem" pkmethod="getOrderItemId" />-->
+<!--		<entity name="VenOrderItemAdjustment" pkmethod="getId" />-->
+<!--		<entity name="VenOrderItemHistory" pkmethod="getOrderItemHistoryId" />-->
+<!--		<entity name="VenOrderItemStatusHistory" pkmethod="getId" />-->
+<!--		<entity name="VenOrderPayment" pkmethod="getOrderPaymentId" />-->
+<!--		<entity name="VenOrderPaymentAllocation" pkmethod="getId" />-->
+<!--		<entity name="VenOrderPaymentAttribute" pkmethod="getPaymentAttributeId" />-->
+<!--		<entity name="VenOrderPaymentHistory" pkmethod="getOrderPaymentHistoryId" />-->
+<!--		<entity name="VenOrderStatus" pkmethod="getOrderStatusId" />-->
+<!--		<entity name="VenOrderStatusHistory" pkmethod="getId" />-->
+<!--		<entity name="VenParty" pkmethod="getPartyId" />-->
+<!--		<entity name="VenPartyAddress" pkmethod="getId" />-->
+<!--		<entity name="VenPartyPromotionShare" pkmethod="getId" />-->
+<!--		<entity name="VenPartyType" pkmethod="getPartyTypeId" />-->
+<!--		<entity name="VenPaymentStatus" pkmethod="getPaymentStatusId" />-->
+<!--		<entity name="VenPaymentType" pkmethod="getPaymentTypeId" />-->
+<!--		<entity name="VenWcsPaymentType" pkmethod="getWcsPaymentTypeId" />-->
+<!--		<entity name="VenProductCategory" pkmethod="getProductCategoryId" />-->
+<!--		<entity name="VenProductType" pkmethod="getProductTypeId" />-->
+<!--		<entity name="VenPromotion" pkmethod="getPromotionId" />-->
+<!--		<entity name="VenPromotionShareCalcMethod" pkmethod="getPromotionCalcMethodId" />-->
+<!--		<entity name="VenRecipient" pkmethod="getRecipientId" />-->
+<!--		<entity name="VenSettlementRecord" pkmethod="getSettlementRecordId" />-->
+<!--		<entity name="VenState" pkmethod="getStateId" />-->
+<!--		<entity name="VenTransactionFee" pkmethod="getId" />-->
+<!--		<entity name="LogActivityReconCommentHistory" pkmethod="getId"/>-->
+<!--		<entity name="LogInvoiceReconCommentHistory" pkmethod="getId"/>-->
+<!--		<entity name="RafGroupRole" pkmethod="getRafGroupRoleId" />-->
+<!--		<entity name="RafUserRole" pkmethod="getRafUserRoleId" />-->
+<!--		<entity name="RafUserGroupMembership" pkmethod="getRafUserGroupMembershipId" />-->
+<!--		<entity name="RafRoleProfile" pkmethod="getRafRoleProfileId" />-->
+<!--		<entity name="FrdRuleConfigTreshold" pkmethod="getKey" />-->
+<!--		<entity name="FrdParameterRule1" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule2" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule3" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule4" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule5" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule6" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule7" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule8" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule9" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule10" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule11" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule12" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule13" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule14" pkmethod="getId" />-->
+<!--		<entity name="FrdEmailType" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule15" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule16" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule17" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule18" pkmethod="getId" />			-->
+<!--		<entity name="FrdParameterRule19" pkmethod="getId" />	-->
+<!--		<entity name="FrdParameterRule20" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule21" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule22" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule23" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule24" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule25" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule26272829" pkmethod="getId" />		-->
+<!--		<entity name="FrdParameterRule30" pkmethod="getId" />		-->
+<!--		<entity name="FrdParameterRule31" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule32" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule34" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule35" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule37" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule38" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule39" pkmethod="getId" />-->
+<!--		<entity name="FrdParameterRule40" pkmethod="getId" />-->
+<!--		<entity name="FrdCustomerWhitelistBlacklist" pkmethod="getId" />-->
+<!--		<entity name="FrdBlacklistReason" pkmethod="getId" />-->
+<!--		<entity name="VenMigsUploadMaster" pkmethod="getMigsId" />-->
+<!--		<entity name="FrdCustomerWhitelist" pkmethod="getId" />-->
+<!--		<entity name="VenOrderAddress" pkmethod="getOrderAddressId" />-->
+<!--		<entity name="VenOrderContactDetail" pkmethod="getOrderContactDetailId" />-->
+<!--		<entity name="VenOrderItemAddress" pkmethod="getOrderItemAddressId" />-->
+<!--		<entity name="VenOrderItemContactDetail" pkmethod="getOrderItemContactDetailId" />-->
+<!--		<entity name="FinArFundsInJournalTransaction" pkmethod="getId" />	-->
+<!--		<entity name="FinArFundsInAllocatePayment" pkmethod="getIdReconRecord" />	-->
+<!--		<entity name="LogFileUploadLog" pkmethod="getFileUploadLogId" />-->
+<!--		<entity name="LogInvoiceUploadLog" pkmethod="getInvoiceUploadLogId" />-->
+<!--		<entity name="LogInvoiceAirwaybillRecord" pkmethod="getInvoiceAirwaybillRecordId" />-->
+<!--		<entity name="FinArFundsIdReportTime" pkmethod="getReportTimeId" />-->
+<!--		<entity name="VenRetur" pkmethod="getReturId" />-->
+<!--		<entity name="VenReturItem" pkmethod="getReturItemId" />-->
+<!--		<entity name="LogAirwayBillRetur" pkmethod="getAirwayBillReturId" />-->
+<!--		<entity name="VenReturStatusHistory" pkmethod="getId" />-->
+<!--		<entity name="VenReturItemStatusHistory" pkmethod="getId" />-->
+<!--		<entity name="VenReturAddress" pkmethod="getReturAddressId" />-->
+<!--		<entity name="VenReturContactDetail" pkmethod="getReturContactDetailId" />-->
+<!--		<entity name="VenReturItemAddress" pkmethod="getReturItemAddressId" />-->
+<!--		<entity name="VenReturItemContactDetail" pkmethod="getReturItemContactDetailId" />-->
+	</facade>
+	<templates>
+		<localInterfaceTemplate>/home/software/venice_workspace/GDN-VENICE-Facade/ejbModule/com/djarum/raf/facade/generator/SessionBeanLocalInterfaceTemplate.jtl</localInterfaceTemplate>
+		<remoteInterfaceTemplate>/home/software/venice_workspace/GDN-VENICE-Facade/ejbModule/com/djarum/raf/facade/generator/SessionBeanRemoteInterfaceTemplate.jtl</remoteInterfaceTemplate>
+		<beanTemplate>/home/software/venice_workspace/GDN-VENICE-Facade/ejbModule/com/djarum/raf/facade/generator/SessionBeanTemplate.jtl</beanTemplate>
+	</templates>
+	<output>
+		<localInterfaceDir>/home/software/facadeGenerator/local</localInterfaceDir>
+		<remoteInterfaceDir>/home/software/facadeGenerator/remote</remoteInterfaceDir>
+		<beanDir>/home/software/facadeGenerator/bean</beanDir>
+		<log4jCategoriesFile>/home/software/facadeGenerator/log4j.categories</log4jCategoriesFile>
+		<facadePackage>com.gdn.venice.facade</facadePackage>
+	</output>
+</config>
+

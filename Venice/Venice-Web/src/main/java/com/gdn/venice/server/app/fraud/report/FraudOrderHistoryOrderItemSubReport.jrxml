@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudOrderHistoryOrderItemSubReport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.2578957202151098"/>
+	<property name="ireport.x" value="345"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table Header" hAlign="Left" vAlign="Middle" fontSize="8" isBold="true">
+		<box leftPadding="3" rightPadding="5">
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table Content" hAlign="Left" vAlign="Middle" isBlankWhenNull="true" fontSize="8">
+		<box leftPadding="3" rightPadding="3"/>
+	</style>
+	<style name="Box">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="orderItemId" class="java.lang.String">
+		<fieldDescription><![CDATA[orderItemId]]></fieldDescription>
+	</field>
+	<field name="price" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[price]]></fieldDescription>
+	</field>
+	<field name="productName" class="java.lang.String">
+		<fieldDescription><![CDATA[productName]]></fieldDescription>
+	</field>
+	<field name="productSku" class="java.lang.String">
+		<fieldDescription><![CDATA[productSku]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+		<fieldDescription><![CDATA[quantity]]></fieldDescription>
+	</field>
+	<field name="totalPrice" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPrice]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="12">
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="6" y="3" width="65" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Item ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="71" y="3" width="110" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Product SKU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="341" y="3" width="40" height="9" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="381" y="3" width="80" height="9" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="461" y="3" width="80" height="9" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Header" mode="Opaque" x="181" y="3" width="160" height="9" backcolor="#DEDEDE"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Product Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="7">
+			<frame>
+				<reportElement style="Box" x="6" y="0" width="65" height="7"/>
+				<textField>
+					<reportElement x="2" y="0" width="63" height="7"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{orderItemId}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Box" x="341" y="0" width="40" height="7"/>
+				<textField>
+					<reportElement x="0" y="0" width="38" height="7"/>
+					<textElement textAlignment="Right">
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Box" x="381" y="0" width="80" height="7"/>
+				<textField pattern="#,##0">
+					<reportElement x="15" y="0" width="64" height="7"/>
+					<textElement textAlignment="Right">
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement style="Table Content" x="381" y="0" width="15" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<frame>
+				<reportElement style="Box" x="461" y="0" width="80" height="7"/>
+				<textField pattern="#,##0">
+					<reportElement x="15" y="0" width="64" height="7"/>
+					<textElement textAlignment="Right">
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{totalPrice}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement style="Table Content" x="461" y="0" width="15" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<frame>
+				<reportElement style="Box" x="71" y="0" width="110" height="7"/>
+				<textField>
+					<reportElement x="2" y="0" width="108" height="7"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productSku}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement style="Box" x="181" y="0" width="160" height="7"/>
+				<textField>
+					<reportElement x="2" y="0" width="158" height="7"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudCaseReportSubMigs" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5000000000000016"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table Header" hAlign="Left" vAlign="Middle" fontSize="8" isBold="true">
+		<box leftPadding="3" rightPadding="5">
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table Content" hAlign="Left" vAlign="Middle" isBlankWhenNull="true" fontSize="8">
+		<box leftPadding="3" rightPadding="3"/>
+	</style>
+	<style name="Box">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="authorisationCode" class="java.lang.String">
+		<fieldDescription><![CDATA[authorisationCode]]></fieldDescription>
+	</field>
+	<field name="cardNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[cardNumber]]></fieldDescription>
+	</field>
+	<field name="operatorId" class="java.lang.String">
+		<fieldDescription><![CDATA[operatorId]]></fieldDescription>
+	</field>
+	<field name="cardExpiryMonth" class="java.lang.String">
+		<fieldDescription><![CDATA[cardExpiryMonth]]></fieldDescription>
+	</field>
+	<field name="dialectCscResultCode" class="java.lang.String">
+		<fieldDescription><![CDATA[dialectCscResultCode]]></fieldDescription>
+	</field>
+	<field name="merchantTransactionReference" class="java.lang.String">
+		<fieldDescription><![CDATA[merchantTransactionReference]]></fieldDescription>
+	</field>
+	<field name="orderDate" class="java.util.Date">
+		<fieldDescription><![CDATA[orderDate]]></fieldDescription>
+	</field>
+	<field name="acquirerId" class="java.lang.String">
+		<fieldDescription><![CDATA[acquirerId]]></fieldDescription>
+	</field>
+	<field name="cardType" class="java.lang.String">
+		<fieldDescription><![CDATA[cardType]]></fieldDescription>
+	</field>
+	<field name="merchantId" class="java.lang.String">
+		<fieldDescription><![CDATA[merchantId]]></fieldDescription>
+	</field>
+	<field name="cardExpiryYear" class="java.lang.String">
+		<fieldDescription><![CDATA[cardExpiryYear]]></fieldDescription>
+	</field>
+	<field name="date" class="java.util.Date">
+		<fieldDescription><![CDATA[date]]></fieldDescription>
+	</field>
+	<field name="merchantTransactionSource" class="java.lang.String">
+		<fieldDescription><![CDATA[merchantTransactionSource]]></fieldDescription>
+	</field>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[amount]]></fieldDescription>
+	</field>
+	<field name="orderId" class="java.lang.String">
+		<fieldDescription><![CDATA[orderId]]></fieldDescription>
+	</field>
+	<field name="batchNumber" class="java.lang.String">
+		<fieldDescription><![CDATA[batchNumber]]></fieldDescription>
+	</field>
+	<field name="orderReference" class="java.lang.String">
+		<fieldDescription><![CDATA[orderReference]]></fieldDescription>
+	</field>
+	<field name="currency" class="java.lang.String">
+		<fieldDescription><![CDATA[currency]]></fieldDescription>
+	</field>
+	<field name="responseCode" class="java.lang.String">
+		<fieldDescription><![CDATA[responseCode]]></fieldDescription>
+	</field>
+	<field name="rrn" class="java.lang.String">
+		<fieldDescription><![CDATA[rrn]]></fieldDescription>
+	</field>
+	<field name="transactionId" class="java.lang.String">
+		<fieldDescription><![CDATA[transactionId]]></fieldDescription>
+	</field>
+	<field name="acquirerResponseCode" class="java.lang.String">
+		<fieldDescription><![CDATA[acquirerResponseCode]]></fieldDescription>
+	</field>
+	<field name="transactionType" class="java.lang.String">
+		<fieldDescription><![CDATA[transactionType]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="11">
+			<staticText>
+				<reportElement mode="Opaque" x="5" y="0" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[MIGS Information : ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="111">
+			<frame>
+				<reportElement style="Box" x="6" y="0" width="535" height="110"/>
+			</frame>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="0" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Transaction ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="0" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="0" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transactionId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="0" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Response Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="0" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="0" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{responseCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="9" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="9" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy hh:mm">
+				<reportElement style="Table Content" x="130" y="9" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="9" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Acquierer Response Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="9" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="9" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transactionId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="18" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Merchant ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="18" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="18" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{merchantId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="18" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Authorisation Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="18" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="18" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{authorisationCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="27" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Order Reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="27" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="27" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderReference}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="27" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Operator ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="27" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="27" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{operatorId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="36" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Order ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="36" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="36" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="36" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Merchant Transaction Source]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="36" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="36" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{merchantTransactionSource}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="45" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Merchant Transaction Ref.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="45" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="45" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{merchantTransactionReference}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="45" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Order Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="45" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy hh:mm">
+				<reportElement style="Table Content" x="400" y="45" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="54" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Transaction Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="54" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="54" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transactionType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="54" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Card Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="54" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="54" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="63" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Acquirer ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="63" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="63" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acquirerId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="63" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Card Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="63" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="63" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="72" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Batch Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="72" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="72" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{batchNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="72" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Card Expiry Month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="72" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="72" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardExpiryMonth}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="81" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Currency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="81" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="81" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currency}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="81" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Card Expiry Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="81" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="81" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardExpiryYear}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="90" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="90" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement style="Table Content" x="145" y="90" width="130" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="275" y="90" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Dialect CSC Result Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="395" y="90" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="400" y="90" width="140" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dialectCscResultCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="5" y="99" width="120" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[RRN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Table Content" x="125" y="99" width="5" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Table Content" x="130" y="99" width="145" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rrn}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Table Content" x="130" y="90" width="15" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

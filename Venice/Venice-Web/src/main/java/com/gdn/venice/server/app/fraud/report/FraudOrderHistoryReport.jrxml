@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FraudOrderHistoryReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.1961500000000083"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="272"/>
+	<parameter name="SUBREPORT_ORDER_ITEM" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_RISK_POINT" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_CONTACT_DETAIL" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="SUBREPORT_ATTACHMENT" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[amount]]></fieldDescription>
+	</field>
+	<field name="attachmentList" class="java.util.List">
+		<fieldDescription><![CDATA[attachmentList]]></fieldDescription>
+	</field>
+	<field name="billingAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[billingAddress1]]></fieldDescription>
+	</field>
+	<field name="billingAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[billingAddress2]]></fieldDescription>
+	</field>
+	<field name="billingCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[billingCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="billingKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[billingKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="billingStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[billingStateCountry]]></fieldDescription>
+	</field>
+	<field name="blacklistReason" class="java.lang.String">
+		<fieldDescription><![CDATA[blacklistReason]]></fieldDescription>
+	</field>
+	<field name="cardType" class="java.lang.String">
+		<fieldDescription><![CDATA[cardType]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="contactDetailList" class="java.util.List">
+		<fieldDescription><![CDATA[contactDetailList]]></fieldDescription>
+	</field>
+	<field name="customerAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[customerAddress1]]></fieldDescription>
+	</field>
+	<field name="customerAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[customerAddress2]]></fieldDescription>
+	</field>
+	<field name="customerCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[customerCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="customerKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[customerKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="customerName" class="java.lang.String">
+		<fieldDescription><![CDATA[customerName]]></fieldDescription>
+	</field>
+	<field name="customerStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[customerStateCountry]]></fieldDescription>
+	</field>
+	<field name="fraudDescription" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudDescription]]></fieldDescription>
+	</field>
+	<field name="fraudNotes" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudNotes]]></fieldDescription>
+	</field>
+	<field name="fraudReason" class="java.lang.String">
+		<fieldDescription><![CDATA[fraudReason]]></fieldDescription>
+	</field>
+	<field name="internetBankingId" class="java.lang.String">
+		<fieldDescription><![CDATA[internetBankingId]]></fieldDescription>
+	</field>
+	<field name="investigator" class="java.lang.String">
+		<fieldDescription><![CDATA[investigator]]></fieldDescription>
+	</field>
+	<field name="issuingBank" class="java.lang.String">
+		<fieldDescription><![CDATA[issuingBank]]></fieldDescription>
+	</field>
+	<field name="orderItemList" class="java.util.List">
+		<fieldDescription><![CDATA[orderItemList]]></fieldDescription>
+	</field>
+	<field name="orderTimeStamp" class="java.lang.String">
+		<fieldDescription><![CDATA[orderTimeStamp]]></fieldDescription>
+	</field>
+	<field name="paymentInfo" class="java.lang.String">
+		<fieldDescription><![CDATA[paymentInfo]]></fieldDescription>
+	</field>
+	<field name="paymentType" class="java.lang.String">
+		<fieldDescription><![CDATA[paymentType]]></fieldDescription>
+	</field>
+	<field name="recipientAddress1" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientAddress1]]></fieldDescription>
+	</field>
+	<field name="recipientAddress2" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientAddress2]]></fieldDescription>
+	</field>
+	<field name="recipientCityPostalCode" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientCityPostalCode]]></fieldDescription>
+	</field>
+	<field name="recipientKecamatanKelurahan" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientKecamatanKelurahan]]></fieldDescription>
+	</field>
+	<field name="recipientName" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientName]]></fieldDescription>
+	</field>
+	<field name="recipientStateCountry" class="java.lang.String">
+		<fieldDescription><![CDATA[recipientStateCountry]]></fieldDescription>
+	</field>
+	<field name="riskPointList" class="java.util.List">
+		<fieldDescription><![CDATA[riskPointList]]></fieldDescription>
+	</field>
+	<field name="shippingType" class="java.lang.String">
+		<fieldDescription><![CDATA[shippingType]]></fieldDescription>
+	</field>
+	<field name="totalRiskPoint" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalRiskPoint]]></fieldDescription>
+	</field>
+	<field name="wcsOrderId" class="java.lang.String">
+		<fieldDescription><![CDATA[wcsOrderId]]></fieldDescription>
+	</field>
+	<field name="handlingFee" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[handlingFee]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="4" y="0" width="536" height="15" backcolor="#DEDEDE"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[ORDER DETAIL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="331" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="4" y="0" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Order Detail :                                                         		Customer Detail :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="10" width="70" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Order/RMA ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="75" y="10" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="17" width="70" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Order Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="75" y="17" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="80" y="10" width="100" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wcsOrderId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="80" y="17" width="100" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderTimeStamp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="220" y="10" width="60" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="280" y="10" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="220" y="17" width="60" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="280" y="17" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="285" y="10" width="200" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="285" y="17" width="200" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerAddress1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="285" y="24" width="200" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerAddress2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="285" y="31" width="200" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerKecamatanKelurahan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="285" y="38" width="200" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerCityPostalCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="285" y="45" width="200" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customerStateCountry}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="56" width="555" height="5"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{contactDetailList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_CONTACT_DETAIL}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="4" y="66" width="536" height="9" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Order Item Information :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="6" y="84" width="70" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Shipping Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="78" y="84" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="6" y="77" width="70" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Shipping Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="78" y="77" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="83" y="84" width="205" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientAddress1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="83" y="91" width="205" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientAddress2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="83" y="98" width="205" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientKecamatanKelurahan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="83" y="105" width="205" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientCityPostalCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="83" y="112" width="205" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{recipientStateCountry}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="83" y="77" width="205" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shippingType}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="124" width="555" height="5"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{orderItemList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_ORDER_ITEM}]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="4" y="135" width="536" height="9" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Billing Information :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="145" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="145" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="152" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Payment Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="152" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="159" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Other Information]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="159" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="166" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Issuing Bank]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="166" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="173" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="173" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="90" y="173" width="15" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="187" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Billing Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="187" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="180" width="80" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Handling Fee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="85" y="180" width="5" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="90" y="180" width="15" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Rp.]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="145" width="199" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardType}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="152" width="199" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paymentType}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="159" width="199" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paymentInfo} != null ? $F{paymentInfo} : $F{internetBankingId}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="166" width="199" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuingBank}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="105" y="173" width="184" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="187" width="199" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingAddress1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="194" width="199" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingAddress2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="201" width="199" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingKecamatanKelurahan}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="208" width="199" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingCityPostalCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="90" y="215" width="199" height="7" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billingStateCountry}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="105" y="180" width="184" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{handlingFee}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="6" y="236" width="79" height="9"/>
+				<textElement>
+					<font size="7" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Total Risk :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="67" y="246" width="49" height="8"/>
+				<textElement>
+					<font size="6" isBold="false" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Total Point]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="117" y="246" width="4" height="8"/>
+				<textElement>
+					<font size="6" isBold="false" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="122" y="246" width="99" height="8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRiskPoint}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="259" width="536" height="9" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Note :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="6" y="269" width="85" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Description (Read Only)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="92" y="268" width="7" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="6" y="276" width="85" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Reason (Read Only)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="92" y="276" width="7" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="6" y="283" width="85" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Notes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="92" y="283" width="7" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="98" y="269" width="311" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudDescription}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="98" y="276" width="311" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudReason}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="98" y="283" width="311" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraudNotes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="5" y="298" width="536" height="10" backcolor="#DEDEDE"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Keterangan Blacklist :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="309" width="86" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Reason Blacklist]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="92" y="309" width="7" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="98" y="309" width="100" height="7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{blacklistReason}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="326" width="555" height="5"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{attachmentList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_ATTACHMENT}]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="228" width="555" height="5"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{riskPointList})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_RISK_POINT}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

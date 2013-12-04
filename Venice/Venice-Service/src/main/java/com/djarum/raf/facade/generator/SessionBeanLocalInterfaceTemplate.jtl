@@ -1,0 +1,102 @@
+package com.gdn.venice.facade;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Local;
+
+import com.gdn.venice.persistence.$OBJECT_CLASS;
+import com.djarum.raf.utilities.JPQLAdvancedQueryCriteria;
+import com.gdn.venice.facade.finder.FinderReturn;
+
+@Local
+public interface $OBJECT_CLASSSessionEJBLocal {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#queryByRange(java.lang
+	 * .String, int, int)
+	 */
+	public List<$OBJECT_CLASS> queryByRange(String jpqlStmt, int firstResult,
+			int maxResults);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#persist$OBJECT_CLASS(com
+	 * .gdn.venice.persistence.$OBJECT_CLASS)
+	 */
+	public $OBJECT_CLASS persist$OBJECT_CLASS($OBJECT_CLASS $OBJECT_INSTANCE);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#persist$OBJECT_CLASSList
+	 * (java.util.List)
+	 */
+	public ArrayList<$OBJECT_CLASS> persist$OBJECT_CLASSList(
+			List<$OBJECT_CLASS> $OBJECT_INSTANCEList);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#merge$OBJECT_CLASS(com.
+	 * gdn.venice.persistence.$OBJECT_CLASS)
+	 */
+	public $OBJECT_CLASS merge$OBJECT_CLASS($OBJECT_CLASS $OBJECT_INSTANCE);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#merge$OBJECT_CLASSList(
+	 * java.util.List)
+	 */
+	public ArrayList<$OBJECT_CLASS> merge$OBJECT_CLASSList(
+			List<$OBJECT_CLASS> $OBJECT_INSTANCEList);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#remove$OBJECT_CLASS(com
+	 * .gdn.venice.persistence.$OBJECT_CLASS)
+	 */
+	public void remove$OBJECT_CLASS($OBJECT_CLASS $OBJECT_INSTANCE);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#remove$OBJECT_CLASSList
+	 * (java.util.List)
+	 */
+	public void remove$OBJECT_CLASSList(List<$OBJECT_CLASS> $OBJECT_INSTANCEList);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#findBy$OBJECT_CLASSLike
+	 * (com.gdn.venice.persistence.$OBJECT_CLASS, int, int)
+	 */
+	public List<$OBJECT_CLASS> findBy$OBJECT_CLASSLike($OBJECT_CLASS $OBJECT_INSTANCE,
+			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
+			
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gdn.venice.facade.$OBJECT_CLASSSessionEJBRemote#findBy$OBJECT_CLASSLikeFR
+	 * (com.gdn.venice.persistence.$OBJECT_CLASS, int, int)
+	 */
+	public FinderReturn findBy$OBJECT_CLASSLikeFR($OBJECT_CLASS $OBJECT_INSTANCE,
+			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
+	
+
+}

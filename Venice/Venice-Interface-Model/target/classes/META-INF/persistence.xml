@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="GDN-Venice-Persistence" transaction-type="JTA">
+		<!-- <persistence-unit name="GDN-Venice-Persistence" transaction-type="RESOURCE_LOCAL"> -->
+		<!-- Use the following provider for Eclipselink -->
+		<!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+
+		<!-- Use the following provider for Geronimo with OpenJPA -->
+		<!--<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> -->
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<!-- Use the following data source for Geronimo -->
+		<!-- <jta-data-source>pwsatk</jta-data-source> -->
+		<!--<non-jta-data-source>GDN_Venice</non-jta-data-source> -->
+		<jta-data-source>GDN_Venice</jta-data-source>
+
+
+		<class>com.gdn.venice.persistence.FinAccount</class>
+		<class>com.gdn.venice.persistence.FinAccountCategory</class>
+		<class>com.gdn.venice.persistence.FinAccountType</class>
+		<class>com.gdn.venice.persistence.FinApInvoice</class>
+		<class>com.gdn.venice.persistence.FinApPayment</class>
+		<class>com.gdn.venice.persistence.FinApPaymentType</class>
+		<class>com.gdn.venice.persistence.FinArFundsInReconComment</class>
+		<class>com.gdn.venice.persistence.FinArFundsInReconRecord</class>
+		<class>com.gdn.venice.persistence.FinArFundsInReport</class>
+		<class>com.gdn.venice.persistence.FinArFundsInReportType</class>
+		<class>com.gdn.venice.persistence.FinArReconResult</class>
+		<class>com.gdn.venice.persistence.FinBankAccount</class>
+		<class>com.gdn.venice.persistence.FinJournal</class>
+		<class>com.gdn.venice.persistence.FinJournalTransaction</class>
+		<class>com.gdn.venice.persistence.FinJournalType</class>
+		<class>com.gdn.venice.persistence.FinPeriod</class>
+		<class>com.gdn.venice.persistence.FinRolledUpJournalEntry</class>
+		<class>com.gdn.venice.persistence.FinRolledUpJournalHeader</class>
+		<class>com.gdn.venice.persistence.FinRolledUpJournalStatus</class>
+		<class>com.gdn.venice.persistence.FinRolledUpJournalType</class>
+		<class>com.gdn.venice.persistence.FinTransactionStatus</class>
+		<class>com.gdn.venice.persistence.FinTransactionType</class>
+		<class>com.gdn.venice.persistence.FrdEntityBlacklist</class>
+		<class>com.gdn.venice.persistence.FrdEntityBlacklistHistory</class>
+		<class>com.gdn.venice.persistence.FrdFraudCaseHistory</class>
+		<class>com.gdn.venice.persistence.FrdFraudCaseHistoryPK</class>
+		<class>com.gdn.venice.persistence.FrdFraudCaseStatus</class>
+		<class>com.gdn.venice.persistence.FrdFraudRelatedOrderInfo</class>
+		<class>com.gdn.venice.persistence.FrdFraudSuspicionCase</class>
+		<class>com.gdn.venice.persistence.FrdFraudSuspicionPoint</class>
+		<class>com.gdn.venice.persistence.KpiKeyPerformanceIndicator</class>
+		<class>com.gdn.venice.persistence.KpiMeasurementPeriod</class>
+		<class>com.gdn.venice.persistence.KpiPartyMeasurementPeriod</class>
+		<class>com.gdn.venice.persistence.KpiPartyMeasurementPeriodPK</class>
+		<class>com.gdn.venice.persistence.KpiPartyPeriodActual</class>
+		<class>com.gdn.venice.persistence.KpiPartyPeriodActualPK</class>
+		<class>com.gdn.venice.persistence.KpiPartyPeriodTransaction</class>
+		<class>com.gdn.venice.persistence.KpiPartySla</class>
+		<class>com.gdn.venice.persistence.KpiPartyTarget</class>
+		<class>com.gdn.venice.persistence.KpiPartyTargetPK</class>
+		<class>com.gdn.venice.persistence.KpiTargetBaseline</class>
+		<class>com.gdn.venice.persistence.LogActivityReconRecord</class>
+		<class>com.gdn.venice.persistence.LogActivityReportUpload</class>
+		<class>com.gdn.venice.persistence.LogAirwayBill</class>
+		<class>com.gdn.venice.persistence.LogInvoiceReconRecord</class>
+		<class>com.gdn.venice.persistence.LogInvoiceReportUpload</class>
+		<class>com.gdn.venice.persistence.LogLogisticService</class>
+		<class>com.gdn.venice.persistence.LogLogisticsProvider</class>
+		<class>com.gdn.venice.persistence.LogLogisticsServiceType</class>
+		<class>com.gdn.venice.persistence.LogMerchantPickupInstruction</class>
+		<class>com.gdn.venice.persistence.LogPickupReportCell</class>
+		<class>com.gdn.venice.persistence.LogPickupReportCellPK</class>
+		<class>com.gdn.venice.persistence.LogPickupReportColumn</class>
+		<class>com.gdn.venice.persistence.LogPickupSchedule</class>
+		<class>com.gdn.venice.persistence.LogProviderAgreement</class>
+		<class>com.gdn.venice.persistence.LogProviderPickupOrderReport</class>
+		<class>com.gdn.venice.persistence.LogReconActivityRecordResult</class>
+		<class>com.gdn.venice.persistence.LogReconInvoiceRecordResult</class>
+		<class>com.gdn.venice.persistence.LogReconRecordStatus</class>
+		<class>com.gdn.venice.persistence.LogReportColumnMapping</class>
+		<class>com.gdn.venice.persistence.LogReportStatus</class>
+		<class>com.gdn.venice.persistence.LogReportTemplate</class>
+		<class>com.gdn.venice.persistence.LogScheduleDayOfWeek</class>
+		<class>com.gdn.venice.persistence.RafApplicationObject</class>
+		<class>com.gdn.venice.persistence.RafApplicationObjectType</class>
+		<class>com.gdn.venice.persistence.RafGroup</class>
+		<class>com.gdn.venice.persistence.RafLoginHistory</class>
+		<class>com.gdn.venice.persistence.RafObjectAttribute</class>
+		<class>com.gdn.venice.persistence.RafPermissionType</class>
+		<class>com.gdn.venice.persistence.RafProcess</class>
+		<class>com.gdn.venice.persistence.RafProcessInstance</class>
+		<class>com.gdn.venice.persistence.RafProfile</class>
+		<class>com.gdn.venice.persistence.RafProfilePermission</class>
+		<class>com.gdn.venice.persistence.RafRole</class>
+		<class>com.gdn.venice.persistence.RafTaskInstance</class>
+		<class>com.gdn.venice.persistence.RafUser</class>
+		<class>com.gdn.venice.persistence.VenAddress</class>
+		<class>com.gdn.venice.persistence.VenAddressType</class>
+		<class>com.gdn.venice.persistence.VenBank</class>
+		<class>com.gdn.venice.persistence.VenBinCreditLimitEstimate</class>
+		<class>com.gdn.venice.persistence.VenCardType</class>
+		<class>com.gdn.venice.persistence.VenCity</class>
+		<class>com.gdn.venice.persistence.VenContactDetail</class>
+		<class>com.gdn.venice.persistence.VenContactDetailType</class>
+		<class>com.gdn.venice.persistence.VenCountry</class>
+		<class>com.gdn.venice.persistence.VenCustomer</class>
+		<class>com.gdn.venice.persistence.VenDeliveryDocket</class>
+		<class>com.gdn.venice.persistence.VenDistributionCart</class>
+		<class>com.gdn.venice.persistence.VenFraudCheckStatus</class>
+		<class>com.gdn.venice.persistence.VenMasterChangeType</class>
+		<class>com.gdn.venice.persistence.VenMerchant</class>
+		<class>com.gdn.venice.persistence.VenMerchantAgreement</class>
+		<class>com.gdn.venice.persistence.VenMerchantProduct</class>
+		<class>com.gdn.venice.persistence.VenOrder</class>
+		<class>com.gdn.venice.persistence.VenOrderBlockingSource</class>
+		<class>com.gdn.venice.persistence.VenOrderHistory</class>
+		<class>com.gdn.venice.persistence.VenOrderItem</class>
+		<class>com.gdn.venice.persistence.VenOrderItemAdjustment</class>
+		<class>com.gdn.venice.persistence.VenOrderItemAdjustmentPK</class>
+		<class>com.gdn.venice.persistence.VenOrderItemHistory</class>
+		<class>com.gdn.venice.persistence.VenOrderItemStatusHistory</class>
+		<class>com.gdn.venice.persistence.VenOrderItemStatusHistoryPK</class>
+		<class>com.gdn.venice.persistence.VenOrderPayment</class>
+		<class>com.gdn.venice.persistence.VenOrderPaymentAllocation</class>
+		<class>com.gdn.venice.persistence.VenOrderPaymentAllocationPK</class>
+		<class>com.gdn.venice.persistence.VenOrderPaymentAttribute</class>
+		<class>com.gdn.venice.persistence.VenOrderPaymentHistory</class>
+		<class>com.gdn.venice.persistence.VenOrderStatus</class>
+		<class>com.gdn.venice.persistence.VenOrderStatusHistory</class>
+		<class>com.gdn.venice.persistence.VenOrderStatusHistoryPK</class>
+		<class>com.gdn.venice.persistence.VenParty</class>
+		<class>com.gdn.venice.persistence.VenPartyAddress</class>
+		<class>com.gdn.venice.persistence.VenPartyAddressPK</class>
+		<class>com.gdn.venice.persistence.VenPartyPromotionShare</class>
+		<class>com.gdn.venice.persistence.VenPartyPromotionSharePK</class>
+		<class>com.gdn.venice.persistence.VenPartyType</class>
+		<class>com.gdn.venice.persistence.VenPaymentStatus</class>
+		<class>com.gdn.venice.persistence.VenPaymentType</class>
+		<class>com.gdn.venice.persistence.VenProductCategory</class>
+		<class>com.gdn.venice.persistence.VenProductType</class>
+		<class>com.gdn.venice.persistence.VenPromotion</class>
+		<class>com.gdn.venice.persistence.VenPromotionShareCalcMethod</class>
+		<class>com.gdn.venice.persistence.VenRecipient</class>
+		<class>com.gdn.venice.persistence.VenSettlementRecord</class>
+		<class>com.gdn.venice.persistence.VenState</class>
+		<class>com.gdn.venice.persistence.VenTransactionFee</class>
+		<class>com.gdn.venice.persistence.VenTransactionFeePK</class>
+		<class>com.gdn.venice.persistence.RafUserPermission</class>
+		<class>com.gdn.venice.persistence.RafUserPermissionPK</class>
+		<class>com.gdn.venice.persistence.LogAirwayBillHistory</class>
+		<class>com.gdn.venice.persistence.RafObjectParameter</class>
+		<class>com.gdn.venice.persistence.FinApprovalStatus</class>
+		<class>com.gdn.venice.persistence.LogApprovalStatus</class>
+		<class>com.gdn.venice.persistence.FrdRelatedFraudCase</class>
+		<class>com.gdn.venice.persistence.FrdRelatedFraudCasePK</class>
+		<class>com.gdn.venice.persistence.FrdFraudRelatedOrderInfoPK</class>
+		<class>com.gdn.venice.persistence.LogActionApplied</class>
+		<class>com.gdn.venice.persistence.VenWcsPaymentType</class>
+		<class>com.gdn.venice.persistence.LogActivityReconCommentHistory</class>
+		<class>com.gdn.venice.persistence.LogActivityReconCommentHistoryPK</class>
+		<class>com.gdn.venice.persistence.LogInvoiceReconCommentHistory</class>
+		<class>com.gdn.venice.persistence.LogInvoiceReconCommentHistoryPK</class>
+		<class>com.gdn.venice.persistence.FinArFundsInReconCommentPK</class>
+		<class>com.gdn.venice.persistence.FinArFundsInActionApplied</class>
+		<class>com.gdn.venice.persistence.FinSalesRecord</class>
+		<class>com.gdn.venice.persistence.VenHoliday</class>
+		<class>com.gdn.venice.persistence.FinJournalApprovalGroup</class>
+		<class>com.gdn.venice.persistence.FrdFraudActionLog</class>
+		<class>com.gdn.venice.persistence.FrdFraudFileAttachment</class>
+		<class>com.gdn.venice.persistence.FinArFundsInRefund</class>
+		<class>com.gdn.venice.persistence.FinApManualJournalTransaction</class>
+		<class>com.gdn.venice.persistence.VenMigsTransaction</class>
+		<class>com.gdn.venice.persistence.VenMigsUploadTemporary</class>
+		<class>com.gdn.venice.persistence.RafGroupRole</class>
+		<class>com.gdn.venice.persistence.RafUserRole</class>
+		<class>com.gdn.venice.persistence.RafUserGroupMembership</class>
+		<class>com.gdn.venice.persistence.RafRoleProfile</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule1</class>
+		<class>com.gdn.venice.persistence.FrdRuleConfigTreshold</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule2</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule3</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule4</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule5</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule6</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule7</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule8</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule9</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule10</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule11</class>
+		<class>com.gdn.venice.persistence.FrdEmailType</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule12</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule13</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule14</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule15</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule16</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule17</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule18</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule19</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule20</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule21</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule22</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule23</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule24</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule25</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule26272829</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule30</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule31</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule32</class>
+		<class>com.gdn.venice.persistence.FrdCustomerWhitelistBlacklist</class>
+		<class>com.gdn.venice.persistence.FrdBlacklistReason</class>
+		<class>com.gdn.venice.persistence.VenMigsUploadMaster</class>
+		<class>com.gdn.venice.persistence.FrdCustomerWhitelist</class>
+		<class>com.gdn.venice.persistence.VenPromotionType</class>
+		<class>com.gdn.venice.persistence.VenOrderAddress</class>
+		<class>com.gdn.venice.persistence.VenOrderContactDetail</class>
+		<class>com.gdn.venice.persistence.VenOrderItemAddress</class>
+		<class>com.gdn.venice.persistence.VenOrderItemContactDetail</class>
+		<class>com.gdn.venice.persistence.FinArFundsInJournalTransaction</class>
+		<class>com.gdn.venice.persistence.FinArFundsInJournalTransactionPK</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule34</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule37</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule38</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule39</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule40</class>
+		<class>com.gdn.venice.persistence.FrdParameterRule35</class>
+		<class>com.gdn.venice.persistence.FinArFundsInAllocatePayment</class>
+		<class>com.gdn.venice.persistence.LogFileUploadLog</class>
+		<class>com.gdn.venice.persistence.LogInvoiceUploadLog</class>
+		<class>com.gdn.venice.persistence.LogInvoiceAirwaybillRecord</class>
+		<class>com.gdn.venice.persistence.FinArFundsIdReportTime</class>
+		<class>com.gdn.venice.persistence.LogAirwayBillRetur</class>
+		<class>com.gdn.venice.persistence.VenRetur</class>
+		<class>com.gdn.venice.persistence.VenReturItem</class>
+		<class>com.gdn.venice.persistence.VenReturItemStatusHistory</class>
+		<class>com.gdn.venice.persistence.VenReturItemStatusHistoryPK</class>
+		<class>com.gdn.venice.persistence.VenReturStatusHistory</class>
+		<class>com.gdn.venice.persistence.VenReturStatusHistoryPK</class>
+		<class>com.gdn.venice.persistence.VenReturAddress</class>
+		<class>com.gdn.venice.persistence.VenReturContactDetail</class>
+		<class>com.gdn.venice.persistence.VenReturItemAddress</class>
+		<class>com.gdn.venice.persistence.VenReturItemContactDetail</class>
+		<class>com.gdn.venice.persistence.FinArFundsInActionAppliedHistory</class>
+
+		<!-- Use this for Geronimo OpenJPA -->
+		<!-- <shared-cache-mode>NONE</shared-cache-mode> -->
+		<shared-cache-mode>NONE</shared-cache-mode>
+
+
+		<properties>
+			<!-- Use these properties for Eclipselink but use a valid target-server 
+				not None -->
+			<!-- <property name="eclipselink.target-server" value="WebSphere"/> -->
+			<!-- <property name="eclipselink.target-database" value="PostgreSQL"/> -->
+			<!-- <property name="eclipselink.logging.level" value="FINEST"/> -->
+			<!-- <property name="eclipselink.jdbc.native-sql" value="true"/> -->
+			<!-- <property name="eclipselink.session-name" value="eclipselinkwls"/> -->
+			<!-- <property name="eclipselink.jdbc.platform" value="oracle.toplink.platform.database.PostgreSQLPlatform"/> -->
+			<!-- <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/> -->
+			<!-- <property name="eclipselink.jdbc.url" value="jdbc:postgresql:venice"/> -->
+			<!-- <property name="eclipselink.jdbc.user" value="venice"/> -->
+			<!-- <property name="eclipselink.jdbc.password" value="password"/> -->
+
+			<!-- Use these properties for OpenJPA -->
+			<!--<property name="openjpa.Log" value="DefaultLevel=INFO,SQL=TRACE"/> 
+				<property name="openjpa.jdbc.EagerFetchMode" value="join"/> <property name="openjpa.jdbc.SubclassFetchMode" 
+				value="join"/> <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/> -->
+
+			<!--<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/> 
+				<property name="hibernate.connection.password" value="password"/> <property 
+				name="hibernate.connection.url" value="jdbc:postgresql://172.16.213.24:5432/venice2"/> 
+				<property name="hibernate.connection.username" value="venice"/> -->
+
+			<!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.transaction.manager_lookup_class"
+				value="com.gdn.venice.hibernate.GeronimoTransactionManagerLookup" />
+		</properties>
+	</persistence-unit>
+</persistence>

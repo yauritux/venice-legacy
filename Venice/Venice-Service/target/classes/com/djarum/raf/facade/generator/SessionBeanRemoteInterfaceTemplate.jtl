@@ -1,0 +1,91 @@
+package com.gdn.venice.facade;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Remote;
+
+import com.gdn.venice.persistence.$OBJECT_CLASS;
+import com.djarum.raf.utilities.JPQLAdvancedQueryCriteria;
+import com.gdn.venice.facade.finder.FinderReturn;
+
+@Remote
+public interface $OBJECT_CLASSSessionEJBRemote {
+
+	/**
+	 * queryByRange - allows querying by range/block
+	 * 
+	 * @param jpqlStmt
+	 * @param firstResult
+	 * @param maxResults
+	 * @return a list of $OBJECT_CLASS
+	 */
+	public List<$OBJECT_CLASS> queryByRange(String jpqlStmt, int firstResult,
+			int maxResults);
+
+	/**
+	 * persist$OBJECT_CLASS persists a country
+	 * 
+	 * @param $OBJECT_INSTANCE
+	 * @return the persisted $OBJECT_CLASS
+	 */
+	public $OBJECT_CLASS persist$OBJECT_CLASS($OBJECT_CLASS $OBJECT_INSTANCE);
+
+	/**
+	 * persist$OBJECT_CLASSList - persists a list of $OBJECT_CLASS
+	 * 
+	 * @param $OBJECT_INSTANCEList
+	 * @return the list of persisted $OBJECT_CLASS
+	 */
+	public ArrayList<$OBJECT_CLASS> persist$OBJECT_CLASSList(
+			List<$OBJECT_CLASS> $OBJECT_INSTANCEList);
+
+	/**
+	 * merge$OBJECT_CLASS - merges a $OBJECT_CLASS
+	 * 
+	 * @param $OBJECT_INSTANCE
+	 * @return the merged $OBJECT_CLASS
+	 */
+	public $OBJECT_CLASS merge$OBJECT_CLASS($OBJECT_CLASS $OBJECT_INSTANCE);
+
+	/**
+	 * merge$OBJECT_CLASSList - merges a list of $OBJECT_CLASS
+	 * 
+	 * @param $OBJECT_INSTANCEList
+	 * @return the merged list of $OBJECT_CLASS
+	 */
+	public ArrayList<$OBJECT_CLASS> merge$OBJECT_CLASSList(
+			List<$OBJECT_CLASS> $OBJECT_INSTANCEList);
+
+	/**
+	 * remove$OBJECT_CLASS - removes a $OBJECT_CLASS
+	 * 
+	 * @param $OBJECT_INSTANCE
+	 */
+	public void remove$OBJECT_CLASS($OBJECT_CLASS $OBJECT_INSTANCE);
+
+	/**
+	 * remove$OBJECT_CLASSList - removes a list of $OBJECT_CLASS
+	 * 
+	 * @param $OBJECT_INSTANCEList
+	 */
+	public void remove$OBJECT_CLASSList(List<$OBJECT_CLASS> $OBJECT_INSTANCEList);
+
+	/**
+	 * findBy$OBJECT_CLASSLike - finds a list of $OBJECT_CLASS Like
+	 * 
+	 * @param $OBJECT_INSTANCE
+	 * @return the list of $OBJECT_CLASS found
+	 */
+	public List<$OBJECT_CLASS> findBy$OBJECT_CLASSLike($OBJECT_CLASS $OBJECT_INSTANCE,
+			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
+			
+	/**
+	 * findBy$OBJECT_CLASS>LikeFR - finds a list of $OBJECT_CLASS> Like with a finder return object
+	 * 
+	 * @param $OBJECT_INSTANCE
+	 * @return the list of $OBJECT_CLASS found
+	 */
+	public FinderReturn findBy$OBJECT_CLASSLikeFR($OBJECT_CLASS $OBJECT_INSTANCE,
+			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
+}
