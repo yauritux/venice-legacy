@@ -1,0 +1,30 @@
+<graph xaxisname='Date' yaxisname='Rupiah' hovercapbg='DEDEBE' hovercapborder='889E6D' rotateNames='0'  numdivlines='5' divLineColor='CCCCCC' divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' AlternateHGridColor='CCCCCC'>
+   <categories font='Arial' fontSize='11' fontColor='000000'>
+      <category name='01/01/2011' />
+      <category name='02/01/2011' />
+      <category name='03/01/2011' />
+      <category name='04/01/2011' />
+      <category name='05/01/2011' />
+   </categories>
+   <dataset seriesname='Transaction Fee' color='FF0000'>
+      <set value='30' />
+      <set value='26' />
+      <set value='29' />
+      <set value='31' />
+      <set value='30' />
+   </dataset>
+    <dataset seriesname='Commission' color='ECE355'>
+      <set value='67' />
+      <set value='98' />
+      <set value='79' />
+      <set value='73' />
+      <set value='80' />
+   </dataset>
+    <dataset seriesname='Handling Fee' color='0000FF' >
+      <set value='27' />
+      <set value='25' />
+      <set value='28' />
+      <set value='26' />
+      <set value='20' />
+   </dataset>
+</graph>

@@ -104,6 +104,7 @@ SalesRecordPresenter.MyView {
 		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_SALESRECORDID).setWidth(75);
 		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_SALESRECORDID).setHidden(true);
 		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_RECONCILEDATE).setWidth(100);
+		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_SALESTIMESTAMP).setWidth(100);
 		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_VENORDERITEM_VENORDER_ORDERDATE).setWidth(100);
 		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_MCX_DATE).setWidth(100);
 		salesRecordListGrid.getField(DataNameTokens.FINSALESRECORD_CXF_DATE).setWidth(100);

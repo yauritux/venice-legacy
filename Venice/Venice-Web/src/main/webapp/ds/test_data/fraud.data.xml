@@ -1,0 +1,68 @@
+<fraud>
+	<fraudcases>
+		<fraudcase>
+			<fraudcaseid>1234</fraudcaseid>
+			<fraudcasedate>2011-01-01T10:00:00Z</fraudcasedate>
+			<fraudcasedesc>Fraud Case for Order ABCD</fraudcasedesc>
+			<fraudcasestatus>Open</fraudcasestatus>
+		</fraudcase>
+		<fraudcase>
+			<fraudcaseid>1235</fraudcaseid>
+			<fraudcasedate>2011-01-01T10:00:00Z</fraudcasedate>
+			<fraudcasedesc>Fraud Case for Order EFGH</fraudcasedesc>
+			<fraudcasestatus>Open</fraudcasestatus>
+		</fraudcase>
+		<fraudcase>
+			<fraudcaseid>1236</fraudcaseid>
+			<fraudcasedate>2011-01-01T10:00:00Z</fraudcasedate>
+			<fraudcasedesc>Fraud Case for Order IJKL</fraudcasedesc>
+			<fraudcasestatus>Open</fraudcasestatus>
+		</fraudcase>
+	</fraudcases>
+	<blacklists>
+		<blacklist>
+			<blacklistid>1</blacklistid>
+			<string>charliechan</string>
+			<source>Fraud</source>
+			<type>User Name</type>
+			<glpoints>10</glpoints>
+			<greylist>true</greylist>
+			<partialmatch>true</partialmatch>
+		</blacklist>
+		<blacklist>
+			<blacklistid>2</blacklistid>
+			<string>gayoestamboenan</string>
+			<source>Fraud</source>
+			<type>User Name</type>
+			<glpoints>10</glpoints>
+			<greylist>false</greylist>
+			<partialmatch>true</partialmatch>
+		</blacklist>
+		<blacklist>
+			<blacklistid>3</blacklistid>
+			<string>123.123.123.123</string>
+			<source>Fraud</source>
+			<type>IP Address</type>
+			<glpoints>10</glpoints>
+			<greylist>false</greylist>
+			<partialmatch>false</partialmatch>
+		</blacklist>
+	</blacklists>
+	<fraudpoints>
+		<fraudpoint>
+			<fraudpointid>1</fraudpointid>
+			<description>First Time Customer</description>
+			<value>10</value>
+		</fraudpoint>
+		<fraudpoint>
+			<fraudpointid>2</fraudpointid>
+			<description>Big Ticket Item</description>
+			<value>40</value>
+		</fraudpoint>
+		<fraudpoint>
+			<fraudpointid>3</fraudpointid>
+			<description>International Shipping</description>
+			<value>10</value>
+		</fraudpoint>
+	</fraudpoints>
+</fraud>

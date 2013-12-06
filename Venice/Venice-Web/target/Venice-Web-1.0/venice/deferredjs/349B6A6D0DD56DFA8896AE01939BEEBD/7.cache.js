@@ -1,0 +1,13 @@
+function DQ(){}
+function nR(){}
+function RZb(){}
+function LZb(){}
+function wv(b){b.c.Wd(Kt(b.b.b))}
+function Uq(b,c,d){return new FQ(b,c,d)}
+function FQ(b,c,d){OB.call(this,b,c);this.c=d;fyb(this.i,25).Zb(this);fyb(fyb(this.i,25).$b(),3).b=fyb(this.c,26).Wb()}
+function TZb(){OZb=new RZb;Bnb((ynb(),xnb),7);!!$stats&&$stats(qob(khd,LVc,-1,-1));OZb.Od();!!$stats&&$stats(qob(khd,Ecd,-1,-1))}
+function QZb(){var b,d,e;while(MZb){d=Jlb;e=MZb;MZb=MZb.c;!MZb&&(NZb=null);if(!d){wv(e.b)}else{try{wv(e.b)}catch(b){b=ePb(b);if(!iyb(b,200))throw b}}}}
+function Kt(b){var c;!b.G&&(b.G=(c=Uq((!b.Jb&&(b.Jb=new d8b),b.Jb),(!b.K&&(b.K=new pR),b.K),(!b.F&&(b.F=new MQ),b.F),!b.Ib&&(b.Ib=(new W6b)._d(new F6b,new J6b))),c.Tb(),c));return b.G}
+function FP(){var b,c,d;if(BP){return BP}else{BP=new eeb;BP.kd(chd);c=new Odc(dhd,ocd);b=new Odc(ehd,kgd);d=new Odc(JYc,fhd);beb(BP,Txb(fOb,{192:1,247:1},89,[c,b,d]));BP.jd(ghd);Edb(BP,Scd,(TBc(),TBc(),SBc),false);return BP}}
+function pR(){var b,c,d,e,f,g,i,j,o,r,u,x,A,D,G;this.b=new Ikb;d=new wAc;_H(d)?(o=d.Rb(),o.setProperty(NRc,KRc),undefined):(d.i[NRc]=KRc,undefined);b=new CAc;_H(b)?(r=b.Rb(),r.setProperty(jdd,ned),undefined):(b.i[jdd]=ned,undefined);_H(b)?(u=b.Rb(),u.setProperty(oed,hhd),undefined):(b.i[oed]=hhd,undefined);i=new CAc;_H(i)?(x=i.Rb(),x.setProperty(jdd,ihd),undefined):(i.i[jdd]=ihd,undefined);_H(i)?(A=i.Rb(),A.setProperty(oed,jhd),undefined):(i.i[oed]=jhd,undefined);j=new CAc;_H(j)?(D=j.Rb(),D.setProperty(jdd,igd),undefined):(j.i[jdd]=igd,undefined);_H(j)?(G=j.Rb(),G.setProperty(oed,s$c),undefined):(j.i[oed]=s$c,undefined);uAc(d,b);uAc(d,i);uAc(d,j);f=new nxc(dhd,ocd,100);e=new mxc(ehd,kgd);Rqc(e.q,vgd,(TBc(),TBc(),SBc));g=new nxc(JYc,fhd,100);g.q[OSc]=(Ijc(),Hjc).b;Rqc(g.q,vgd,SBc);c=new SJ;fI(c,xcd,Bdb(FP()));hI(c,Acd,SBc,false);_H(c)?pI(c,ycd,fqc(Txb(LOb,{192:1,247:1},175,[f,e,g]))):(c.i[ycd]=fqc(Txb(LOb,{192:1,247:1},175,[f,e,g])),undefined);aI(c,wVc,(xoc(),voc).b,true);aI(c,Bcd,(loc(),joc).b,true);hI(c,odd,SBc,true);hI(c,mdd,SBc,true);hI(c,ndd,SBc,true);QN(this.b,Txb(HOb,{192:1,247:1},119,[d,c]))}
+var chd='/fraud/fraudpoints/fraudpoint',hhd='Add Fraud Point',ohd='AsyncLoader7',lhd='FraudPointMaintenancePresenter',nhd='FraudPointMaintenanceView',jhd='Remvoe Fraud Point',ehd='description',dhd='fraudpointid',khd='runCallbacks7';var BP=null;_=FQ.prototype=DQ.prototype=new rB;_.gC=function GQ(){return oBb};_.Vb=function HQ(){c8b(this.f,this,new bbc((Xfb(),Vfb),this))};_.cM={210:1,230:1};_=pR.prototype=nR.prototype=new TC;_.$b=function qR(){return this.b};_.gC=function rR(){return tBb};_.cM={25:1};_.b=null;_=RZb.prototype=LZb.prototype=new mq;_.gC=function SZb(){return OIb};_.Od=function WZb(){QZb()};_.cM={};var oBb=iCc(H4c,lhd),tBb=iCc(mhd,nhd),OIb=iCc(A8c,ohd);$entry(TZb)();

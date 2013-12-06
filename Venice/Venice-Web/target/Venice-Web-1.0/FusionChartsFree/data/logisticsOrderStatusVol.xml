@@ -1,0 +1,38 @@
+<graph xaxisname='Date' yaxisname='No. of Orders' hovercapbg='DEDEBE' hovercapborder='889E6D' rotateNames='0' numdivlines='4' divLineColor='CCCCCC' divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' AlternateHGridColor='CCCCCC' >
+   <categories font='Arial' fontSize='11' fontColor='000000'>
+      <category name='01/01/2011' />
+      <category name='02/01/2011' />
+      <category name='03/01/2011' />
+      <category name='04/01/2011' />
+      <category name='05/01/2011' />
+   </categories>
+   <dataset seriesname='Fraud Passed (FP)' color='C9198D'>
+      <set value='0' />
+      <set value='10' />
+      <set value='14' />
+      <set value='28' />
+      <set value='32' />
+   </dataset>
+    <dataset seriesname='Picked Up (PU)' color='56B9F9'>
+      <set value='8' />
+      <set value='3' />
+      <set value='5' />
+      <set value='11' />
+      <set value='12' />
+   </dataset>
+    <dataset seriesname='Delivered (CX)' color='00FF00' >
+      <set value='30' />
+      <set value='28' />
+      <set value='18' />
+      <set value='8' />
+      <set value='10' />
+   </dataset>
+   <dataset seriesname='Returned (RT)' color='EDEDED'>
+      <set value='0' />
+      <set value='1' />
+      <set value='0' />
+      <set value='0' />
+      <set value='0' />
+   </dataset>
+
+</graph>

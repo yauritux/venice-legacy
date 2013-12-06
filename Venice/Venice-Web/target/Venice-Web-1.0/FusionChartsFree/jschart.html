@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <script language="JavaScript" src="../FusionChartsFree/JSClass/FusionCharts.js"></script>
+    </head>
+
+<body bgcolor="#ffffff">
+    <div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+    <script type="text/javascript">
+        var myChart = new FusionCharts("../FusionChartsFree/Charts/FCF_MSColumn3D.swf", "myChartId", "600", "500");
+        myChart.setDataURL("data/Data.xml");
+        myChart.render("chartdiv");
+    </script>
+</body>
+</html>

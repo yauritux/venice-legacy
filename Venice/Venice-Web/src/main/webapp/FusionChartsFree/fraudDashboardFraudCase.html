@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<script language="JavaScript" src="JSClass/FusionCharts.js"></script>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr><td valign="top" class="text" align="center"> <div id="funnelChartId" align="center">FusionCharts. </div></td></tr>
+    <tr><td valign="top" class="text" align="center"> <div id="pieChartId" align="center">FusionCharts. </div></td></tr>
+      
+    
+    <script type="text/javascript">
+       //URL = ............?{data0={110616/4/Fraud Passed/30}, data1={110615/2/Suspicious Fraud/45}, data2={110612/1/Confirmed/205}}
+       //URL = ............?{0={Confirmed : 4,Suspected Fraud : 3,Fraud Confirmed : 1,Fraud Check Passed : 2}}
+       
+       var sURL = window.document.URL.toString().replace(/%20/gi," ").replace(/{/gi,"").replace(/}/gi,"");
+       //alert(sURL);
+     		var newURL;
+       		var tempSplitURL=sURL.split("?");       		
+       		tempSplitURL[1]=tempSplitURL[1].split("=");
+       		newURL=tempSplitURL[1][1].split(",");
+
+       		for(var i=0;i<newURL.length;i++){
+       			newURL[i]=newURL[i].split(":");       			
+       		}
+       		
+       		for(var i=0;i<newURL.length-1;i++){
+       			var min = newURL[i][1];       		
+       			var index =i;
+       			for(var j=i+1;j<newURL.length;j++){
+       			   	if(newURL[j][1]<min){
+       			   		index = j;
+       			   		min = newURL[j][1];
+       			   	}
+       			}     
+       			var tempVal = newURL[i][1];
+       			var tempName = newURL[i][0];
+       			newURL[i][0] = newURL[index][0];
+       			newURL[i][1] = newURL[index][1];
+
+       			newURL[index][0]= tempName;
+       			newURL[index][1]= tempVal;
+
+       		}
+       		var orders;
+		for(var i=0;i<newURL.length;i++){	
+			if(newURL[i][0].replace(/^\s+|\s+$/g,'')=="Confirmed"){
+				orders=newURL[i][1];
+			}
+		}
+						
+		
+      		
+		//Make XML
+		var xml="<chart isSliced='1' slicingDistance='3' decimalPrecision='0'>";
+		for(var i=0;i<newURL.length;i++){
+			//xml+="<set name='"+newURL[i][0]+"' value='"+newURL[i][1]+"' color='' alpha='85'/>";
+			xml+="<set name='"+newURL[i][0]+"' value='"+newURL[i][1]+"' alpha='85'/>";
+		}
+		xml+="</chart>";
+		//End XML
+		var funnelChart = new FusionCharts("Charts/FCF_Funnel.swf", "funnelChartId", "400", "250");
+		funnelChart.setDataXML(xml);
+		//funnelChart.setDataURL("data/fraudCaseDataFunnel.xml"); 
+		funnelChart.render("funnelChartId");
+
+		//--------------------------------------------------------------------------------------------------------------------------------------------------------//		
+    			  
+		  //Make XML
+		  xml="";
+		  xml="<graph caption='Total Confirmed Orders: "+orders+"' showNames='1'  decimalPrecision='0'>";
+		  for(var i=0;i<newURL.length;i++){
+		  	  xml+="<set name='"+newURL[i][0]+"' value='"+newURL[i][1]+"' link='lala.html'/>";
+		  } 
+		  xml+="</graph>";
+		  //End XML	
+		  
+		  var pieChart = new FusionCharts("Charts/FCF_Pie3D.swf", "pieChartId", "400", "300");
+		  pieChart.setDataXML(xml);
+		  //pieChart.setDataURL("data/fraudCaseDataPie.xml");	
+		  pieChart.render("pieChartId");		  
+		  
+		  		
+
+		  function get_random_color(a) {		   	 
+		   	   var rint = Math.round(0xffffff * Math.random());
+		   	   return ('#'+a+''+ rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
+		   }
+	</script> 
+	
+</table>
+</body>
+</html>

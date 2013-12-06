@@ -1,0 +1,146 @@
+<html>
+	<head>
+	<title>Bindows gauge sample</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<!-- Import the bindows gauges javascriptpackage -->
+	<script type="text/javascript" src="bindows/bindows_gauges.js"></script>
+
+	</head>
+	<body>
+
+	<script type="text/javascript">
+
+		var arrParams;
+		var type;
+		var t = 0;
+		var sum;
+		var count=20;
+		var sizee;
+		var ws="",av="",bs="";
+		//var j;
+		
+//Fuction get Parameter from URL
+// http://.................?recParam {Merchant Partial Fulfillment Frequency,4,95,Q1-2011,false,Baseline={Worst:30/Average:80/Best:150}}&{Merchant Fulfillment Response Time,5,45,Q1-2011,true,Baseline={Worst:50/Average:100/Best:200}&type=1}
+
+		function getURLParameters() 
+		{			
+			var sURL = window.document.URL.toString().replace(/%20/gi," ").replace(/{/gi,"").replace(/}/gi,"").replace(/Merchant/gi, "").replace(/Logistics/gi, "");
+			//alert(sURL);
+			if (sURL.indexOf("?") > 0){				
+				arrParams = sURL.split("?");
+				arrParams[1]=arrParams[1].split("&");
+				for(var i=0;i<arrParams[1].length-1;i++){
+					arrParams[1][i]=arrParams[1][i].split(",");
+					arrParams[1][i][arrParams[1][i].length-1]=arrParams[1][i][arrParams[1][i].length-1].split("=");
+					if(arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1]!=""){
+						arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1]=arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1].split("/");
+						for(var j=0;j<arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1].length;j++){
+							arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j]=arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j].split(":");
+						}
+					}
+				}
+				type=arrParams[1][arrParams[1].length-1].split("=");
+
+			}		
+		}
+		getURLParameters();		
+		
+	//make HTML to View Dashboard
+	document.write("<div align='center'>");
+	document.write("<table>");	
+	var performance = new Array(arrParams[1].length-1);
+	for(var l=0;l<arrParams[1].length-1;l+=5){
+	document.write("<tr>");		
+		for(var i=l;i<l+5&&i<arrParams[1].length-1;i++){
+			ws="";
+			av="";
+			bs="";
+			document.write("<td>");
+			
+			if(arrParams[1][i][4]=="true"){
+				document.write("<div id="+(i+1)+" style='width: 170; height: 170' >");document.write("</div>");		
+			}else{
+				document.write("<div id="+(i+1)+" style='width: 130; height: 130' >");document.write("</div>");
+			}
+			if(type[1]=="0"){
+				performance[i] = bindows.loadGaugeIntoDiv("gauges/g_Logistics.xml", ""+(i+1));
+			}else{
+				performance[i] = bindows.loadGaugeIntoDiv("gauges/g_Merchant.xml", ""+(i+1));
+			}
+			
+			for(var j=0;j<arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1].length;j++){
+				if(arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][0]=="Worst"&&arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][0]!=""){
+					ws = arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][1];
+				}else if(arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][0]=="Average"&&arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][0]!=""){
+					av=arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][1];
+				}else if(arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][0]=="Best"&&arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][0]!=""){	
+					bs=arrParams[1][i][arrParams[1][i].length-1][arrParams[1][i][arrParams[1][i].length-1].length-1][j][1];
+
+				}	
+			}		
+									
+			if(ws=="") ws="0";if(av=="") av="0";if(bs=="") bs="0";			
+			performance[i].worst.setStartValue("0");
+			performance[i].worst.setEndValue(""+ws);
+			if(av=="0"){
+				performance[i].average.setStartValue("0");		
+				performance[i].average.setEndValue("0");
+				if(bs!="0"){
+					performance[i].best.setStartValue(""+ws);
+				}else{
+					performance[i].best.setStartValue("0");	
+				}
+			}else{
+				performance[i].average.setStartValue(""+ws);		
+				performance[i].average.setEndValue(""+av);
+				if(bs!="0"){
+					performance[i].best.setStartValue(""+av);
+				}else{
+					performance[i].best.setStartValue("0");	
+				}
+			}			
+			if(type[1]=="0"&&bs!="0"){
+				performance[i].best.setEndValue(""+bs);
+			}else if(type[1]=="1"&&bs!="0"){
+				performance[i].best.setEndValue(""+bs);
+			}else{
+				performance[i].best.setEndValue("0");
+			}
+			document.write("</td>");
+		}
+		document.write("</tr>");
+		document.write("<tr>");	
+		var temp = new Array(arrParams[1].length-1);
+		for(var i=l;i<l+5&&i<arrParams[1].length-1;i++){
+			document.write("<td align='center'>");
+				document.write("<span style='font-family:arial;font-size:10px;font-weight:bold'>");
+				document.write("Performance <br>"+arrParams[1][i][0]+"<br> Period : ("+arrParams[1][i][3]+")");
+				document.write("</span>");
+				setInterval(updateGauge, 100,i);
+			document.write("</td>");
+		}
+		document.write("</tr>");
+	}
+	document.write("</table>");
+	document.write("</div>");		
+
+		//Load Dinamis Dashboard 
+		t=0;sum=0;
+		function updateGauge(i) {
+			if(count!=0){t += count;}					
+			if(t<=1650){						
+				sum=arrParams[1][i][2]*Math.sin(t/1000)			
+			performance[i].needle.setValue(sum.toFixed(0));
+			performance[i].label.setText(sum.toFixed(0)+"%");
+			}else{
+			  count=0;
+			performance[i].needle.setValue(arrParams[1][i][2]);
+			performance[i].label.setText(arrParams[1][i][2]+"%");
+			
+			}
+		}
+		
+	</script>
+	</body>
+	</html>

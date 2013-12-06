@@ -1,0 +1,48 @@
+<html>
+	<head>
+	<title>Bindows gauge sample</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<!-- Import the bindows gauges javascriptpackage -->
+	<script type="text/javascript" src="bindows_gauges/bindows_gauges.js"></script>
+
+	</head>
+	<body>
+
+	<!-- Create a div to hold the gauge -->
+	<div align="center">
+	<table>
+		<tr>
+			<td><div id="revenueCommission" style="width: 100; height: 100" ></div></td>
+			<td><div id="revenueTransaction" style="width: 100; height: 100" ></div></td>
+			<td><div id="revenueHandling" style="width: 100; height: 100" ></div></td>
+		</tr>
+		<tr>
+			<td align="center"><span style="font-family:arial;font-size:10px;font-weight:bold">Commission<br/>(in mio Rp.)</span></td>
+			<td align="center"><span style="font-family:arial;font-size:10px;font-weight:bold">Transaction Fee<br/>(in mio Rp.)</span></td>
+			<td align="center"><span style="font-family:arial;font-size:10px;font-weight:bold">Handling Fee<br/>(in mio Rp.)</span></td>
+		</tr>
+
+	<table>
+	</div>
+
+	<script type="text/javascript">
+
+		// Load the gauge into the div
+		var revenueCommissionGauge = bindows.loadGaugeIntoDiv("gauges/g_revenue_commission.xml", "revenueCommission");
+		var revenueTransactionGauge = bindows.loadGaugeIntoDiv("gauges/g_revenue_fee.xml", "revenueTransaction");
+		var revenueHandlingGauge = bindows.loadGaugeIntoDiv("gauges/g_revenue_fee.xml", "revenueHandling");
+
+
+		revenueCommissionGauge.needle.setValue(80);
+		revenueCommissionGauge.label.setText("80");
+
+		revenueTransactionGauge.needle.setValue(30);
+		revenueTransactionGauge.label.setText("30");
+
+		revenueHandlingGauge.needle.setValue(20);
+		revenueHandlingGauge.label.setText("20");
+
+	</script>
+	</body>
+	</html>

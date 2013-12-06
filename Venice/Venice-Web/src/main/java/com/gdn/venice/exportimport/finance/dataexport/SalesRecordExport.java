@@ -1,4 +1,4 @@
-package com.gdn.venice.exportimport.finance.dataexport;;
+package com.gdn.venice.exportimport.finance.dataexport;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

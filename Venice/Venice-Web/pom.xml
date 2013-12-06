@@ -153,8 +153,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.0.2</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -198,7 +198,6 @@
                         <configuration>
                             <target>
                                 <property name="src" value="${project.basedir}/src"/>
-                                <property name="build" value="${project.basedir}/target/classes" />
                                 <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"/>
                                 <delete>
                                     <fileset dir="${src}">
@@ -212,7 +211,7 @@
                                         </fileset>
                                     </src>
                                 </jrc>
-                                <copy todir="${build}">
+                                <copy todir="${project.build.directory}/classes">
 									<fileset dir="${src}/main/java">
 										<include name="**/*.jasper" />
 									</fileset>
@@ -234,41 +233,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-           
-<!--             <plugin> -->
-<!-- 		        <artifactId>maven-resources-plugin</artifactId> -->
-<!-- 		        <version>2.6</version> -->
-<!-- 		        <executions> -->
-<!-- 		          <execution> -->
-<!-- 		            <id>copy-resources</id> -->
-<!-- 		            here the phase you need -->
-<!-- 		            <phase>validate</phase> -->
-<!-- 		            <goals> -->
-<!-- 		              <goal>copy-resources</goal> -->
-<!-- 		            </goals> -->
-<!-- 		            <configuration> -->
-<!-- 		              <outputDirectory>${basedir}/target/extra-resources</outputDirectory> -->
-<!-- 		              <resources>           -->
-<!-- 		                <resource> -->
-<!-- 		                  <directory>src/non-packaged-resources</directory> -->
-<!-- 		                  <filtering>true</filtering> -->
-<!-- 		                </resource> -->
-<!-- 		              </resources>               -->
-<!-- 		            </configuration>             -->
-<!-- 		          </execution> -->
-<!-- 		        </executions> -->
-<!-- 	      	</plugin> -->
-	      	
-	      	
-<!-- 	      	 <resources> -->
-<!-- 		      <resource> -->
-<!-- 		        directory>src/my-resources</directory -->
-<!-- 		        <includes> -->
-<!-- 		          <include>**/*.jasper</include> -->
-<!-- 		        </includes> -->
-<!-- 		      </resource> -->
-<!-- 		    </resources> -->
-	      	
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -335,5 +299,59 @@
             </plugin>
               
         </plugins>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									org.apache.maven.plugins
+        								</groupId>
+        								<artifactId>
+        									maven-antrun-plugin
+        								</artifactId>
+        								<versionRange>
+        									[1.7,)
+        								</versionRange>
+        								<goals>
+        									<goal>run</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									org.apache.maven.plugins
+        								</groupId>
+        								<artifactId>
+        									maven-dependency-plugin
+        								</artifactId>
+        								<versionRange>
+        									[2.1,)
+        								</versionRange>
+        								<goals>
+        									<goal>copy</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
     </build>
 </project>

@@ -1,5 +1,7 @@
 package com.gdn.venice.inbound.services.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.gdn.integration.jaxb.Order;
 import com.gdn.venice.exception.InvalidOrderException;
 import com.gdn.venice.factory.VeninboundFactory;
@@ -16,6 +18,7 @@ import com.gdn.venice.validator.factory.OrderCreationValidatorFactory;
  * @author yauritux
  * 
  */
+@Service
 public class OrderServiceImpl implements OrderService {
 
 	@Override

@@ -1,0 +1,43 @@
+<html>
+	<head>
+	<title>Bindows gauge sample</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<!-- Import the bindows gauges javascriptpackage -->
+	<script type="text/javascript" src="bindows_gauges/bindows_gauges.js"></script>
+
+	</head>
+	<body>
+
+	<!-- Create a div to hold the gauge -->
+	<div align="center">
+<table>
+		<tr>
+			<div id="fulfillmentPerformance" style="width: 150; height: 150" ></div></td>
+		</tr>
+		<tr>
+			<td align="center"><span style="font-family:arial;font-size:10px;font-weight:bold">Fulfillment<br/> Performance (%)</span></td>
+		</tr>
+
+	<table>
+
+	
+	</div>
+
+	<script type="text/javascript">
+
+		// Load the gauge into the div
+		var fulfillmentPerformanceGauge = bindows.loadGaugeIntoDiv("gauges/g_fulfillmentperformance.xml", "fulfillmentPerformance");
+
+
+
+		fulfillmentPerformanceGauge.needle.setValue(110);
+		fulfillmentPerformanceGauge.label.setText("110");
+
+		
+		
+
+
+	</script>
+	</body>
+	</html>

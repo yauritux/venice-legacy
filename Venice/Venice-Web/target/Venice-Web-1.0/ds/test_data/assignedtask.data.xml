@@ -1,0 +1,40 @@
+<assignedtask>
+	<tasks>
+		<task>
+			<taskid>FPTK No. 1002008</taskid>
+			<taskdesc>Persetujuan FPTK untuk 2 Orang Programmer Java di EBS</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Human Resources - Recruitment</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>FPTK No. 1102008</taskid>
+			<taskdesc>Persetujuan FPTK untuk 3 Orang Programmer SAP</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Human Resources - Recruitment</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TTM No. 100218</taskid>
+			<taskdesc>Perjalanan dinas ke Sulawesi untuk install server baru</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Human Resources - Travel Management</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TTM No. 100219</taskid>
+			<taskdesc>Perjalanan dinas ke Kalimantan untuk survei lokasi</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Human Resources - Travel Management</type>
+			<status>Open</status>
+		</task>
+	</tasks>
+</assignedtask>

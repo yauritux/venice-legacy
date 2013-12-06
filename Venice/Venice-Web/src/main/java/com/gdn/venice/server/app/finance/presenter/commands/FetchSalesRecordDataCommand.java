@@ -139,6 +139,7 @@ public class FetchSalesRecordDataCommand implements RafDsCommand {
 				map.put(DataNameTokens.FINSALESRECORD_VENORDERITEM_VENSETTLEMENTRECORDS_PPH23_FLAG, salesRecord.getVenOrderItem().getVenSettlementRecords()!=null? (salesRecord.getVenOrderItem().getVenSettlementRecords().get(0).getPph23()==true?"Yes":"No"):"");
 				map.put(DataNameTokens.FINSALESRECORD_PPH23_AMOUNT, salesRecord.getPph23Amount() != null?salesRecord.getPph23Amount().toString():"");
 				map.put(DataNameTokens.FINSALESRECORD_RECONCILEDATE, (salesRecord.getReconcileDate() != null)?formatter.format(new Timestamp(salesRecord.getReconcileDate().getTime()-25200000)):"");
+				map.put(DataNameTokens.FINSALESRECORD_SALESTIMESTAMP, (salesRecord.getSalesTimestamp() != null)?formatter.format(new Timestamp(salesRecord.getSalesTimestamp().getTime()-25200000)):"");
 				map.put(DataNameTokens.FINSALESRECORD_MCX_DATE, formatter.format(salesRecord.getCxMtaDate()));
 				map.put(DataNameTokens.FINSALESRECORD_CXF_DATE, formatter.format(salesRecord.getCxFinanceDate()));
 	

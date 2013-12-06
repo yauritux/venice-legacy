@@ -1,0 +1,197 @@
+<kpi>
+	<setup>
+		<periods>
+			<period>
+				<periodid>1</periodid>
+				<perioddesc>Q1-2010</perioddesc>
+				<periodfrom>2010-01-01T10:00:00Z</periodfrom>
+				<periodto>2010-03-31T10:00:00Z</periodto>
+			</period>
+			<period>
+				<periodid>2</periodid>
+				<perioddesc>Q2-2010</perioddesc>
+				<periodfrom>2010-04-01T10:00:00Z</periodfrom>
+				<periodto>2010-06-30T10:00:00Z</periodto>
+			</period>
+			<period>
+				<periodid>3</periodid>
+				<perioddesc>Q3-2010</perioddesc>
+				<periodfrom>2010-07-01T10:00:00Z</periodfrom>
+				<periodto>2010-09-30T10:00:00Z</periodto>
+			</period>
+			<period>
+				<periodid>4</periodid>
+				<perioddesc>Q4-2010</perioddesc>
+				<periodfrom>2010-10-01T10:00:00Z</periodfrom>
+				<periodto>2010-12-31T10:00:00Z</periodto>
+			</period>
+			<period>
+				<periodid>5</periodid>
+				<perioddesc>Q1-2011</perioddesc>
+				<periodfrom>2011-01-01T10:00:00Z</periodfrom>
+				<periodto>2011-03-31T10:00:00Z</periodto>
+			</period>
+		</periods>
+		<slas>
+			<sla>
+				<party>NCS</party>
+				<kpi>Pick Up Performance</kpi>
+				<period>Q1-2011</period>
+				<baseline>Average</baseline>
+				<target>100</target>
+			</sla>
+			<sla>
+				<party>NCS</party>
+				<kpi>Delivery Performance</kpi>
+				<period>Q1-2011</period>
+				<baseline>Average</baseline>
+				<target>100</target>
+			</sla>
+			<sla>
+				<party>NCS</party>
+				<kpi>Invoice Accuracy</kpi>
+				<period>Q1-2011</period>
+				<baseline>Average</baseline>
+				<target>80</target>
+			</sla>
+		</slas>
+	</setup>
+	<dashboard>
+		<merchants>
+			<merchant>
+				<merchantname>PT Satoe</merchantname>
+				<merchantpickup>120</merchantpickup>
+				<merchantfulfillment>110</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Doea</merchantname>
+				<merchantpickup>100</merchantpickup>
+				<merchantfulfillment>100</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Tiga</merchantname>
+				<merchantpickup>95</merchantpickup>
+				<merchantfulfillment>90</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Empat</merchantname>
+				<merchantpickup>93</merchantpickup>
+				<merchantfulfillment>89</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Lima</merchantname>
+				<merchantpickup>90</merchantpickup>
+				<merchantfulfillment>88</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Enam</merchantname>
+				<merchantpickup>80</merchantpickup>
+				<merchantfulfillment>80</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Toejoeh</merchantname>
+				<merchantpickup>75</merchantpickup>
+				<merchantfulfillment>70</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Delapan</merchantname>
+				<merchantpickup>70</merchantpickup>
+				<merchantfulfillment>70</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Sembilan</merchantname>
+				<merchantpickup>60</merchantpickup>
+				<merchantfulfillment>70</merchantfulfillment>
+			</merchant>
+			<merchant>
+				<merchantname>PT Sepoeloeh</merchantname>
+				<merchantpickup>60</merchantpickup>
+				<merchantfulfillment>60</merchantfulfillment>
+			</merchant>
+		</merchants>
+	</dashboard>
+	<detailviewer>
+		<parties>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-03T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>-1</value>
+				<reason>Late Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-04T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>-2</value>
+				<reason>Late Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-05T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>1</value>
+				<reason>Early Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-06T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>1</value>
+				<reason>Early Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-07T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>-1</value>
+				<reason>Late Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-10T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>-1</value>
+				<reason>Late Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-11T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>-1</value>
+				<reason>Late Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-12T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>1</value>
+				<reason>Early Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-13T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>1</value>
+				<reason>Early Pick Up</reason>
+			</party>
+			<party>
+				<name>NCS</name>
+				<period>Q1-2011</period>
+				<timestamp>2011-01-14T00:10:00Z</timestamp>
+				<kpi>Logistics - Pick Up Performance</kpi>
+				<value>1</value>
+				<reason>Early Pick Up</reason>
+			</party>
+		</parties>
+	</detailviewer>
+</kpi>

@@ -319,6 +319,31 @@ public class GeneralData {
 		return retVal;
 	}
 	
+	public static RafDataSource getOrderHistoryOrderItemDataByOrderItemId(String orderItemId) {
+		DataSourceField[] dataSourceFields = {
+				new DataSourceTextField(DataNameTokens.VENORDERITEMSTATUSHISTORY_ORDERITEMID, "Ven. Order Item ID"),
+				new DataSourceTextField(DataNameTokens.VENORDERITEMSTATUSHISTORY_WCSORDERITEMID, "Order Item ID"),
+				new DataSourceTextField(DataNameTokens.VENORDERITEMSTATUSHISTORY_VENORDERSTATUS_ORDERSTATUSCODE, "Status"),
+				new DataSourceDateTimeField(DataNameTokens.VENORDERITEMSTATUSHISTORY_TIMESTAMP, "Timestamp"),
+				new DataSourceTextField(DataNameTokens.VENORDERITEMSTATUSHISTORY_STATUSCHANGEREASON, "Notes")
+		};
+		dataSourceFields[0].setPrimaryKey(true);
+		
+		RafDataSource retVal = new RafDataSource(
+				"/response/data/*",
+				GWT.getHostPageBaseURL() + OrderDataViewerPresenter.orderDataViewerServlet + "?method=fetchOrderItemHistoryData&type=DataSource",
+				null,
+				null,
+				null,
+				dataSourceFields); 
+		
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put(DataNameTokens.VENORDERITEM_ORDERITEMID, orderItemId);
+		retVal.getOperationBinding(DSOperationType.FETCH).setDefaultParams(params);
+		
+		return retVal;
+	}
+	
 	public static RafDataSource getReturData(int firstResult) {
 		DataSourceField[] dataSourceFields = {
 				new DataSourceIntegerField(DataNameTokens.VENRETUR_RETURID, "Ven. Retur ID"),

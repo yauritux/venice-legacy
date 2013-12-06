@@ -1,0 +1,6 @@
+<graph caption="Total Confirmed Orders: 180" showNames='1'  decimalPrecision='0'  >
+   <set name='Fraud' value='21' />
+	<set name='Not Fraud' value='55'  />
+	<set name='Suspected' value='50'  />
+    <set name='Passed' value='54' />
+</graph>

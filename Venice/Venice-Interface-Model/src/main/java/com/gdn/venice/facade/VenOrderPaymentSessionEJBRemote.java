@@ -88,4 +88,5 @@ public interface VenOrderPaymentSessionEJBRemote {
 	 */
 	public FinderReturn findByVenOrderPaymentLikeFR(VenOrderPayment venOrderPayment,
 			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
+	
 }

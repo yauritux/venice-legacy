@@ -1,6 +1,8 @@
 package com.gdn.venice.integration.services;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
@@ -46,9 +48,11 @@ import com.gdn.integration.jaxb.TransactionFee;
 import com.gdn.venice.bpmenablement.BPMAdapter;
 import com.gdn.venice.dao.VenOrderBlockingSourceDAO;
 import com.gdn.venice.dao.VenOrderDAO;
+import com.gdn.venice.dao.VenOrderItemAdjustmentDAO;
 import com.gdn.venice.dao.VenOrderItemDAO;
 import com.gdn.venice.dao.VenOrderStatusDAO;
 import com.gdn.venice.dao.VenOrderStatusHistoryDAO;
+import com.gdn.venice.dao.VenTransactionFeeDAO;
 import com.gdn.venice.exception.InvalidOrderException;
 import com.gdn.venice.facade.FinArFundsInReconRecordSessionEJBLocal;
 import com.gdn.venice.facade.FinSalesRecordSessionEJBLocal;
@@ -109,9 +113,9 @@ import com.gdn.venice.facade.VenStateSessionEJBLocal;
 import com.gdn.venice.facade.VenTransactionFeeSessionEJBLocal;
 import com.gdn.venice.facade.VenWcsPaymentTypeSessionEJBLocal;
 import com.gdn.venice.facade.kpi.KPI_TransactionPosterSessionEJBLocal;
-import com.gdn.venice.facade.logistics.activity.SalesRecordGenerator;
 import com.gdn.venice.facade.spring.VenOrderItemService;
 import com.gdn.venice.facade.spring.VenOrderItemStatusHistoryService;
+import com.gdn.venice.facade.spring.VenOrderStatusHistoryService;
 import com.gdn.venice.facade.util.AWBReconciliation;
 import com.gdn.venice.facade.util.HolidayUtil;
 import com.gdn.venice.facade.util.KpiPeriodUtil;
@@ -228,9 +232,16 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 	@Autowired
 	VenOrderStatusHistoryDAO venOrderStatusHistoryDAO;
 	@Autowired
+	VenOrderItemAdjustmentDAO venOrderItemAdjustmentDAO;
+	@Autowired
+	VenTransactionFeeDAO venTransactionFeeDAO;
+	@Autowired
+	VenOrderStatusHistoryService venOrderStatusHistoryService;
+	@Autowired
 	VenOrderItemStatusHistoryService venOrderItemStatusHistoryService;
 	@Autowired
 	OrderService orderService;
+	
 	
 	private EntityManager emForJDBC;
 	
@@ -290,556 +301,547 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			_log.error(e);
 			throw new EJBException(e.getMessage());
 		}
-		
-		/*
 
 		// Amount
-		if (order.getAmount() == null && (order.isRmaFlag() == null || !order.isRmaFlag())) {
-			String errMsg = "\n createOrder: message received with no amount";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-
-		// Customer
-		if (order.getCustomer() == null) {
-			String errMsg = "\n createOrder: message received with no customer information record";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-
-		// Identifier
-		if (order.getOrderId() == null) {
-			String errMsg = "\n createOrder: message received with no identifier information record";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-
-		// Order items
-		if (order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
-			String errMsg = "\n createOrder: message received with no order item information record";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-
-		// Payments
-		if ((order.isRmaFlag() == null || !order.isRmaFlag()) && (order.getPayments() == null || order.getPayments().isEmpty())) {
-			String errMsg = "\n createOrder: message received with no payment information record";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-
-		// Timestamp
-		if (order.getTimestamp() == null) {
-			String errMsg = "\n createOrder: message received with no timestamp information record";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-		
-		// Check the fulfillment status
-		if (order.getFullfillmentStatus() != null) {
-			if (order.getFullfillmentStatus() == VEN_FULFILLMENT_STATUS_ONE) {
-				String errMsg = "\n createOrder: message received fulfillment status = VEN_FULFILLMENT_STATUS_ONE(1). Orders cannot be created with fulfillment status = 1";
-				_log.error(errMsg);
-				throw new EJBException(errMsg);
-
-			}
-		}
-
-		// Status
-		if (order.getStatus() == null) {
-			String errMsg = "\n createOrder: message received with no status information record";
-			_log.error(errMsg);
-			throw new EJBException(errMsg);
-		}
-
-		//Shipping
-		for(OrderItem item : order.getOrderItems()){
-			if(item.getLogisticsInfo().getLogisticsProvider().getParty().getFullOrLegalName().equalsIgnoreCase("Select Shipping")){
-				String errMsg = "\n createOrder: message received with wrong Logistic Info ("+item.getLogisticsInfo().getLogisticsProvider().getParty().getFullOrLegalName()+")";
-				_log.error(errMsg);
-				throw new EJBException(errMsg);
-			}
-		}
-		*/
-
-		/*
-		 * Check that none of the order items already exist and remove any party
-		 * record from merchant to prevent data problems from WCS
-		 */
-		/*
-		List <String> merchantProduct =  new ArrayList<String>();
-		
-		for (OrderItem item : order.getOrderItems()) {
-			
-			if (this.orderItemExists(item.getItemId().getCode())) {
-				String errMsg = "\n createOrder: message received with an order item that already exists in the database:" + item.getItemId().getCode();
-				_log.error(errMsg);
-				throw new EJBException(errMsg);
-			}
-			// Remove party from merchant
-			if (item.getProduct().getMerchant().getParty() != null) {
-				String merchantSKU = item.getProduct().getMerchant().getMerchantId().getCode()+"&"+(item.getProduct().getMerchant().getParty().getFullOrLegalName()!=null?item.getProduct().getMerchant().getParty().getFullOrLegalName():"");
-				merchantProduct.add(merchantSKU);
-				item.getProduct().getMerchant().setParty(null);
-			}
-		}
-		*/
-
-		// Do the main processing inside this try/catch block
-		//try {
-
-			//_genericLocator = new Locator<Object>();
-			/*
-			 * If there has been a VA payment then we need to merge the order
-			 * because it will exist along with all of the payment(s). There may
-			 * also be IB and CC payments All of the payments MUST be approved
-			 * before we receive them.
-			 */
-			/*
-			_log.debug("\n check va payment");
-			Boolean vaPaymentExists = false;
-			Boolean csPaymentExists = false;
-			Iterator<Payment> i = order.getPayments().iterator();
-			while (i.hasNext()) {
-				Payment next = i.next();
-				if (next.getPaymentType().equals(VEN_WCS_PAYMENT_TYPE_VirtualAccount)) {
-					VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderPaymentSessionEJBLocal.class,	"VenOrderPaymentSessionEJBBeanLocal");
-					List<VenOrderPayment> venOrderPaymentList = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId ='"+ next.getPaymentId().getCode()+ "'", 0, 1);
-					// Check that the VA payment exists else throw exception
-					if (venOrderPaymentList == null || venOrderPaymentList.isEmpty()) {
-						String errMsg = "\n createOrder: An order with a VA payment that does not exist has been received";
-						_log.error(errMsg);
-						throw new EJBException(errMsg);
-					}
-
-					
-					//Check that the VA payment is approved... if not then
-					//throw an exception
-					
-					_log.debug("\n check va payment approval");
-					VenOrderPayment venOrderPayment = venOrderPaymentList.get(0);
-					if (!venOrderPayment.getVenPaymentStatus().getPaymentStatusId().equals(VEN_VA_PAYMENT_STATUS_ID_APPROVED)) {
-						String errMsg = "\n createOrder: An order with an unapproved VA payment has been received";
-						_log.error(errMsg);
-						throw new EJBException(errMsg);
-					}
-					vaPaymentExists = true;
-				}
-				
-				if (next.getPaymentType().equals(VEN_WCS_PAYMENT_TYPE_CSPayment)) {
-					VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderPaymentSessionEJBLocal.class,	"VenOrderPaymentSessionEJBBeanLocal");
-					List<VenOrderPayment> venOrderPaymentList = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId ='"+ next.getPaymentId().getCode()+ "'", 0, 1);
-					// Check that the CS payment exists else throw exception
-					if (venOrderPaymentList == null || venOrderPaymentList.isEmpty()) {
-						String errMsg = "\n createOrder: An order with a CS payment that does not exist has been received";
-						_log.error(errMsg);
-						throw new EJBException(errMsg);
-					}
-
-					
-					 // Check that the CS payment is approved... if not then
-					 // throw an exception
-					 
-					_log.debug("\n check CS payment approval");
-					VenOrderPayment venOrderPayment = venOrderPaymentList.get(0);
-					if (!venOrderPayment.getVenPaymentStatus().getPaymentStatusId().equals(VEN_VA_PAYMENT_STATUS_ID_APPROVED)) {
-						String errMsg = "\n createOrder: An order with an unapproved CS payment has been received";
-						_log.error(errMsg);
-						throw new EJBException(errMsg);
-					}
-					csPaymentExists = true;
-				}
-			}
-
-			// Validate if order id already exist for non VA and non CS payments
-			_log.debug("\n check wcs order id exist 1");
-			if ((order.getPayments() != null && !order.getPayments().isEmpty())) {
-				if (!vaPaymentExists && !csPaymentExists) {
-					if (this.orderExists(order.getOrderId().getCode())) {
-						String errMsg = "\n createOrder: An order with this WCS orderId already exists: "+ order.getOrderId().getCode();
-						_log.error(errMsg);
-						throw new EJBException(errMsg);
-					}
-				}
-			}
-
-			
-			 // This is really important. We need to get the order from the DB if
-			 // it is VA because it will exist and we must update it with all of
-			 // the details.
-			  
-			 // There MUST be NO changes to the VA payment data because it MUST
-			 // be what was sent by Venice to WCS originally. Therefore if the
-			 // payment information is included then we must not update it.
-			 
-			VenOrder venOrder = new VenOrder();
-			// If there is a VA payment then get the order from the cache
-			if (vaPaymentExists || csPaymentExists) {
-				_log.debug("\n va payment exist, retrieve existing order");
-				venOrder = this.retreiveExistingOrder(order.getOrderId().getCode());
-				// If there is no existing VA status order then throw an exception
-				if (venOrder == null) {
-					String errMsg = "\n createOrder: message received for an order with VA payments where there is no existing VA status order:" + order.getOrderId().getCode();
-					_log.error(errMsg);
-					throw new EJBException(errMsg);
-				}
-
-				
-				 // If the status of the existing order is not VA then it is a duplicate.
-				 
-				_log.debug("\n cek wcs order id exist 2");
-				if (!venOrder.getVenOrderStatus().getOrderStatusId().equals(VEN_ORDER_STATUS_VA) && !venOrder.getVenOrderStatus().getOrderStatusId().equals(VEN_ORDER_STATUS_CS)) {
-					String errMsg = "\n createOrder: message received with  the status of the existing order is not VA/CS (duplicate wcs order id):" + venOrder.getWcsOrderId();
-					_log.error(errMsg);
-					throw new EJBException(errMsg);
-				}
-			} else {
-				_log.debug("\n cek wcs order id exist 3");
-				if (this.orderExists(order.getOrderId().getCode())) {
-					String errMsg = "\n createOrder: message received where an order with WCS orderId already exists:" + venOrder.getWcsOrderId();
-					_log.error(errMsg);
-					throw new EJBException(errMsg);
-				}
-			}
-			_log.debug("\n set status to C");
-			//Set the status of the order explicitly to C (workaround for OpenJPA 2.0 problem)
-			VenOrderStatus venOrderStatusC = new VenOrderStatus();
-			venOrderStatusC.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_C);
-			venOrderStatusC.setOrderStatusCode("C");
-			venOrder.setVenOrderStatus(venOrderStatusC);
-
-			
-			 // Map the jaxb Order object to a JPA VenOrder object. This will be
-			 // ok for both persist and merge because the PK is not touched and
-			 // everything must be added anyway (VA payment will only have an
-			 // orderId and timestamp).
-			 
-			_log.debug("Mapping the order object to the venOrder object...");
-			_mapper.map(order, venOrder);
-						
-			
-			 // Party for merchant
-			 
-			
-			List<VenOrderItem> orderItems = venOrder.getVenOrderItems();
-			VenPartySessionEJBLocal venPartyHome = (VenPartySessionEJBLocal) this._genericLocator.lookupLocal(VenPartySessionEJBLocal.class, "VenPartySessionEJBBeanLocal");
-			VenMerchantSessionEJBLocal venMerchantHome = (VenMerchantSessionEJBLocal) this._genericLocator.lookupLocal(VenMerchantSessionEJBLocal.class, "VenMerchantSessionEJBBeanLocal");
-		
-			// Set the defaults for all of the boolean values in venOrder
-			if (venOrder.getBlockedFlag() == null) {
-				venOrder.setBlockedFlag(false);
-			}
-			if (venOrder.getRmaFlag() == null) {
-				venOrder.setRmaFlag(false);
-			}
-			// Default the finance reconcile flag to false.
-			venOrder.setFinanceReconcileFlag(false);
-
-			// If the order amount is missing then set it to default to 0
-			if (venOrder.getAmount() == null) {
-				venOrder.setAmount(new BigDecimal(0));
-			}
-			
-			
-			 // This method call will persist the order if there has been no VA payment else it will merge
-			 
-			_log.debug("\n persist order");
-			venOrder = this.persistOrder(vaPaymentExists, csPaymentExists, venOrder);
-			_log.debug("\n done persist order");
-			
-				for(String party : merchantProduct){				
-					String[] temp = party.split("&");
-					_log.debug("show venParty in orderItem :  "+party);
-					_log.debug("string merchant :  "+temp[0]+" and "+temp[1]);
-					if(!temp[1].equals("")){
-					for(int h =0; h< orderItems.size();h++){
-						if(orderItems.get(h).getVenMerchantProduct().getVenMerchant().getWcsMerchantId().equals(temp[0])){
-							List<VenMerchant> venMechantList = venMerchantHome.queryByRange("select o from VenMerchant o where o.wcsMerchantId ='" +temp[0]+ "'", 0, 1);
-							if( venMechantList.size()>0 || venMechantList!=null ){
-								if(venMechantList.get(0).getVenParty()==null){
-									List<VenParty> vePartyList = venPartyHome.queryByRange("select o from VenParty o where o.fullOrLegalName ='" +temp[1]+ "'", 0, 1);
-										if(vePartyList==null || vePartyList.isEmpty()){
-											VenParty venPartyitem = new VenParty();
-											VenPartyType venPartyType = new VenPartyType();
-											// set party type id = 1 adalah merchant
-											venPartyType.setPartyTypeId(new Long(1));
-											venPartyitem.setVenPartyType(venPartyType);
-											venPartyitem.setFullOrLegalName(temp[1]);	
-											_log.debug("persist venParty :  "+venPartyitem.getFullOrLegalName());
-											venPartyitem = venPartyHome.persistVenParty(venPartyitem);	
-											venMechantList.get(0).setVenParty(venPartyitem);
-											venMerchantHome.mergeVenMerchant(venMechantList.get(0));
-											_log.debug(" add  new party for venmerchant (Merchant Id :"+ orderItems.get(h).getVenMerchantProduct().getVenMerchant().getWcsMerchantId() +" )");			
-										}else{
-											venMechantList.get(0).setVenParty(vePartyList.get(0));
-											venMerchantHome.mergeVenMerchant(venMechantList.get(0));
-											_log.debug(" add  party for venmerchant (Merchant Id :"+ orderItems.get(h).getVenMerchantProduct().getVenMerchant().getWcsMerchantId() +" )");
-							
-										}
-									}
-								}
-						}
-						
-					}
-					}else 	_log.debug(" party is null for venmerchant (Merchant Id :"+ temp[0] +" )");
-						
-				}
-		
-			// If the order is RMA do nothing with payments because there are none
-			if (!venOrder.getRmaFlag()) {
-				_log.debug("\n masuk rma flag false, remove payment existing");
-				// Remove any existing order payment allocations that were allocated at VA stage
-				this.removeOrderPaymentAllocationList(venOrder);
-				_log.debug("\n done remove payment existing");
-				// An array list of order payment allocations
-				List<VenOrderPaymentAllocation> venOrderPaymentAllocationList = new ArrayList<VenOrderPaymentAllocation>();
-				List<VenOrderPayment> venOrderPaymentList = new ArrayList<VenOrderPayment>();
-
-				
-				 // Allocate the payments to the order.
-				 
-				_log.debug("\n Allocate the payments to the order");				
-				if (order.getPayments() != null && !order.getPayments().isEmpty()) {
-					Iterator<?> paymentIterator = order.getPayments().iterator();
-					while (paymentIterator.hasNext()) {
-						Payment next = (Payment) paymentIterator.next();
-						
-						//  Ignore partial fulfillment payments ... looks like a work around in WCS ... no need for this in Venice
-						 
-						if (!next.getPaymentType().equals(VEN_WCS_PAYMENT_TYPE_PartialFulfillment)) {
-							VenOrderPayment venOrderPayment = new VenOrderPayment();
-							
-							 // If the payment already exists then just fish it
-							 // from the DB. This is the case for VA payments as
-							 // they are received before the confirmed order.
-							 
-							VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderPaymentSessionEJBLocal.class, "VenOrderPaymentSessionEJBBeanLocal");
-							List<VenOrderPayment> venOrderPaymentList2 = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId ='" + next.getPaymentId().getCode() + "'", 0, 1);
-							
-							if (venOrderPaymentList2 != null && !venOrderPaymentList2.isEmpty()) {
-								venOrderPayment = venOrderPaymentList2.get(0);
-							}
-							// Map the payment with dozer
-							_log.debug("Mapping the VenOrderPayment object...");
-							_mapper.map(next, venOrderPayment);
-
-							// Set the payment type based on the WCS payment type
-							VenPaymentType venPaymentType = new VenPaymentType();
-							_log.debug("\n mapping payment type");
-							if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_DebitMandiri)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikBCA)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYFullPayment)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							}else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYKartuKredit)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							}else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYKlikBCA)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							}else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYInstallment)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYXPercentInstallment)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYZeroPercentInstallment)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MIGSCreditCard)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_VirtualAccount)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_VA);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_VA);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_CSPayment)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CS);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CS);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MIGSBCAInstallment)){
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_CIMBClicks)) {
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							}  else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_XLTunai)) {
-								_log.debug("payment type XLTunai, reference id: "+next.getReferenceId());
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-								venOrderPayment.setReferenceId(next.getReferenceId());
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MandiriInstallment)){
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_BIIngkisan)){
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_BRI)){
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MandiriDebit)){
-								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
-								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
-								venOrderPayment.setVenPaymentType(venPaymentType);
-							}
-							venOrderPaymentList.add(venOrderPayment);
-						}
-					}					
-					
-					_log.debug("\n persist payment");
-					venOrderPaymentList = this.persistOrderPaymentList(venOrderPaymentList);
-
-					paymentIterator = venOrderPaymentList.iterator();
-					BigDecimal paymentBalance = venOrder.getAmount();
-					int p=0;
-					while (paymentIterator.hasNext()) {
-						VenOrderPayment next = (VenOrderPayment) paymentIterator.next();
-
-						
-						 // Only include the allocations for non-VA payments
-						 // because VA payments are already in the DB
-						 
-						_log.debug("\n allocate payment");
-						
-						 // semua Payment di allocate, untuk payment VA dan non-VA.
-						 
-						//if (!next.getVenPaymentType().getPaymentTypeCode().equals(VEN_PAYMENT_TYPE_VA)) {
-							// Build the allocation list manually based on the payment
-							VenOrderPaymentAllocation allocation = new VenOrderPaymentAllocation();
-							allocation.setVenOrder(venOrder);
-							BigDecimal paymentAmount = next.getAmount();
-							
-							_log.debug("Order Amount = "+paymentBalance);
-							_log.debug("paymentBalance.compareTo(new BigDecimal(0)):  "+paymentBalance.compareTo(new BigDecimal(0)) );
-							
-							// If the balance is greater than zero
-							if (paymentBalance.compareTo(new BigDecimal(0)) >= 0) {
-								
-								 // If the payment amount is greater than the
-								 // balance then allocate the balance amount else
-								 // allocate the payment amount.
-								 
-								if (paymentBalance.compareTo(paymentAmount) < 0) {
-									allocation.setAllocationAmount(paymentBalance);
-									_log.debug("Order Allocation Amount is paymentBalance = "+paymentBalance);
-								} else {
-									allocation.setAllocationAmount(paymentAmount);
-									_log.debug("Order Allocation Amount is paymentAmount = "+paymentAmount);
-								}
-								
-								paymentBalance = paymentBalance.subtract(paymentAmount);
-								allocation.setVenOrderPayment(next);
-
-								// Need a primary key object...
-								VenOrderPaymentAllocationPK venOrderPaymentAllocationPK = new VenOrderPaymentAllocationPK();
-								venOrderPaymentAllocationPK.setOrderPaymentId(next.getOrderPaymentId());
-								venOrderPaymentAllocationPK.setOrderId(venOrder.getOrderId());
-								allocation.setId(venOrderPaymentAllocationPK);
-
-								venOrderPaymentAllocationList.add(allocation);
-								_log.debug("venOrder Payment Allocation List size from looping ke-"+p+" = "+venOrderPaymentAllocationList.size());
-								p++;
-							}
-						//}
-					}
-					_log.debug("\n persist payment allocation");
-					venOrderPaymentAllocationList = this.persistOrderPaymentAllocationList(venOrderPaymentAllocationList);
-					venOrder.setVenOrderPaymentAllocations(venOrderPaymentAllocationList);
-					
-					
-					 // Here we need to create a dummy reconciliation records
-					 // for the non-VA payments so that they appear in the 
-					 // reconciliation screen as unreconciled.
-					 // Later these records will be updated when the funds in
-					 // reports are processed 
-					 					
-					FinArFundsInReconRecordSessionEJBLocal reconRecordHome = (FinArFundsInReconRecordSessionEJBLocal) this._genericLocator
-					.lookupLocal(FinArFundsInReconRecordSessionEJBLocal.class, "FinArFundsInReconRecordSessionEJBBeanLocal");
-					_log.debug("\n create reconciliation record");
-					for (VenOrderPayment payment : venOrderPaymentList) {
-						
-						 // Only insert reconciliation records for non-VA payments here
-						 // because the VA records will have been inserted when a VA payment is received.
-						 
-						if (payment.getVenPaymentType().getPaymentTypeId() != VeniceConstants.VEN_PAYMENT_TYPE_ID_VA 
-								&& payment.getVenPaymentType().getPaymentTypeId() != VeniceConstants.VEN_PAYMENT_TYPE_ID_CS) {
-							FinArFundsInReconRecord reconRecord = new FinArFundsInReconRecord();
-
-							FinArReconResult result = new FinArReconResult();
-							result.setReconResultId(VeniceConstants.FIN_AR_RECON_RESULT_NONE);
-							reconRecord.setFinArReconResult(result);
-							
-							FinArFundsInActionApplied actionApplied = new FinArFundsInActionApplied();
-							actionApplied.setActionAppliedId(VeniceConstants.FIN_AR_FUNDS_IN_ACTION_APPLIED_NONE);
-							reconRecord.setFinArFundsInActionApplied(actionApplied);
-
-							FinApprovalStatus approvalStatus = new FinApprovalStatus();
-							approvalStatus.setApprovalStatusId(VeniceConstants.FIN_APPROVAL_STATUS_NEW);
-							reconRecord.setFinApprovalStatus(approvalStatus);
-							
-							reconRecord.setVenOrderPayment(payment);
-							reconRecord.setWcsOrderId(venOrder.getWcsOrderId());
-							reconRecord.setOrderDate(venOrder.getOrderDate());
-							reconRecord.setPaymentAmount(payment.getAmount());
-							reconRecord.setNomorReff(payment.getReferenceId()!=null?payment.getReferenceId():"");
-
-							// balance per payment amount - handling fee = payment amount, jadi bukan amount order total keseluruhan
-							_log.debug("\n payment Amount  = "+payment.getAmount());
-							_log.debug("\n HandlingFee = "+payment.getHandlingFee());
-							_log.debug("\n setRemainingBalanceAmount = "+payment.getAmount().subtract(payment.getHandlingFee()));
-							
-							reconRecord.setRemainingBalanceAmount(payment.getAmount());
-							reconRecord.setUserLogonName("System");
-							reconRecordHome.persistFinArFundsInReconRecord(reconRecord);
-						}
-					}
-				}			
-			}
-
-			_log.debug("\n done create order!");
-			Long endTime = System.currentTimeMillis();
-			Long duration = endTime - startTime;
-			_log.debug("createOrder: persisted new venOrder.orderId:"
-					+ venOrder.getOrderId() + " status:"
-					+ venOrder.getVenOrderStatus().getOrderStatusCode()
-					+ " in:" + duration + "ms");
-			*/
-
-		/*
-		} catch (Exception e) {
-			String errMsg = "An Exception occured when persisting the order:";
-			_log.error(errMsg + e.getMessage());
-			e.printStackTrace();
-			throw new EJBException(errMsg);
-		} finally{
-			try{
-				if(_genericLocator!=null){
-					_genericLocator.close();
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		*/
+//		if (order.getAmount() == null && (order.isRmaFlag() == null || !order.isRmaFlag())) {
+//			String errMsg = "\n createOrder: message received with no amount";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//
+//		// Customer
+//		if (order.getCustomer() == null) {
+//			String errMsg = "\n createOrder: message received with no customer information record";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//
+//		// Identifier
+//		if (order.getOrderId() == null) {
+//			String errMsg = "\n createOrder: message received with no identifier information record";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//
+//		// Order items
+//		if (order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
+//			String errMsg = "\n createOrder: message received with no order item information record";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//
+//		// Payments
+//		if ((order.isRmaFlag() == null || !order.isRmaFlag()) && (order.getPayments() == null || order.getPayments().isEmpty())) {
+//			String errMsg = "\n createOrder: message received with no payment information record";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//
+//		// Timestamp
+//		if (order.getTimestamp() == null) {
+//			String errMsg = "\n createOrder: message received with no timestamp information record";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//		
+//		// Check the fulfillment status
+//		if (order.getFullfillmentStatus() != null) {
+//			if (order.getFullfillmentStatus() == VEN_FULFILLMENT_STATUS_ONE) {
+//				String errMsg = "\n createOrder: message received fulfillment status = VEN_FULFILLMENT_STATUS_ONE(1). Orders cannot be created with fulfillment status = 1";
+//				_log.error(errMsg);
+//				throw new EJBException(errMsg);
+//
+//			}
+//		}
+//
+//		// Status
+//		if (order.getStatus() == null) {
+//			String errMsg = "\n createOrder: message received with no status information record";
+//			_log.error(errMsg);
+//			throw new EJBException(errMsg);
+//		}
+//
+//		//Shipping
+//		for(OrderItem item : order.getOrderItems()){
+//			if(item.getLogisticsInfo().getLogisticsProvider().getParty().getFullOrLegalName().equalsIgnoreCase("Select Shipping")){
+//				String errMsg = "\n createOrder: message received with wrong Logistic Info ("+item.getLogisticsInfo().getLogisticsProvider().getParty().getFullOrLegalName()+")";
+//				_log.error(errMsg);
+//				throw new EJBException(errMsg);
+//			}
+//		}
+//
+//		/*
+//		 * Check that none of the order items already exist and remove any party
+//		 * record from merchant to prevent data problems from WCS
+//		 */
+//		List <String> merchantProduct =  new ArrayList<String>();
+//		
+//		for (OrderItem item : order.getOrderItems()) {
+//			
+//			if (this.orderItemExists(item.getItemId().getCode())) {
+//				String errMsg = "\n createOrder: message received with an order item that already exists in the database:" + item.getItemId().getCode();
+//				_log.error(errMsg);
+//				throw new EJBException(errMsg);
+//			}
+//			// Remove party from merchant
+//			if (item.getProduct().getMerchant().getParty() != null) {
+//				String merchantSKU = item.getProduct().getMerchant().getMerchantId().getCode()+"&"+(item.getProduct().getMerchant().getParty().getFullOrLegalName()!=null?item.getProduct().getMerchant().getParty().getFullOrLegalName():"");
+//				merchantProduct.add(merchantSKU);
+//				item.getProduct().getMerchant().setParty(null);
+//			}
+//		}
+//
+//		// Do the main processing inside this try/catch block
+//		try {
+//
+//			_genericLocator = new Locator<Object>();
+//			/*
+//			 * If there has been a VA payment then we need to merge the order
+//			 * because it will exist along with all of the payment(s). There may
+//			 * also be IB and CC payments All of the payments MUST be approved
+//			 * before we receive them.
+//			 */
+//			_log.debug("\n check va payment");
+//			Boolean vaPaymentExists = false;
+//			Boolean csPaymentExists = false;
+//			Iterator<Payment> i = order.getPayments().iterator();
+//			while (i.hasNext()) {
+//				Payment next = i.next();
+//				if (next.getPaymentType().equals(VEN_WCS_PAYMENT_TYPE_VirtualAccount)) {
+//					VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderPaymentSessionEJBLocal.class,	"VenOrderPaymentSessionEJBBeanLocal");
+//					List<VenOrderPayment> venOrderPaymentList = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId ='"+ next.getPaymentId().getCode()+ "'", 0, 1);
+//					// Check that the VA payment exists else throw exception
+//					if (venOrderPaymentList == null || venOrderPaymentList.isEmpty()) {
+//						String errMsg = "\n createOrder: An order with a VA payment that does not exist has been received";
+//						_log.error(errMsg);
+//						throw new EJBException(errMsg);
+//					}
+//
+//					/*
+//					 * Check that the VA payment is approved... if not then
+//					 * throw an exception
+//					 */
+//					_log.debug("\n check va payment approval");
+//					VenOrderPayment venOrderPayment = venOrderPaymentList.get(0);
+//					if (!venOrderPayment.getVenPaymentStatus().getPaymentStatusId().equals(VEN_VA_PAYMENT_STATUS_ID_APPROVED)) {
+//						String errMsg = "\n createOrder: An order with an unapproved VA payment has been received";
+//						_log.error(errMsg);
+//						throw new EJBException(errMsg);
+//					}
+//					vaPaymentExists = true;
+//				}
+//				
+//				if (next.getPaymentType().equals(VEN_WCS_PAYMENT_TYPE_CSPayment)) {
+//					VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderPaymentSessionEJBLocal.class,	"VenOrderPaymentSessionEJBBeanLocal");
+//					List<VenOrderPayment> venOrderPaymentList = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId ='"+ next.getPaymentId().getCode()+ "'", 0, 1);
+//					// Check that the CS payment exists else throw exception
+//					if (venOrderPaymentList == null || venOrderPaymentList.isEmpty()) {
+//						String errMsg = "\n createOrder: An order with a CS payment that does not exist has been received";
+//						_log.error(errMsg);
+//						throw new EJBException(errMsg);
+//					}
+//
+//					/*
+//					 * Check that the CS payment is approved... if not then
+//					 * throw an exception
+//					 */
+//					_log.debug("\n check CS payment approval");
+//					VenOrderPayment venOrderPayment = venOrderPaymentList.get(0);
+//					if (!venOrderPayment.getVenPaymentStatus().getPaymentStatusId().equals(VEN_VA_PAYMENT_STATUS_ID_APPROVED)) {
+//						String errMsg = "\n createOrder: An order with an unapproved CS payment has been received";
+//						_log.error(errMsg);
+//						throw new EJBException(errMsg);
+//					}
+//					csPaymentExists = true;
+//				}
+//			}
+//
+//			// Validate if order id already exist for non VA and non CS payments
+//			_log.debug("\n check wcs order id exist 1");
+//			if ((order.getPayments() != null && !order.getPayments().isEmpty())) {
+//				if (!vaPaymentExists && !csPaymentExists) {
+//					if (this.orderExists(order.getOrderId().getCode())) {
+//						String errMsg = "\n createOrder: An order with this WCS orderId already exists: "+ order.getOrderId().getCode();
+//						_log.error(errMsg);
+//						throw new EJBException(errMsg);
+//					}
+//				}
+//			}
+//
+//			/*
+//			 * This is really important. We need to get the order from the DB if
+//			 * it is VA because it will exist and we must update it with all of
+//			 * the details.
+//			 * 
+//			 * There MUST be NO changes to the VA payment data because it MUST
+//			 * be what was sent by Venice to WCS originally. Therefore if the
+//			 * payment information is included then we must not update it.
+//			 */
+//			VenOrder venOrder = new VenOrder();
+//			// If there is a VA payment then get the order from the cache
+//			if (vaPaymentExists || csPaymentExists) {
+//				_log.debug("\n va payment exist, retrieve existing order");
+//				venOrder = this.retreiveExistingOrder(order.getOrderId().getCode());
+//				// If there is no existing VA status order then throw an exception
+//				if (venOrder == null) {
+//					String errMsg = "\n createOrder: message received for an order with VA payments where there is no existing VA status order:" + order.getOrderId().getCode();
+//					_log.error(errMsg);
+//					throw new EJBException(errMsg);
+//				}
+//
+//				/*
+//				 * If the status of the existing order is not VA then it is a duplicate.
+//				 */
+//				_log.debug("\n cek wcs order id exist 2");
+//				if (!venOrder.getVenOrderStatus().getOrderStatusId().equals(VEN_ORDER_STATUS_VA) && !venOrder.getVenOrderStatus().getOrderStatusId().equals(VEN_ORDER_STATUS_CS)) {
+//					String errMsg = "\n createOrder: message received with  the status of the existing order is not VA/CS (duplicate wcs order id):" + venOrder.getWcsOrderId();
+//					_log.error(errMsg);
+//					throw new EJBException(errMsg);
+//				}
+//			} else {
+//				_log.debug("\n cek wcs order id exist 3");
+//				if (this.orderExists(order.getOrderId().getCode())) {
+//					String errMsg = "\n createOrder: message received where an order with WCS orderId already exists:" + venOrder.getWcsOrderId();
+//					_log.error(errMsg);
+//					throw new EJBException(errMsg);
+//				}
+//			}
+//			_log.debug("\n set status to C");
+//			//Set the status of the order explicitly to C (workaround for OpenJPA 2.0 problem)
+//			VenOrderStatus venOrderStatusC = new VenOrderStatus();
+//			venOrderStatusC.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_C);
+//			venOrderStatusC.setOrderStatusCode("C");
+//			venOrder.setVenOrderStatus(venOrderStatusC);
+//
+//			/*
+//			 * Map the jaxb Order object to a JPA VenOrder object. This will be
+//			 * ok for both persist and merge because the PK is not touched and
+//			 * everything must be added anyway (VA payment will only have an
+//			 * orderId and timestamp).
+//			 */
+//			_log.debug("Mapping the order object to the venOrder object...");
+//			_mapper.map(order, venOrder);
+//						
+//			/**
+//			 * Party for merchant
+//			 */
+//			
+//			List<VenOrderItem> orderItems = venOrder.getVenOrderItems();
+//			VenPartySessionEJBLocal venPartyHome = (VenPartySessionEJBLocal) this._genericLocator.lookupLocal(VenPartySessionEJBLocal.class, "VenPartySessionEJBBeanLocal");
+//			VenMerchantSessionEJBLocal venMerchantHome = (VenMerchantSessionEJBLocal) this._genericLocator.lookupLocal(VenMerchantSessionEJBLocal.class, "VenMerchantSessionEJBBeanLocal");
+//		
+//			// Set the defaults for all of the boolean values in venOrder
+//			if (venOrder.getBlockedFlag() == null) {
+//				venOrder.setBlockedFlag(false);
+//			}
+//			if (venOrder.getRmaFlag() == null) {
+//				venOrder.setRmaFlag(false);
+//			}
+//			// Default the finance reconcile flag to false.
+//			venOrder.setFinanceReconcileFlag(false);
+//
+//			// If the order amount is missing then set it to default to 0
+//			if (venOrder.getAmount() == null) {
+//				venOrder.setAmount(new BigDecimal(0));
+//			}
+//			
+//			/*
+//			 * This method call will persist the order if there has been no VA payment else it will merge
+//			 */
+//			_log.debug("\n persist order");
+//			venOrder = this.persistOrder(vaPaymentExists, csPaymentExists, venOrder);
+//			_log.debug("\n done persist order");
+//			
+//				for(String party : merchantProduct){				
+//					String[] temp = party.split("&");
+//					_log.debug("show venParty in orderItem :  "+party);
+//					_log.debug("string merchant :  "+temp[0]+" and "+temp[1]);
+//					if(!temp[1].equals("")){
+//					for(int h =0; h< orderItems.size();h++){
+//						if(orderItems.get(h).getVenMerchantProduct().getVenMerchant().getWcsMerchantId().equals(temp[0])){
+//							List<VenMerchant> venMechantList = venMerchantHome.queryByRange("select o from VenMerchant o where o.wcsMerchantId ='" +temp[0]+ "'", 0, 1);
+//							if( venMechantList.size()>0 || venMechantList!=null ){
+//								if(venMechantList.get(0).getVenParty()==null){
+//									List<VenParty> vePartyList = venPartyHome.queryByRange("select o from VenParty o where o.fullOrLegalName ='" +temp[1]+ "'", 0, 1);
+//										if(vePartyList==null || vePartyList.isEmpty()){
+//											VenParty venPartyitem = new VenParty();
+//											VenPartyType venPartyType = new VenPartyType();
+//											// set party type id = 1 adalah merchant
+//											venPartyType.setPartyTypeId(new Long(1));
+//											venPartyitem.setVenPartyType(venPartyType);
+//											venPartyitem.setFullOrLegalName(temp[1]);	
+//											_log.debug("persist venParty :  "+venPartyitem.getFullOrLegalName());
+//											venPartyitem = venPartyHome.persistVenParty(venPartyitem);	
+//											venMechantList.get(0).setVenParty(venPartyitem);
+//											venMerchantHome.mergeVenMerchant(venMechantList.get(0));
+//											_log.debug(" add  new party for venmerchant (Merchant Id :"+ orderItems.get(h).getVenMerchantProduct().getVenMerchant().getWcsMerchantId() +" )");			
+//										}else{
+//											venMechantList.get(0).setVenParty(vePartyList.get(0));
+//											venMerchantHome.mergeVenMerchant(venMechantList.get(0));
+//											_log.debug(" add  party for venmerchant (Merchant Id :"+ orderItems.get(h).getVenMerchantProduct().getVenMerchant().getWcsMerchantId() +" )");
+//							
+//										}
+//									}
+//								}
+//						}
+//						
+//					}
+//					}else 	_log.debug(" party is null for venmerchant (Merchant Id :"+ temp[0] +" )");
+//						
+//				}
+//		
+//			// If the order is RMA do nothing with payments because there are none
+//			if (!venOrder.getRmaFlag()) {
+//				_log.debug("\n masuk rma flag false, remove payment existing");
+//				// Remove any existing order payment allocations that were allocated at VA stage
+//				this.removeOrderPaymentAllocationList(venOrder);
+//				_log.debug("\n done remove payment existing");
+//				// An array list of order payment allocations
+//				List<VenOrderPaymentAllocation> venOrderPaymentAllocationList = new ArrayList<VenOrderPaymentAllocation>();
+//				List<VenOrderPayment> venOrderPaymentList = new ArrayList<VenOrderPayment>();
+//
+//				/*
+//				 * Allocate the payments to the order.
+//				 */
+//				_log.debug("\n Allocate the payments to the order");				
+//				if (order.getPayments() != null && !order.getPayments().isEmpty()) {
+//					Iterator<?> paymentIterator = order.getPayments().iterator();
+//					while (paymentIterator.hasNext()) {
+//						Payment next = (Payment) paymentIterator.next();
+//						/*
+//						 * Ignore partial fulfillment payments ... looks like a work around in WCS ... no need for this in Venice
+//						 */
+//						if (!next.getPaymentType().equals(VEN_WCS_PAYMENT_TYPE_PartialFulfillment)) {
+//							VenOrderPayment venOrderPayment = new VenOrderPayment();
+//							/*
+//							 * If the payment already exists then just fish it
+//							 * from the DB. This is the case for VA payments as
+//							 * they are received before the confirmed order.
+//							 */
+//							VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderPaymentSessionEJBLocal.class, "VenOrderPaymentSessionEJBBeanLocal");
+//							List<VenOrderPayment> venOrderPaymentList2 = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId ='" + next.getPaymentId().getCode() + "'", 0, 1);
+//							
+//							if (venOrderPaymentList2 != null && !venOrderPaymentList2.isEmpty()) {
+//								venOrderPayment = venOrderPaymentList2.get(0);
+//							}
+//							// Map the payment with dozer
+//							_log.debug("Mapping the VenOrderPayment object...");
+//							_mapper.map(next, venOrderPayment);
+//
+//							// Set the payment type based on the WCS payment type
+//							VenPaymentType venPaymentType = new VenPaymentType();
+//							_log.debug("\n mapping payment type");
+//							if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_DebitMandiri)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikBCA)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYFullPayment)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							}else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYKartuKredit)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							}else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYKlikBCA)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							}else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYInstallment)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYXPercentInstallment)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_KlikPAYZeroPercentInstallment)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MIGSCreditCard)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_VirtualAccount)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_VA);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_VA);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_CSPayment)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CS);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CS);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MIGSBCAInstallment)){
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_CIMBClicks)) {
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							}  else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_XLTunai)) {
+//								_log.debug("payment type XLTunai, reference id: "+next.getReferenceId());
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//								venOrderPayment.setReferenceId(next.getReferenceId());
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MandiriInstallment)){
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_BIIngkisan)){
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_BRI)){
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_IB);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_IB);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							} else if (venOrderPayment.getVenWcsPaymentType().getWcsPaymentTypeCode().equals(VEN_WCS_PAYMENT_TYPE_MandiriDebit)){
+//								venPaymentType.setPaymentTypeCode(VEN_PAYMENT_TYPE_CC);
+//								venPaymentType.setPaymentTypeId(VEN_PAYMENT_TYPE_ID_CC);
+//								venOrderPayment.setVenPaymentType(venPaymentType);
+//							}
+//							venOrderPaymentList.add(venOrderPayment);
+//						}
+//					}					
+//					
+//					_log.debug("\n persist payment");
+//					venOrderPaymentList = this.persistOrderPaymentList(venOrderPaymentList);
+//
+//					paymentIterator = venOrderPaymentList.iterator();
+//					BigDecimal paymentBalance = venOrder.getAmount();
+//					int p=0;
+//					while (paymentIterator.hasNext()) {
+//						VenOrderPayment next = (VenOrderPayment) paymentIterator.next();
+//
+//						/*
+//						 * Only include the allocations for non-VA payments
+//						 * because VA payments are already in the DB
+//						 */
+//						_log.debug("\n allocate payment");
+//						/*
+//						 * semua Payment di allocate, untuk payment VA dan non-VA.
+//						 */
+//						//if (!next.getVenPaymentType().getPaymentTypeCode().equals(VEN_PAYMENT_TYPE_VA)) {
+//							// Build the allocation list manually based on the payment
+//							VenOrderPaymentAllocation allocation = new VenOrderPaymentAllocation();
+//							allocation.setVenOrder(venOrder);
+//							BigDecimal paymentAmount = next.getAmount();
+//							
+//							_log.debug("Order Amount = "+paymentBalance);
+//							_log.debug("paymentBalance.compareTo(new BigDecimal(0)):  "+paymentBalance.compareTo(new BigDecimal(0)) );
+//							
+//							// If the balance is greater than zero
+//							if (paymentBalance.compareTo(new BigDecimal(0)) >= 0) {
+//								/*
+//								 * If the payment amount is greater than the
+//								 * balance then allocate the balance amount else
+//								 * allocate the payment amount.
+//								 */
+//								if (paymentBalance.compareTo(paymentAmount) < 0) {
+//									allocation.setAllocationAmount(paymentBalance);
+//									_log.debug("Order Allocation Amount is paymentBalance = "+paymentBalance);
+//								} else {
+//									allocation.setAllocationAmount(paymentAmount);
+//									_log.debug("Order Allocation Amount is paymentAmount = "+paymentAmount);
+//								}
+//								
+//								paymentBalance = paymentBalance.subtract(paymentAmount);
+//								allocation.setVenOrderPayment(next);
+//
+//								// Need a primary key object...
+//								VenOrderPaymentAllocationPK venOrderPaymentAllocationPK = new VenOrderPaymentAllocationPK();
+//								venOrderPaymentAllocationPK.setOrderPaymentId(next.getOrderPaymentId());
+//								venOrderPaymentAllocationPK.setOrderId(venOrder.getOrderId());
+//								allocation.setId(venOrderPaymentAllocationPK);
+//
+//								venOrderPaymentAllocationList.add(allocation);
+//								_log.debug("venOrder Payment Allocation List size from looping ke-"+p+" = "+venOrderPaymentAllocationList.size());
+//								p++;
+//							}
+//						//}
+//					}
+//					_log.debug("\n persist payment allocation");
+//					venOrderPaymentAllocationList = this.persistOrderPaymentAllocationList(venOrderPaymentAllocationList);
+//					venOrder.setVenOrderPaymentAllocations(venOrderPaymentAllocationList);
+//					
+//					/*
+//					 * Here we need to create a dummy reconciliation records
+//					 * for the non-VA payments so that they appear in the 
+//					 * reconciliation screen as unreconciled.
+//					 * Later these records will be updated when the funds in
+//					 * reports are processed 
+//					 */					
+//					FinArFundsInReconRecordSessionEJBLocal reconRecordHome = (FinArFundsInReconRecordSessionEJBLocal) this._genericLocator
+//					.lookupLocal(FinArFundsInReconRecordSessionEJBLocal.class, "FinArFundsInReconRecordSessionEJBBeanLocal");
+//					_log.debug("\n create reconciliation record");
+//					for (VenOrderPayment payment : venOrderPaymentList) {
+//						/*
+//						 * Only insert reconciliation records for non-VA payments here
+//						 * because the VA records will have been inserted when a VA payment is received.
+//						 */
+//						if (payment.getVenPaymentType().getPaymentTypeId() != VeniceConstants.VEN_PAYMENT_TYPE_ID_VA 
+//								&& payment.getVenPaymentType().getPaymentTypeId() != VeniceConstants.VEN_PAYMENT_TYPE_ID_CS) {
+//							FinArFundsInReconRecord reconRecord = new FinArFundsInReconRecord();
+//
+//							FinArReconResult result = new FinArReconResult();
+//							result.setReconResultId(VeniceConstants.FIN_AR_RECON_RESULT_NONE);
+//							reconRecord.setFinArReconResult(result);
+//							
+//							FinArFundsInActionApplied actionApplied = new FinArFundsInActionApplied();
+//							actionApplied.setActionAppliedId(VeniceConstants.FIN_AR_FUNDS_IN_ACTION_APPLIED_NONE);
+//							reconRecord.setFinArFundsInActionApplied(actionApplied);
+//
+//							FinApprovalStatus approvalStatus = new FinApprovalStatus();
+//							approvalStatus.setApprovalStatusId(VeniceConstants.FIN_APPROVAL_STATUS_NEW);
+//							reconRecord.setFinApprovalStatus(approvalStatus);
+//							
+//							reconRecord.setVenOrderPayment(payment);
+//							reconRecord.setWcsOrderId(venOrder.getWcsOrderId());
+//							reconRecord.setOrderDate(venOrder.getOrderDate());
+//							reconRecord.setPaymentAmount(payment.getAmount());
+//							reconRecord.setNomorReff(payment.getReferenceId()!=null?payment.getReferenceId():"");
+//
+//							// balance per payment amount - handling fee = payment amount, jadi bukan amount order total keseluruhan
+//							_log.debug("\n payment Amount  = "+payment.getAmount());
+//							_log.debug("\n HandlingFee = "+payment.getHandlingFee());
+//							_log.debug("\n setRemainingBalanceAmount = "+payment.getAmount().subtract(payment.getHandlingFee()));
+//							
+//							reconRecord.setRemainingBalanceAmount(payment.getAmount());
+//							reconRecord.setUserLogonName("System");
+//							reconRecordHome.persistFinArFundsInReconRecord(reconRecord);
+//						}
+//					}
+//				}			
+//			}
+//
+//			_log.debug("\n done create order!");
+//			Long endTime = System.currentTimeMillis();
+//			Long duration = endTime - startTime;
+//			_log.debug("createOrder: persisted new venOrder.orderId:"
+//					+ venOrder.getOrderId() + " status:"
+//					+ venOrder.getVenOrderStatus().getOrderStatusCode()
+//					+ " in:" + duration + "ms");
+//
+//		} catch (Exception e) {
+//			String errMsg = "An Exception occured when persisting the order:";
+//			_log.error(errMsg + e.getMessage());
+//			e.printStackTrace();
+//			throw new EJBException(errMsg);
+//		} finally{
+//			try{
+//				if(_genericLocator!=null){
+//					_genericLocator.close();
+//				}
+//			}catch(Exception e){
+//				e.printStackTrace();
+//			}
+//		}
 		
 		Long endTime = System.currentTimeMillis();
 		Long duration = endTime - startTime;
@@ -1212,7 +1214,7 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 		}
 	}
 	
-	private void mapOldOrderItemWithNewOrderItem(VenOrderItem oldOrderItem, OrderItem newOrderItem){
+	private void mapExistingOrderItemWithNewOrderItem(VenOrderItem oldOrderItem, OrderItem newOrderItem){
 		
 		oldOrderItem.setGiftWrapPrice(new BigDecimal(newOrderItem.getLogisticsInfo().getGiftWrapPrice()));
 		oldOrderItem.setInsuranceCost(new BigDecimal(newOrderItem.getFinanceInfo().getLogisticsInsuranceCost()));
@@ -1236,7 +1238,7 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			// Set the status of the adjusted order to FP
 			venOrderItem.setVenOrderStatus(VenOrderStatusFP.createVenOrderStatus());
 			
-			mapOldOrderItemWithNewOrderItem(venOrderItem, orderItem);
+			mapExistingOrderItemWithNewOrderItem(venOrderItem, orderItem);
 			
 			//update shipping address
 			_log.debug("update shipping address");
@@ -1292,10 +1294,136 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			
 			if (orderItem.getItemId().getCode().equals(venOrderItem.getWcsOrderItemId())) {
 				matched = true;
+				updateExistingOrderItemWithNewOrderItem(venOrderItem, orderItem);
 			}
 		}
 		
 		return matched;
+	}
+	
+	private void recalculatePromo(VenOrderItem cancelledVenOrderItem, List<VenOrderItem> venOrderItemList){
+		/*
+		 * Recalculate promo
+		 */
+		List<VenOrderItem> venOrderItems = venOrderItemList;
+		List<VenOrderItemAdjustment> venOrderItemAdjustmentNewSpreadList = new ArrayList<VenOrderItemAdjustment>();
+		_log.debug("Total Order Item : " + venOrderItems.size());
+		
+		BigDecimal totalPromo = new BigDecimal(0);
+		
+		for(VenOrderItem venOrderItem2 : venOrderItems){
+			BigDecimal currentItemShippingAndInsuranceCost = venOrderItem2.getShippingCost().add(venOrderItem2.getInsuranceCost());
+			
+			List<VenOrderItemAdjustment> venOrderItemAdjustmentList = venOrderItemAdjustmentDAO.findByVenOrderItem(venOrderItem2);
+			
+			_log.debug("Total Free Shipping " + currentItemShippingAndInsuranceCost);
+			_log.debug("Total Adjustment for Order Item " + venOrderItem2.getOrderItemId() + " : " + venOrderItemAdjustmentList.size());
+			
+			for(VenOrderItemAdjustment venOrderItemAdjustment:venOrderItemAdjustmentList){
+				_log.debug("Adjustment " + venOrderItemAdjustment.getVenPromotion().getPromotionId() + "," + venOrderItemAdjustment.getVenOrderItem().getOrderItemId() + " : " + venOrderItemAdjustment.getAmount());
+				
+				// sum a not free shipping adjustment
+				if(currentItemShippingAndInsuranceCost.compareTo(venOrderItemAdjustment.getAmount().abs()) != 0){
+					totalPromo = totalPromo.add(venOrderItemAdjustment.getAmount());
+				}
+				
+				// add non free shipping promo for item not cancelled to list
+				if(currentItemShippingAndInsuranceCost.compareTo(venOrderItemAdjustment.getAmount().abs()) != 0 &&
+					venOrderItemAdjustment.getVenOrderItem().getOrderItemId() != cancelledVenOrderItem.getOrderItemId()){
+					
+					venOrderItemAdjustmentNewSpreadList.add(venOrderItemAdjustment);	
+				}
+				
+				// set adjustment amount to Rp 0 for cancelled item
+				if(venOrderItemAdjustment.getVenOrderItem().getOrderItemId() == cancelledVenOrderItem.getOrderItemId()){
+					_log.debug("Merging Adjustment " + venOrderItemAdjustment.getVenPromotion().getPromotionId() + "," + venOrderItemAdjustment.getVenOrderItem().getOrderItemId());
+					
+					venOrderItemAdjustment.setAmount(new BigDecimal(0));
+					venOrderItemAdjustmentDAO.save(venOrderItemAdjustment);
+				}									
+			}
+		}
+		
+		int totalOrderItemAfterPF =  venOrderItems.size() - 1;
+		BigDecimal adjustmentSpread = new BigDecimal(0);
+		
+		if(totalOrderItemAfterPF > 0){
+			adjustmentSpread = totalPromo.divide(new BigDecimal(totalOrderItemAfterPF), 2, RoundingMode.HALF_UP);
+		}
+		
+		_log.debug("Total Promo : " + totalPromo);
+		_log.debug("Total Order Item : " + totalOrderItemAfterPF);
+		_log.debug("Adjustment Spread : " + adjustmentSpread);
+		
+		//merge all non free shipping adjustment with the new adjustment spread
+		for(VenOrderItemAdjustment venOrderItemAdjustmentNewSpread : venOrderItemAdjustmentNewSpreadList){
+			venOrderItemAdjustmentNewSpread.setAmount(adjustmentSpread);
+			
+			_log.debug("Merging Adjustment " + venOrderItemAdjustmentNewSpread.getVenPromotion().getPromotionId() + "," + venOrderItemAdjustmentNewSpread.getVenOrderItem().getOrderItemId());
+
+			venOrderItemAdjustmentDAO.save(venOrderItemAdjustmentNewSpread);
+		}
+	}
+	
+	private void cancelOrderItem(VenOrderItem cancelledVenOrderItem, List<VenOrderItem> venOrderItemList) throws FileNotFoundException, IOException{
+
+		_log.info("the order item in update order is not found, check if it is in PF or OS status in venice");
+		if (cancelledVenOrderItem.getVenOrderStatus().getOrderStatusId() == VEN_ORDER_STATUS_PF || (cancelledVenOrderItem.getVenOrderStatus().getOrderStatusId() == VEN_ORDER_STATUS_OS)) {
+			_log.info("the order item not found in new order, is in PF or OS status in venice, so set to cancel");
+			_log.info("order item id to remove: "+cancelledVenOrderItem.getWcsOrderItemId());
+			
+			recalculatePromo(cancelledVenOrderItem, venOrderItemList);
+			
+			// update order
+			VenOrderStatus canceled = new VenOrderStatus();
+			canceled.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_X);
+			canceled.setOrderStatusCode("X");
+			cancelledVenOrderItem.setVenOrderStatus(canceled);
+			
+			venOrderItemService.mergeVenOrderItem(cancelledVenOrderItem);
+			
+			// send cancelled item to Lombardi
+			Properties properties = new Properties();
+			properties.load(new FileInputStream(BPMAdapter.WEBAPI_PROPERTIES_FILE));
+			String userName = properties.getProperty("javax.xml.rpc.security.auth.username");		
+			String password = BPMAdapter.getUserPasswordFromLDAP(userName);
+			BPMAdapter bpmAdapter = BPMAdapter.getBPMAdapter(userName, password);
+			bpmAdapter.synchronize();
+			
+			HashMap<String, String> taskData = new HashMap<String, String>();
+			taskData.put(ORDERITEMID, cancelledVenOrderItem.getOrderItemId().toString());
+			taskData.put(ORDERID, cancelledVenOrderItem.getVenOrder().getOrderId().toString());							
+
+			try {
+				_log.debug("Starting bpm " + FINANCEORDERITEMCANCELLEDNOTIFICATION);
+				bpmAdapter.startBusinessProcess(FINANCEORDERITEMCANCELLEDNOTIFICATION, taskData);
+				_log.debug("Done starting bpm " + taskData.toString());
+			} catch (Exception e) {
+				_log.error("Error when starting bpm");
+				e.printStackTrace();
+			}
+			
+			_log.debug("the order item is canceled");
+			/*
+			 * Remove the transaction fees because they will be
+			 * applied again when the order goes to PU. Note that
+			 * these cannot be additive but must be applied for the
+			 * whole order.
+			 */
+			_log.debug("remove the transaction fees");
+			List<VenTransactionFee> transFeeList = venTransactionFeeDAO.findByVenOrder(cancelledVenOrderItem.getVenOrder());
+			
+			if(transFeeList.size()>0){
+				_log.debug("removing the transaction fees");
+				venTransactionFeeDAO.delete(transFeeList);
+				_log.debug("done removing the transaction fees");
+			} else{
+				_log.debug("the transaction fees is not found");
+			}						
+		} else {
+			String errMsg = "updateOrder: message received for order with missing order items that are in PF or OS status. Only PF or OS status items can be removed:" + cancelledVenOrderItem.getWcsOrderItemId();
+			_log.error(errMsg);
+		}
 	}
 	
 	/*
@@ -1325,16 +1453,13 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Boolean updateOrder(Order order) {
 		_log.debug("start updateOrder() for order id: "+order.getOrderId());
-				
 		Long startTime = System.currentTimeMillis();
-
 		_log.debug("start validation on updateOrder()");
 		
 		validateUpdateOrderParameters(order);
 
 		// Fetch the order and check that it exists
-		List<VenOrder> venOrderList = venOrderDAO.findByWcsOrderId(order.getOrderId().getCode()); 
-		VenOrder venOrder = ((venOrderList != null) && (!(venOrderList.isEmpty())) ? venOrderList.get(0) : null);
+		VenOrder venOrder = venOrderDAO.findByWcsOrderId(order.getOrderId().getCode());
 		if (venOrder == null) {
 			String errMsg = "updateOrder: message received for order that does not exist:" + order.getOrderId().getCode();
 			_log.error(errMsg);
@@ -1361,12 +1486,9 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			// process the order items
 			_log.debug("process the order items");
 			List<VenOrderItem> venOrderItemList = null;
-			List<VenTransactionFee> transFee = null;
 	
 			try {
 				_genericLocator = new Locator<Object>();
-				VenTransactionFeeSessionEJBLocal transactionFeesHome = (VenTransactionFeeSessionEJBLocal) this._genericLocator.lookupLocal(VenTransactionFeeSessionEJBLocal.class, "VenTransactionFeeSessionEJBBeanLocal");
-				VenOrderItemAdjustmentSessionEJBLocal orderItemAdjustmentHome = (VenOrderItemAdjustmentSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderItemAdjustmentSessionEJBLocal.class, "VenOrderItemAdjustmentSessionEJBBeanLocal");
 				
 				venOrderItemList = venOrderItemDAO.findWithVenOrderStatusByVenOrder(venOrder);
 				_log.debug("venOrderItemList size: "+venOrderItemList.size());
@@ -1388,127 +1510,10 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 					 * If the item was not found, then set to cancel.
 					 */
 					if (!matched) {
-						_log.info("the order item in update order is not found, check if it is in PF or OS status in venice");
-						if (venOrderItem.getVenOrderStatus().getOrderStatusId() == VEN_ORDER_STATUS_PF || (venOrderItem.getVenOrderStatus().getOrderStatusId() == VEN_ORDER_STATUS_OS)) {
-							_log.info("the order item not found in new order, is in PF or OS status in venice, so set to cancel");
-							_log.info("order item id to remove: "+venOrderItem.getWcsOrderItemId());
-							
-							/*
-							 * Recalculate promo
-							 */
-							List<VenOrderItem> venOrderItems = venOrderItemList;
-							List<VenOrderItemAdjustment> venOrderItemAdjustmentNewSpreadList = new ArrayList<VenOrderItemAdjustment>();
-							_log.debug("Total Order Item : " + venOrderItems.size());
-							
-							BigDecimal totalPromo = new BigDecimal(0);
-							
-							for(VenOrderItem venOrderItem2 : venOrderItems){
-								BigDecimal currentItemShippingAndInsuranceCost = venOrderItem2.getShippingCost().add(venOrderItem2.getInsuranceCost());
-								
-								String query = "select o from VenOrderItemAdjustment o where o.venOrderItem.orderItemId = " + venOrderItem2.getOrderItemId();
-								
-								List<VenOrderItemAdjustment> venOrderItemAdjustmentList = orderItemAdjustmentHome.queryByRange(query, 0, 0);
-								
-								_log.debug("Total Free Shipping " + currentItemShippingAndInsuranceCost);
-								_log.debug("Total Adjustment for Order Item " + venOrderItem2.getOrderItemId() + " : " + venOrderItemAdjustmentList.size());
-								
-								for(VenOrderItemAdjustment venOrderItemAdjustment:venOrderItemAdjustmentList){
-									_log.debug("Adjustment " + venOrderItemAdjustment.getVenPromotion().getPromotionId() + "," + venOrderItemAdjustment.getVenOrderItem().getOrderItemId() + " : " + venOrderItemAdjustment.getAmount());
-									
-									// sum a not free shipping adjustment
-									if(currentItemShippingAndInsuranceCost.compareTo(venOrderItemAdjustment.getAmount().abs()) != 0){
-										totalPromo = totalPromo.add(venOrderItemAdjustment.getAmount());
-									}
-									
-									// add non free shipping promo for item not cancelled to list
-									if(currentItemShippingAndInsuranceCost.compareTo(venOrderItemAdjustment.getAmount().abs()) != 0 &&
-										venOrderItemAdjustment.getVenOrderItem().getOrderItemId() != venOrderItem.getOrderItemId()){
-										
-										venOrderItemAdjustmentNewSpreadList.add(venOrderItemAdjustment);	
-									}
-									
-									// set adjustment amount to Rp 0 for cancelled item
-									if(venOrderItemAdjustment.getVenOrderItem().getOrderItemId() == venOrderItem.getOrderItemId()){
-										_log.debug("Merging Adjustment " + venOrderItemAdjustment.getVenPromotion().getPromotionId() + "," + venOrderItemAdjustment.getVenOrderItem().getOrderItemId());
-										
-										venOrderItemAdjustment.setAmount(new BigDecimal(0));
-										orderItemAdjustmentHome.mergeVenOrderItemAdjustment(venOrderItemAdjustment);
-									}									
-								}
-							}
-							
-							int totalOrderItemAfterPF =  venOrderItems.size() - 1;
-							BigDecimal adjustmentSpread = new BigDecimal(0);
-							
-							if(totalOrderItemAfterPF > 0){
-								adjustmentSpread = totalPromo.divide(new BigDecimal(totalOrderItemAfterPF), 2, RoundingMode.HALF_UP);
-							}
-							
-							_log.debug("Total Promo : " + totalPromo);
-							_log.debug("Total Order Item : " + totalOrderItemAfterPF);
-							_log.debug("Adjustment Spread : " + adjustmentSpread);
-							
-							//merge all non free shipping adjustment with the new adjustment spread
-							for(VenOrderItemAdjustment venOrderItemAdjustmentNewSpread : venOrderItemAdjustmentNewSpreadList){
-								venOrderItemAdjustmentNewSpread.setAmount(adjustmentSpread);
-								
-								_log.debug("Merging Adjustment " + venOrderItemAdjustmentNewSpread.getVenPromotion().getPromotionId() + "," + venOrderItemAdjustmentNewSpread.getVenOrderItem().getOrderItemId());
-
-								orderItemAdjustmentHome.mergeVenOrderItemAdjustment(venOrderItemAdjustmentNewSpread);
-							}
-							
-							// update order
-							VenOrderStatus canceled = new VenOrderStatus();
-							canceled.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_X);
-							canceled.setOrderStatusCode("X");
-							venOrderItem.setVenOrderStatus(canceled);
-							
-							venOrderItemService.mergeVenOrderItem(venOrderItem);
-							
-							// send cancelled item to Lombardi
-							Properties properties = new Properties();
-							properties.load(new FileInputStream(BPMAdapter.WEBAPI_PROPERTIES_FILE));
-							String userName = properties.getProperty("javax.xml.rpc.security.auth.username");		
-							String password = BPMAdapter.getUserPasswordFromLDAP(userName);
-							BPMAdapter bpmAdapter = BPMAdapter.getBPMAdapter(userName, password);
-							bpmAdapter.synchronize();
-							
-							HashMap<String, String> taskData = new HashMap<String, String>();
-							taskData.put(ORDERITEMID, venOrderItem.getOrderItemId().toString());
-							taskData.put(ORDERID, venOrder.getOrderId().toString());							
-	
-							try {
-								_log.debug("Starting bpm " + FINANCEORDERITEMCANCELLEDNOTIFICATION);
-								bpmAdapter.startBusinessProcess(FINANCEORDERITEMCANCELLEDNOTIFICATION, taskData);
-								_log.debug("Done starting bpm " + taskData.toString());
-							} catch (Exception e) {
-								_log.error("Error when starting bpm");
-								e.printStackTrace();
-							}
-							
-							_log.debug("the order item is canceled");
-							/*
-							 * Remove the transaction fees because they will be
-							 * applied again when the order goes to PU. Note that
-							 * these cannot be additive but must be applied for the
-							 * whole order.
-							 */
-							_log.debug("remove the transaction fees");
-							transFee = transactionFeesHome.queryByRange("select o from VenTransactionFee o where o.venOrder.orderId ="+ venOrder.getOrderId(), 0, 0);
-							if(transFee.size()>0){
-								_log.debug("removing the transaction fees");
-								venOrder.setVenTransactionFees(transFee);
-								transactionFeesHome.removeVenTransactionFeeList(venOrder.getVenTransactionFees());
-								_log.debug("done removing the transaction fees");
-							} else{
-								_log.debug("the transaction fees is not found");
-							}						
-						} else {
-							String errMsg = "updateOrder: message received for order with missing order items that are in PF or OS status. Only PF or OS status items can be removed:" + order.getOrderId().getCode();
-							_log.error(errMsg);
-						}
-					}
+						cancelOrderItem(venOrderItem, venOrderItemList);
+					} 
 				}
+				
 			} catch (Exception e) {
 				String errMsg = "updateOrder: an exception occured when looking up VenOrderItemSessionEJBBean: " + e.getMessage();
 				_log.error(errMsg);
@@ -1517,26 +1522,16 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			
 			// Merge the order
 			try {
+				
 				VenOrderSessionEJBLocal orderHome = (VenOrderSessionEJBLocal) this._genericLocator.lookupLocal(VenOrderSessionEJBLocal.class, "VenOrderSessionEJBBeanLocal");
 				_log.debug("merge order");
 				venOrder = (VenOrder) orderHome.mergeVenOrder(venOrder);
 				_log.debug("done merge order");
 				
 				_log.debug("start add order history");
-				VenOrderStatusHistorySessionEJBLocal orderHistorySessionHome = (VenOrderStatusHistorySessionEJBLocal) this._genericLocator
-				.lookupLocal(VenOrderStatusHistorySessionEJBLocal.class, "VenOrderStatusHistorySessionEJBBeanLocal");
-							
-				VenOrderStatusHistoryPK venOrderStatusHistoryPK = new VenOrderStatusHistoryPK();
-				venOrderStatusHistoryPK.setOrderId(new Long(venOrder.getOrderId()));
-				venOrderStatusHistoryPK.setHistoryTimestamp(new Timestamp(System.currentTimeMillis()));
-				
-				VenOrderStatusHistory orderStatusHistory = new VenOrderStatusHistory();
-				orderStatusHistory.setId(venOrderStatusHistoryPK);
-				orderStatusHistory.setStatusChangeReason("Updated by System (Partial Fulfillment)");
-				orderStatusHistory.setVenOrderStatus(statusFP);
-				
-				orderHistorySessionHome.persistVenOrderStatusHistory(orderStatusHistory);	
+				venOrderStatusHistoryService.savePartialPartialFulfillmentVenOrderStatusHistory(venOrder);
 				_log.debug("done add order status history");
+				
 			} catch (Exception e) {
 				String errMsg = "updateOrder: An Exception occured when merging VenOrder:" + e.getMessage();
 				_log.error(errMsg);
@@ -2191,7 +2186,7 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			if (order.getOrderItems().get(0).getStatus().equals("CX") || order.getOrderItems().get(0).getStatus().equals("PU")) {
 				// Checks for CX status change messages
 				if (order.getOrderItems().get(0).getStatus().equals("CX")) {
-					// If the order Item is CX then the order must contain transaction fees
+					/* // If the order Item is CX then the order must contain transaction fees
 					if (order.getTransactionFees() == null || order.getTransactionFees().isEmpty()) {
 						String errMsg = "updateOrderItemStatus: message received having an order item status CX with no transaction fee information records";
 						_log.error(errMsg);
@@ -2215,7 +2210,7 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 						_log.error(errMsg);
 						throw new EJBException(errMsg);
 
-					}
+					}*/
 				}
 				// Checks for PU status change messages
 				if (order.getOrderItems().get(0).getStatus().equals("PU")) {
@@ -2509,7 +2504,8 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 
 					// Link it back to the order item
 					venSettlementRecord.setVenOrderItem(venOrderItem);
-
+					venSettlementRecord.setCommissionValue(null);
+					
 					// Persist the settlement record
 					venSettlementRecord = settlementRecordHome.persistVenSettlementRecord(venSettlementRecord);
 
@@ -2614,37 +2610,16 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 															
 								//if activityResultStatus OK, then set to approved, this will trigger CX finance.
 								_log.debug("activity result status: "+mtaAirwayBill.getActivityResultStatus());
-								if(mtaAirwayBill.getActivityResultStatus().equals("OK")){
-									_log.debug("activity result status OK, set approval status to approved to trigger CX finance");
-									LogApprovalStatus activityStatusApproved = new LogApprovalStatus();
-									activityStatusApproved.setApprovalStatusId(VeniceConstants.LOG_APPROVAL_STATUS_APPROVED);
-									logAirwayBill.setLogApprovalStatus2(activityStatusApproved);
-									logAirwayBill.setActivityApprovedByUserId("System");
-								}
+								
+								_log.debug("activity result status OK, set approval status to approved to trigger CX finance");
+								LogApprovalStatus activityStatusApproved = new LogApprovalStatus();
+								activityStatusApproved.setApprovalStatusId(VeniceConstants.LOG_APPROVAL_STATUS_APPROVED);
+								logAirwayBill.setLogApprovalStatus2(activityStatusApproved);
+								logAirwayBill.setActivityApprovedByUserId("System");
 								
 								conn.close();
 								conn = null;
 								
-//								// BPM notification - call Lombardi
-//								try {
-//									Properties properties = new Properties();
-//									properties.load(new FileInputStream(BPMAdapter.WEBAPI_PROPERTIES_FILE));
-	//
-//									String userName = properties.getProperty("javax.xml.rpc.security.auth.username");
-//									BPMAdapter bpmAdapter = BPMAdapter.getBPMAdapter(userName, BPMAdapter.getUserPasswordFromLDAP(userName));
-//									bpmAdapter.synchronize();
-	//
-//									HashMap<String, String> taskData = new HashMap<String, String>();
-//									taskData.put(AIRWAYBILLID, logAirwayBill.getAirwayBillId().toString());
-//									
-//									_log.debug("Task data:" + taskData);
-	//
-//									bpmAdapter.startBusinessProcess(LOGISTICSMTADATAACTIVITYRECONCILIATION, taskData);
-//									_log.info("A BPM process has been started to notify AWB activity reconciliation");
-//								} catch (Exception e) {
-//									_log.error("An exception occured when starting a BPM process to notify AWB activity reconciliation on CX");
-//									e.printStackTrace();
-//								}
 							}
 							
 							logAirwayBill.setMtaData(true);
@@ -2652,9 +2627,6 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 							/*
 							 * The else case is for data from MTA with no prior activity or invoice report data (only a dummy AWB from PU status)
 							 */
-
-//							logAirwayBill.setLogLogisticsProvider(venOrderItem.getLogLogisticService().getLogLogisticsProvider());
-
 							LogApprovalStatus activityApprovalStatus = new LogApprovalStatus();
 							activityApprovalStatus.setApprovalStatusId(new Long(0));
 							LogApprovalStatus invoiceApprovalStatus = new LogApprovalStatus();
@@ -2706,26 +2678,43 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 						List<VenSettlementRecord> venSettlementRecordList = new ArrayList<VenSettlementRecord>();
 						VenSettlementRecord venSettlementRecord = new VenSettlementRecord();
 						
-						_mapper.map(order.getOrderItems().get(0).getSettlementRecord(), venSettlementRecord);
+						if (order.getOrderItems().get(0).getSettlementRecord() != null) {
+                            _mapper.map(order.getOrderItems().get(0).getSettlementRecord(), venSettlementRecord);
 
-						venSettlementRecord.setVenOrderItem(venOrderItem);
+                            venSettlementRecord.setVenOrderItem(venOrderItem);
 
-						venSettlementRecord = settlementRecordHome.persistVenSettlementRecord(venSettlementRecord);
-						_log.debug("settlement code: " + venSettlementRecord.getSettlementCode());
-						_log.debug("settlement type: " + venSettlementRecord.getSettlementRecordType());
-						_log.debug("commision type: " + venSettlementRecord.getCommissionType());
-						
-						venSettlementRecordList.add(venSettlementRecord);
-						venOrderItem.setVenSettlementRecords(venSettlementRecordList);
+                            venSettlementRecord = settlementRecordHome.persistVenSettlementRecord(venSettlementRecord);
+                            _log.debug("settlement code: " + venSettlementRecord.getSettlementCode());
+                            _log.debug("settlement type: " + venSettlementRecord.getSettlementRecordType());
+                            _log.debug("commision type: " + venSettlementRecord.getCommissionType());
+
+                            venSettlementRecordList.add(venSettlementRecord);
+                            venOrderItem.setVenSettlementRecords(venSettlementRecordList);
+                        }
 						
 						VenOrderStatus statusCX = new VenOrderStatus();
 						statusCX.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_CX);
 						statusCX.setOrderStatusCode("CX");
-						venOrderItem.setVenOrderStatus(statusCX);				
+						venOrderItem.setVenOrderStatus(statusCX);			
+						
+						/*
+                         * Sales record creation has been moved to separated batch 
+                         */
+                        //if order item status BP, update item status to ready so sales record can be created
+                        venOrderItem.setSalesBatchStatus(VeniceConstants.FIN_SALES_BATCH_STATUS_READY);
+                        //set transaction fee      
+                        if (order.getTransactionFees() != null && venOrderItem.getTransactionFeeAmount() == null) {
+                            Iterator<TransactionFee> transactionFeesIterator = order.getTransactionFees().iterator();
+                            while (transactionFeesIterator.hasNext()) {
+                                TransactionFee next = transactionFeesIterator.next();
+                                venOrderItem.setTransactionFeeAmount(new BigDecimal(next.getAmount()));
+                            }
+                        }
 					}								
 					
 					//jika status PP, dan terima settlement dari mta, maka status kembali ke ES.
 					if(venOrderItem.getVenOrderStatus().getOrderStatusId().equals(VEN_ORDER_STATUS_PP)){
+						isBigProductOrBp = false;
 						_log.info("set order status back to ES (PP to CX from MTA)");
 						VenOrderStatus venOrderStatus = new VenOrderStatus();
 						venOrderStatus.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_ES);
@@ -2744,25 +2733,6 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 					orderItemHome.mergeVenOrderItem(venOrderItem);
 					
 					_log.debug("status after merge: "+venOrderItem.getVenOrderStatus().getOrderStatusCode());
-					
-					/*
-					 * Sales record creation has been moved to separated batch 
-					 */
-					//if order item status BP, create sales record
-//					if(isBigProductOrBp){
-//						_log.info("Prepare to create sales record for order item Big product / BP: "+venOrderItem.getWcsOrderItemId());
-//						SalesRecordGenerator salesRecordGenerator = new SalesRecordGenerator();
-//						boolean result = salesRecordGenerator.createOrUpdateSalesRecord(venOrderItem);
-//						
-//						if(result==true){
-//							_log.info("sales record created for order item Big product / BP: "+venOrderItem.getWcsOrderItemId());
-//						}else{
-//							_log.info("sales record creation failed for order item Big product / BP: "+venOrderItem.getWcsOrderItemId());
-//						}
-//					}
-					
-					//set transaction fee
-					setTransactionFee(venOrder, venOrderItem, order);
 					
 					_log.debug("add order item status history CX MTA");
 					_log.debug("\n wcs order item id: "+venOrderItem.getWcsOrderItemId());
@@ -2786,6 +2756,30 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 					orderItemHistorySessionHome.persistVenOrderItemStatusHistory(orderItemStatusHistory);	
 					_log.debug("done add order item status history");
 					
+			        
+                    Timestamp cxFinanceDate = null;
+        
+                    if (isBigProductOrBp) {
+                        _log.debug("add order item status history CX Finance");
+                        _log.debug("\n wcs order item id: " + venOrderItem.getWcsOrderItemId());
+                        venOrderItemStatusHistoryPK = new VenOrderItemStatusHistoryPK();
+                        venOrderItemStatusHistoryPK.setOrderItemId(venOrderItem.getOrderItemId());
+
+                        cxFinanceDate = new Timestamp(System.currentTimeMillis());
+                        venOrderItemStatusHistoryPK.setHistoryTimestamp(cxFinanceDate);
+
+                        VenOrderStatus orderStatusCXFin = new VenOrderStatus();
+                        orderStatusCXFin.setOrderStatusId(VeniceConstants.VEN_ORDER_STATUS_CX);
+
+                        orderItemStatusHistory = new VenOrderItemStatusHistory();
+                        orderItemStatusHistory.setId(venOrderItemStatusHistoryPK);
+                        orderItemStatusHistory.setStatusChangeReason("Updated by System (CX Finance)");
+                        orderItemStatusHistory.setVenOrderStatus(orderStatusCXFin);
+
+                        orderItemHistorySessionHome.persistVenOrderItemStatusHistory(orderItemStatusHistory);
+                        _log.debug("done add order item status history");
+                    }
+                    
 					//add cx mta date to sales record
 					_log.debug("check sales record exist");
 					FinSalesRecordSessionEJBLocal salesRecordSessionHome = (FinSalesRecordSessionEJBLocal) this._genericLocator
@@ -2797,7 +2791,9 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 						_log.debug("sales record found, add CX MTA date in sales record");
 						FinSalesRecord finSalesRecord=finSalesRecords.get(0);
 						finSalesRecord.setCxMtaDate(cxMtaDate);
-						
+						if (isBigProductOrBp) {
+                            finSalesRecord.setCxFinanceDate(cxFinanceDate);
+                        }
 						salesRecordSessionHome.mergeFinSalesRecord(finSalesRecord);
 					}					
 				}
@@ -3201,7 +3197,6 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 	 * @return an existing order item or null if it doesn't exist
 	 */
 	private VenOrderItem retrieveExistingOrderItem(String wcsOrderItemId) {
-		/*
 		try {
 			VenOrderItemSessionEJBLocal orderItemHome = (VenOrderItemSessionEJBLocal) this._genericLocator
 					.lookupLocal(VenOrderItemSessionEJBLocal.class, "VenOrderItemSessionEJBBeanLocal");
@@ -3217,9 +3212,6 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			e.printStackTrace();
 			throw new EJBException(errMsg + e.getMessage());
 		}
-		*/
-		List<VenOrderItem> venOrderItemList = venOrderItemDAO.findByWcsOrderItemId(wcsOrderItemId);
-		return (((venOrderItemList != null) && (!(venOrderItemList.isEmpty()))) ? venOrderItemList.get(0) : null);
 	}
 	
 	/**
@@ -6712,120 +6704,82 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 			return newVenReturItemList;
 		}						
 		
-		private void setTransactionFee(VenOrder venOrder, VenOrderItem venOrderItem, Order order) throws Exception{
-			_log.debug("[venInbound] set transaction fee");
-			VenTransactionFeeSessionEJBLocal transactionFeeHome = (VenTransactionFeeSessionEJBLocal) this._genericLocator
-			.lookupLocal(VenTransactionFeeSessionEJBLocal.class, "VenTransactionFeeSessionEJBBeanLocal");
-			
-			VenSettlementRecordSessionEJBLocal settlementRecordHome = (VenSettlementRecordSessionEJBLocal) this._genericLocator
-			.lookupLocal(VenSettlementRecordSessionEJBLocal.class, "VenSettlementRecordSessionEJBBeanLocal");
-						
-			FinSalesRecordSessionEJBLocal salesRecordHome = (FinSalesRecordSessionEJBLocal) this._genericLocator
-			.lookupLocal(FinSalesRecordSessionEJBLocal.class, "FinSalesRecordSessionEJBBeanLocal");
-			
-			// Synchronize the reference data for each record
-			Iterator<TransactionFee> transactionFeesIterator = order.getTransactionFees().iterator();
-			while (transactionFeesIterator.hasNext()) {
-				TransactionFee next = transactionFeesIterator.next();
-				VenMerchant venMerchant = new VenMerchant();
-				venMerchant.setWcsMerchantId(next.getMerchant().getMerchantId().getCode());
-				venMerchant = this.retrieveExistingMerchant(venMerchant.getWcsMerchantId());
+		private void setTransactionFee(VenOrder venOrder, VenOrderItem venOrderItem, Order order) throws Exception {
+	        _log.debug("[venInbound] set transaction fee");
+	        VenOrderItemSessionEJBLocal venOrderItemHome = (VenOrderItemSessionEJBLocal) this._genericLocator
+	                .lookupLocal(VenOrderItemSessionEJBLocal.class, "VenOrderItemSessionEJBBeanLocal");
 
-				VenTransactionFee venTransactionFee = this.retrieveExistingTransactionFee(venOrder, venMerchant);
+	        // Synchronize the reference data for each record
+	        Iterator<TransactionFee> transactionFeesIterator = order.getTransactionFees().iterator();
+	        while (transactionFeesIterator.hasNext()) {
+	            TransactionFee next = transactionFeesIterator.next();
+	            String sql = "select o from VenOrderItem o where o.wcsOrderItemId ='" + venOrderItem.getWcsOrderItemId() + "' and o.transactionFeeAmount is null";
+	            List<VenOrderItem> venOrderItemList = venOrderItemHome.queryByRange(sql, 0, 0);
+	            if (!venOrderItemList.isEmpty()) {
+	                VenOrderItem item = venOrderItemList.get(0);
+	                item.setTransactionFeeAmount(new BigDecimal(next.getAmount()));
+	                item = venOrderItemHome.mergeVenOrderItem(item);
+	            }
+	        }
+	    }
 
-				if (venTransactionFee != null) {
-					/*
-					 * If the transaction fee if a record for that merchant already exists then just update it with the new value. 
-					 * This cannot be additive because of partial fulfillment. 
-					 * When that happens there is no way to match the transaction fees on an order item basis.
-					 * The fees must be deleted by the updateOrder message when the partial fulfillment is remedied
-					 */
-					_log.debug("[venInbound] transaction fee exist, cek transfee amount: "+next.getAmount());
-					BigDecimal newTransFee = new BigDecimal(next.getAmount());
-					
-					if(newTransFee.compareTo(new BigDecimal(0))!=0){
-						_log.debug("[venInbound] newTransFee is > 0, set and merge");						
-						venTransactionFee.setFeeAmount(new BigDecimal(next.getAmount()));
-						
-						// merge the transaction fees
-						transactionFeeHome.mergeVenTransactionFee(venTransactionFee);
-					}
-				} else {
-					_log.debug("[venInbound] transaction fee not exist, set new transaction fee, amount: "+next.getAmount());
-					venTransactionFee = new VenTransactionFee();
-					VenTransactionFeePK id = new VenTransactionFeePK();
-					id.setMerchantId(venMerchant.getMerchantId());
-					id.setOrderId(venOrder.getOrderId());
-					venTransactionFee.setId(id);
+	    /**
+	     * Gets the merchant specific transaction fees for the order item.
+	     *
+	     * @param locator is a locator to use
+	     * @param venOrderItem is the order item in question
+	     * @return the merchant transaction fees
+	     */
+	    public BigDecimal getMerchantTransactionFees(Locator<Object> locator, VenOrderItem venOrderItem) {
+	        _log.debug("get transaction fee from VenTransactionFee");
+	        BigDecimal transactionFeeAmount = new BigDecimal(0);
+	        try {
+	            VenTransactionFeeSessionEJBLocal transactionFeeHome = (VenTransactionFeeSessionEJBLocal) locator
+	                    .lookupLocal(VenTransactionFeeSessionEJBLocal.class, "VenTransactionFeeSessionEJBBeanLocal");
 
-					venTransactionFee.setVenMerchant(venMerchant);
-					venTransactionFee.setVenOrder(venOrder);
-					venTransactionFee.setFeeAmount(new BigDecimal(next.getAmount()));
-					
-					// Persist the transaction fees
-					transactionFeeHome.persistVenTransactionFee(venTransactionFee);
-				}
-			}
-			
-			_log.debug("check settlement record");
-			List<VenSettlementRecord> settlementRecordList = settlementRecordHome
-					.queryByRange("select o from VenSettlementRecord o where o.venOrderItem.orderItemId = " + venOrderItem.getOrderItemId(), 0, 0);
-			
-			if (settlementRecordList != null) {
-				VenSettlementRecord venSettlementRecord = settlementRecordList.get(0);
-				
-				/*
-				 * Cek sales record exist, if yes update the transaction fee in fin_sales_record
-				 */
-				_log.debug("[venInbound] check sales record exist");
-				List<FinSalesRecord> salesRecordList = retrieveExistingSalesRecord(venOrderItem);
-				
-				FinSalesRecord sales = new FinSalesRecord();
-				sales = salesRecordList.get(0);
-				
-				if(salesRecordList!=null && salesRecordList.size()>0){		
-					_log.debug("[venInbound] sales record exist, update transaction fee");
-					if(venSettlementRecord.getCommissionType().equals("CM") || venSettlementRecord.getCommissionType().equals("RB")){
-						_log.debug("[venInbound] merchant type is CM or RB: "+venSettlementRecord.getCommissionType());									
-						
-						_log.debug("[venInbound] check trans fee exist in sales record");						
-						SalesRecordGenerator salesRecordGenerator = new SalesRecordGenerator();
-						Boolean flagTransFeeExist = salesRecordGenerator.isTransFeeExist(this._genericLocator, venOrderItem);
-						if(flagTransFeeExist==false){
-							_log.debug("[venInbound] trans fee not exist in sales record, set transaction fee");
-							BigDecimal gdnTransactionFeeAmountBeforeTax = new BigDecimal(0);
-							gdnTransactionFeeAmountBeforeTax.setScale(2, RoundingMode.HALF_UP);
-							
-							gdnTransactionFeeAmountBeforeTax = salesRecordGenerator.getMerchantTransactionFees(this._genericLocator, venOrderItem);
-							sales.setGdnTransactionFeeAmount(gdnTransactionFeeAmountBeforeTax);
-							
-							BigDecimal gdnTransactionFeeAmountAfterTax = new BigDecimal(0);
-							gdnTransactionFeeAmountAfterTax.setScale(2, RoundingMode.HALF_UP);
-							
-							if (VeniceConstants.VEN_GDN_PPN_RATE > 0) {
-								BigDecimal gdnPPN_Divisor = new BigDecimal(VeniceConstants.VEN_GDN_PPN_RATE).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP).add(new BigDecimal(1));
-								gdnTransactionFeeAmountAfterTax = gdnTransactionFeeAmountBeforeTax.divide(gdnPPN_Divisor, 2, RoundingMode.HALF_UP);
-							}
-							
-							BigDecimal gdnTransactionFeeAmountPPN = gdnTransactionFeeAmountBeforeTax.subtract(gdnTransactionFeeAmountAfterTax);
-							BigDecimal vatAmount = sales.getVatAmount().add(gdnTransactionFeeAmountPPN);
-							
-							_log.debug("[venInbound] update ppn amount in sales record");
-							vatAmount.setScale(2, RoundingMode.HALF_UP);
-							sales.setVatAmount(vatAmount);	
-							
-							salesRecordHome.mergeFinSalesRecord(sales);
-						}else{
-							_log.debug("[venInbound] trans fee exist, don't set transaction fee");
-						}
-					}else{
-						_log.debug("[venInbound] merchant type is Not CM or RB: "+venSettlementRecord.getCommissionType());
-					}
-				}else{
-					_log.debug("[venInbound] sales record not exist yet");
-				}
-			}else{
-				_log.debug("[venInbound] settlement is null");
-			}
-		}
+	            List<VenTransactionFee> transactionFeeList = transactionFeeHome.queryByRange("select o from VenTransactionFee o where o.venOrder.orderId =" + venOrderItem.getVenOrder().getOrderId()
+	                    + " and o.venMerchant.merchantId =" + venOrderItem.getVenMerchantProduct().getVenMerchant().getMerchantId(), 0, 1);
+
+	            if (transactionFeeList.size() > 0) {
+	                _log.debug("transaction fee found for order: " + venOrderItem.getVenOrder().getOrderId() + " and merchant id: " + venOrderItem.getVenMerchantProduct().getVenMerchant().getMerchantId());
+	                transactionFeeAmount = transactionFeeAmount.add(transactionFeeList.get(0).getFeeAmount());
+	                _log.debug("transaction fee amount: " + transactionFeeList.get(0).getFeeAmount());
+	            }
+	        } catch (Exception e) {
+	            String errorText = e.getMessage();
+	            e.printStackTrace();
+	            throw new EJBException(errorText);
+	        }
+
+	        return transactionFeeAmount;
+	    }
+
+	    public boolean isTransFeeExist(Locator<Object> locator, VenOrderItem venOrderItem) {
+	        _log.debug("check trans fee exist");
+	        boolean isTransFeeExist = false;
+	        try {
+	            FinSalesRecordSessionEJBLocal finSalesRecordHome = (FinSalesRecordSessionEJBLocal) locator
+	                    .lookupLocal(FinSalesRecordSessionEJBLocal.class, "FinSalesRecordSessionEJBBeanLocal");
+
+	            List<FinSalesRecord> finSalesRecordList = finSalesRecordHome.queryByRange("select o from FinSalesRecord o where o.venOrderItem.venOrder.orderId = " + venOrderItem.getVenOrder().getOrderId()
+	                    + " and o.venOrderItem.venMerchantProduct.venMerchant.merchantId=" + venOrderItem.getVenMerchantProduct().getVenMerchant().getMerchantId(), 0, 0);
+
+	            if (finSalesRecordList.size() > 0) {
+	                for (FinSalesRecord finSalesRecord : finSalesRecordList) {
+	                    if (finSalesRecord.getGdnTransactionFeeAmount().compareTo(new BigDecimal(0)) == 1) {
+	                        _log.debug("found transaction fee for other sales record with same merchant and amount > 0");
+	                        isTransFeeExist = true;
+	                        break;
+	                    }
+	                }
+	            }
+	        } catch (Exception e) {
+	            String errorText = e.getMessage();
+	            _log.error(errorText);
+	            e.printStackTrace();
+	            throw new EJBException(errorText);
+	        }
+
+	        return isTransFeeExist;
+	    }
 }

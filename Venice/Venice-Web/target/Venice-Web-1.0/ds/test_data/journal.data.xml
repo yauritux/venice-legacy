@@ -1,0 +1,40 @@
+<finance>
+	<fundinreconciliation>
+		<reconciliationitem>
+			<orderid>ABC</orderid>
+			<orderdate>2011-01-01T10:00:00Z</orderdate>
+			<bank>BCA</bank>
+			<report>fi_rpt_2010_12_30_mandiri_va.xml</report>
+			<paymentid>P1</paymentid>
+			<paymenttype>VA</paymenttype>
+			<paymentamount>300000</paymentamount>
+			<paidamount>150000</paidamount>
+			<balance>-150000</balance>
+			<aging>2</aging>
+			<status>Partial Payment</status>
+			<approvalstatus>Approved</approvalstatus>
+			<bankfee>5000</bankfee>
+			<reconciliationstatus>Reconciled</reconciliationstatus>
+			<comment>Finance Head: Approved and Journaled</comment>
+		</reconciliationitem>
+		
+		<reconciliationitem>
+			<orderid>JKL</orderid>
+			<orderdate>2011-01-01T10:00:00Z</orderdate>
+			<bank>BCA</bank>
+			<report>fi_rpt_2010_12_30_mandiri_va.xml</report>
+			<paymentid>P5</paymentid>
+			<paymenttype>CC</paymenttype>
+			<paymentamount>200000</paymentamount>
+			<paidamount>200000</paidamount>
+			<balance>00</balance>
+			<aging>0</aging>
+			<status>Reconciliation OK</status>
+			<approvalstatus>New</approvalstatus>
+			<bankfee>5000</bankfee>
+			<reconciliationstatus>Reconciled</reconciliationstatus>
+			<comment></comment>
+		</reconciliationitem>
+		
+	</fundinreconciliation>
+</finance>

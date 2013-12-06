@@ -97,6 +97,4 @@ public interface VenOrderPaymentSessionEJBLocal {
 	 */
 	public FinderReturn findByVenOrderPaymentLikeFR(VenOrderPayment venOrderPayment,
 			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
-	
-
 }

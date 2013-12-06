@@ -12,14 +12,11 @@ import com.djarum.raf.utilities.Locator;
 import com.djarum.raf.utilities.Log4jLoggerFactory;
 import com.gdn.venice.client.app.DataNameTokens;
 import com.gdn.venice.facade.FinSalesRecordSessionEJBRemote;
-import com.gdn.venice.facade.VenOrderItemStatusHistorySessionEJBRemote;
 import com.gdn.venice.persistence.FinSalesRecord;
-import com.gdn.venice.persistence.VenOrderItemStatusHistory;
 import com.gdn.venice.server.command.RafDsCommand;
 import com.gdn.venice.server.data.RafDsRequest;
 import com.gdn.venice.server.data.RafDsResponse;
 import com.gdn.venice.server.util.DateToXsdDatetimeFormatter;
-import com.gdn.venice.util.VeniceConstants;
 
 public class FetchMerchantPaymentProcessingDataCommand implements RafDsCommand {
 	RafDsRequest request;
@@ -43,12 +40,8 @@ public class FetchMerchantPaymentProcessingDataCommand implements RafDsCommand {
 			
 			FinSalesRecordSessionEJBRemote finSalesRecordSessionHome = (FinSalesRecordSessionEJBRemote) locator
 			.lookup(FinSalesRecordSessionEJBRemote.class, "FinSalesRecordSessionEJBBean");
-						
-			VenOrderItemStatusHistorySessionEJBRemote venOrderItemStatusHistorySessionHome = (VenOrderItemStatusHistorySessionEJBRemote) locator
-			.lookup(VenOrderItemStatusHistorySessionEJBRemote.class, "VenOrderItemStatusHistorySessionEJBBean");
-						
+									
 			List<FinSalesRecord> finSalesRecordList = null;
-			List<VenOrderItemStatusHistory> historyList = null;
 			
 			FinSalesRecord salesRecord = new FinSalesRecord();
 
@@ -66,9 +59,8 @@ public class FetchMerchantPaymentProcessingDataCommand implements RafDsCommand {
 				int length = finSalesRecordList.size();
 				for (int i=0;i<length;i++) {
 					salesRecord = finSalesRecordList.get(i);
-					
-					historyList=venOrderItemStatusHistorySessionHome.queryByRange("Select o from VenOrderItemStatusHistory o where o.venOrderItem.orderItemId=" + salesRecord.getVenOrderItem().getOrderItemId()  +" and o.venOrderStatus.orderStatusId="+VeniceConstants.VEN_ORDER_STATUS_CX+" and o.statusChangeReason like '%CX Finance%'", 0, 1);					
-					if(historyList.size()==0){
+										
+					if(salesRecord.getCxFinanceDate()==null){
 						_log.info("not cx finance yet");
 						finSalesRecordList.remove(salesRecord);
 						--i;
@@ -94,10 +86,18 @@ public class FetchMerchantPaymentProcessingDataCommand implements RafDsCommand {
 						--length;
 						continue;
 					}
+					
+					if(salesRecord.getPaymentStatus()!=null){
+						_log.info("payment status is not null");
+						finSalesRecordList.remove(salesRecord);
+						--i;
+						--length;
+						continue;
+					}
 				}								
 			} else {
-				String select = "select o from FinSalesRecord o join fetch o.venOrderItem oi join fetch o.venOrderItem.venOrderItemStatusHistories h " +
-						"where o.finApprovalStatus.approvalStatusDesc='Approved' and o.finApPayment is null and h.venOrderStatus.orderStatusId="+VeniceConstants.VEN_ORDER_STATUS_CX+" and h.statusChangeReason like '%CX Finance%'";
+				String select = "select o from FinSalesRecord o join fetch o.venOrderItem oi " +
+						"where o.finApprovalStatus.approvalStatusDesc='Approved' and o.finApPayment is null and o.cxFinanceDate is not null and o.paymentStatus is null";
 				finSalesRecordList = finSalesRecordSessionHome.queryByRange(select, 0, 0);
 				
 				_log.debug("query without criteria, finSalesRecordList awal size: "+finSalesRecordList.size());

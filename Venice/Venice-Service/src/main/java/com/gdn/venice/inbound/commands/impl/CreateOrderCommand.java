@@ -1,7 +1,13 @@
 package com.gdn.venice.inbound.commands.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gdn.venice.constants.LoggerLevel;
+import com.gdn.venice.exception.VeniceInternalException;
 import com.gdn.venice.inbound.commands.Command;
 import com.gdn.venice.inbound.receivers.OrderReceiver;
+import com.gdn.venice.util.CommonUtil;
 
 /**
  * 
@@ -9,6 +15,8 @@ import com.gdn.venice.inbound.receivers.OrderReceiver;
  *
  */
 public class CreateOrderCommand implements Command {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(CreateOrderCommand.class);
 	
 	private OrderReceiver orderReceiver;
 	
@@ -18,6 +26,10 @@ public class CreateOrderCommand implements Command {
 	
 	@Override
 	public void execute() {
-		orderReceiver.createOrder();
+		try {
+			orderReceiver.createOrder();
+		} catch (VeniceInternalException vie) {
+			CommonUtil.logException(vie, LOG, LoggerLevel.ERROR);
+		}
 	}
 }

@@ -15,9 +15,47 @@
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <classpath>lib/Venice-Interface-Model-${project.version}.jar 
+        		   lib/Venice-Utilities-${project.version}.jar 
+        		   lib/Venice-Service-1.0.jar lib/joda-time-2.3.jar 
+        		   lib/joda-time-2.3.jar 
+        		   lib/log4j-1.2.13.jar 
+        		   lib/commons-lang-2.4.jar 
+        		   lib/openejb-client-3.1.4.jar 
+        		   lib/commons-discovery-0.2.jar
+        		   lib/commons-logging-1.0.4.jar
+        		   lib/openejb-client-3.1.4.jar 
+        		   lib/geronimo-ejb_3.0_spec-1.0.1.jar 
+        		   lib/hibernate-core-3.3.0.SP1.jar 
+        		   lib/javassist-3.4.GA.jar 
+        		   lib/slf4j-api-1.4.2.jar 
+        		   lib/ejb3-persistence-1.0.2.GA.jar 
+        		   lib/postgresql-8.4-702.jdbc4.jar 
+        		   lib/slf4j-log4j12-1.4.2.jar 
+        		   lib/awb-client-1.1-RELEASE.jar 
+        		   lib/awb-exchange-model-0.0.1-SNAPSHOT.jar 
+        		   lib/httpclient-4.1.jar 
+        		   lib/httpcore-4.1.jar 
+        		   lib/commons-logging-1.0.4.jar 
+        		   lib/json-20131018.jar 
+        		   lib/json-lib-2.4jdk15.jar
+				   lib/poi-3.6.jar lib/poi-ooxml-3.6.jar 
+				   lib/poi-ooxml-schemas-3.6.jar
+				   lib/axis.jar
+				   lib/axis-jaxrpc-1.3.jar
+				   lib/axis-saaj-1.2.jar
+				   lib/axis-schema-1.3.jar
+				   lib/bcmail-jdk14-138.jar
+				   lib/js_mail-1.4.jar
+				   lib/commons-configuration-1.6.jar
+				   lib/jaxrpc-1.1.jar
+				   lib/pwsatk-utils-1.0.jar
+				   lib/saaj.jar
+				   lib/javax.wsdl_1.6.2.v201005080631.jar</classpath>
+        		   
     </properties>
     
-    <dependencies>
+    <dependencies>                     
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -60,7 +98,7 @@
                                         <include name="**/UpdateOrderFPBatchJob.class"/>
                                     </fileset>
                                     <manifest>
-                                        <attribute name="Class-Path" value="lib/Venice-Interface-Model-${project.version}.jar lib/Venice-Utilities-${project.version}.jar lib/joda-time-2.3.jar lib/log4j-1.2.13.jar lib/commons-lang-2.4.jar lib/openejb-client-3.1.4.jar lib/geronimo-ejb_3.0_spec-1.0.1.jar lib/hibernate-core-3.3.0.SP1.jar lib/javassist-3.4.GA.jar" />
+                                        <attribute name="Class-Path" value="${classpath}" />
                                         <attribute name="Main-Class" value="com.gdn.venice.fraud.batch.UpdateOrderFPBatchJob" />
                                     </manifest>
                                 </jar>
@@ -80,32 +118,7 @@
                                         <include name="**/LogisticsPickupReportBatchJob.class"/>
                                     </fileset>
                                     <manifest>
-                                        <attribute name="Class-Path" value="lib/Venice-Interface-Model-${project.version}.jar 
-                                        								    lib/Venice-Utilities-${project.version}.jar 
-                                        								    lib/Venice-Service-1.0.jar lib/joda-time-2.3.jar 
-                                        								    lib/log4j-1.2.13.jar 
-                                        								    lib/commons-lang-2.4.jar 
-                                        								    lib/commons-discovery-0.2.jar
-                                        								    lib/commons-logging-1.0.4.jar
-                                        								    lib/openejb-client-3.1.4.jar 
-                                        								    lib/geronimo-ejb_3.0_spec-1.0.1.jar 
-                                        								    lib/hibernate-core-3.3.0.SP1.jar 
-                                        								    lib/awb-client-1.1-RELEASE.jar 
-                                        								    lib/awb-exchange-model-0.0.1-SNAPSHOT.jar 
-                                        								    lib/postgresql-8.4-702.jdbc4.jar 
-                                        								    lib/poi-3.6.jar lib/poi-ooxml-3.6.jar 
-                                        								    lib/poi-ooxml-schemas-3.6.jar
-                                        								    lib/axis.jar
-                                        								    lib/axis-jaxrpc-1.3.jar
-                                        								    lib/axis-saaj-1.2.jar
-                                        								    lib/axis-schema-1.3.jar
-                                        								    lib/bcmail-jdk14-138.jar
-                                        								    lib/js_mail-1.4.jar
-                                        								    lib/commons-configuration-1.6.jar
-                                        								    lib/jaxrpc-1.1.jar
-                                        								    lib/pwsatk-utils-1.0.jar
-                                        								    lib/saaj.jar
-                                        								    lib/javax.wsdl_1.6.2.v201005080631.jar" />
+                                        <attribute name="Class-Path" value="${classpath}" />
                                         <attribute name="Main-Class" value="com.gdn.venice.logistics.batch.LogisticsPickupReportBatchJob" />
                                     </manifest>
                                 </jar>
@@ -125,7 +138,7 @@
                                         <include name="**/OrderTrackingReportBatchJob.class"/>
                                     </fileset>
                                     <manifest>
-                                        <attribute name="Class-Path" value="lib/Venice-Interface-Model-${project.version}.jar lib/Venice-Utilities-${project.version}.jar lib/joda-time-2.3.jar lib/log4j-1.2.13.jar lib/commons-lang-2.4.jar lib/openejb-client-3.1.4.jar lib/geronimo-ejb_3.0_spec-1.0.1.jar lib/hibernate-core-3.3.0.SP1.jar" />
+                                        <attribute name="Class-Path" value="${classpath}" />
                                         <attribute name="Main-Class" value="com.gdn.venice.logistics.batch.OrderTrackingReportBatchJob" />
                                     </manifest>
                                 </jar>
@@ -145,7 +158,7 @@
                                         <include name="**/ProblemPickupBatchJob.class"/>
                                     </fileset>
                                     <manifest>
-                                        <attribute name="Class-Path" value="lib/Venice-Interface-Model-${project.version}.jar lib/Venice-Utilities-${project.version}.jar lib/joda-time-2.3.jar lib/log4j-1.2.13.jar lib/commons-lang-2.4.jar lib/openejb-client-3.1.4.jar lib/geronimo-ejb_3.0_spec-1.0.1.jar lib/hibernate-core-3.3.0.SP1.jar" />
+                                        <attribute name="Class-Path" value="${classpath}" />
                                         <attribute name="Main-Class" value="com.gdn.venice.logistics.batch.ProblemPickupBatchJob" />
                                     </manifest>
                                 </jar>
@@ -165,7 +178,7 @@
                                         <include name="**/PivotFraudRiskPointBatchJob.class"/>
                                     </fileset>
                                     <manifest>
-                                        <attribute name="Class-Path" value="lib/Venice-Interface-Model-${project.version}.jar lib/Venice-Utilities-${project.version}.jar lib/joda-time-2.3.jar lib/log4j-1.2.13.jar lib/commons-lang-2.4.jar lib/openejb-client-3.1.4.jar lib/geronimo-ejb_3.0_spec-1.0.1.jar lib/hibernate-core-3.3.0.SP1.jar" />
+                                        <attribute name="Class-Path" value="${classpath}" />
                                         <attribute name="Main-Class" value="com.gdn.venice.fraud.batch.PivotFraudRiskPointBatchJob" />
                                     </manifest>
                                 </jar>
@@ -185,8 +198,28 @@
                                         <include name="**/SalesRecordGeneratorBatchJob.class"/>
                                     </fileset>
                                     <manifest>
-                                        <attribute name="Class-Path" value="lib/Venice-Interface-Model-${project.version}.jar lib/Venice-Utilities-${project.version}.jar lib/joda-time-2.3.jar lib/log4j-1.2.13.jar lib/commons-lang-2.4.jar lib/openejb-client-3.1.4.jar lib/geronimo-ejb_3.0_spec-1.0.1.jar lib/hibernate-core-3.3.0.SP1.jar" />
+                                        <attribute name="Class-Path" value="${classpath}" />
                                         <attribute name="Main-Class" value="com.gdn.venice.finance.batch.SalesRecordGeneratorBatchJob" />
+                                    </manifest>
+                                </jar>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate_sales_record_journal_cleanup</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <jar destfile="${project.build.directory}/batch-jars/SalesRecordCleanupGeneratorBatchJob.jar">
+                                    <fileset dir="${project.build.directory}/classes">
+                                        <include name="**/SalesRecordCleanupGeneratorBatchJob.class"/>
+                                    </fileset>
+                                    <manifest>
+                                        <attribute name="Class-Path" value="${classpath}" />
+                                        <attribute name="Main-Class" value="com.gdn.venice.finance.batch.SalesRecordCleanupGeneratorBatchJob" />
                                     </manifest>
                                 </jar>
                             </target>

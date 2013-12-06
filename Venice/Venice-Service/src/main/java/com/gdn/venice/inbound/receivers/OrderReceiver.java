@@ -1,6 +1,6 @@
 package com.gdn.venice.inbound.receivers;
 
-import com.gdn.venice.exception.InvalidOrderException;
+import com.gdn.venice.exception.VeniceInternalException;
 
 
 /**
@@ -10,6 +10,6 @@ import com.gdn.venice.exception.InvalidOrderException;
  */
 public interface OrderReceiver {
 	
-	public boolean createOrder() throws InvalidOrderException;
+	public boolean createOrder() throws VeniceInternalException;
 	public boolean updateOrder();
 }

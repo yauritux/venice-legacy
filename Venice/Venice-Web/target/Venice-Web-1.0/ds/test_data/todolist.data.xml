@@ -1,0 +1,67 @@
+<todolist>
+	<tasks>
+		<task>
+			<taskid>TASK-1</taskid>
+			<taskdesc>Suspicious Fraud Check for Order No. ABCD</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Fraud Check</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TASK-2</taskid>
+			<taskdesc>Suspicious Fraud Check for Order No. EFGH</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Fraud Check</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TASK-3</taskid>
+			<taskdesc>Suspicious Fraud Check for Order No. XXXX</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Fraud Check</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TASK-4</taskid>
+			<taskdesc>Suspicious Fraud Check for Order No. YYYY</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Fraud Check</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TASK-5</taskid>
+			<taskdesc>Suspicious Fraud Check for Order No. ZZZZ</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Fraud Check</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TASK-6</taskid>
+			<taskdesc>Cash Receive and Sales Journal Reconciliation for Order No. ABCD</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Finance Balance Resolution</type>
+			<status>Open</status>
+		</task>
+		<task>
+			<taskid>TASK-7</taskid>
+			<taskdesc>Cash Receive and Sales Journal Reconciliation for Order No. EFGH</taskdesc>
+			<assignee>Agoes Bagoes</assignee>
+			<taskdate>2011-01-01T10:00:00Z</taskdate>
+			<taskduedate>2011-01-08T10:00:00Z</taskduedate>
+			<type>Finance Balance Resolution</type>
+			<status>Open</status>
+		</task>
+	</tasks>
+</todolist>

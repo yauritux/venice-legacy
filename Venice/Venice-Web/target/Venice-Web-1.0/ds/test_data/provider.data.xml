@@ -1,0 +1,62 @@
+<provider>
+	<addresses>
+		<address>
+			<id>1</id>
+			<addressline1>Jl. Brigjend. Katamso No.7 Slipi</addressline1>
+			<addressline2>Slipi</addressline2>
+			<kelurahan>Slipi</kelurahan>
+			<kecamatan>Slipi</kecamatan>
+			<city>Jakarta Barat</city>
+			<province>DKI Jakarta</province>
+			<country>Indonesia</country>
+		</address>
+	</addresses>
+	<services>
+		<service>
+			<id>1</id>
+			<description>Regular</description>
+			<type>REGULAR</type>
+		</service>
+		<service>
+			<id>2</id>
+			<description>Semalam Saja</description>
+			<type>ONE_NIGHT_SERVICE</type>
+		</service>
+		<service>
+			<id>3</id>
+			<description>Hari ini juga</description>
+			<type>SAME_DAY_SERVICE</type>
+		</service>
+	</services>
+	<schedules>
+		<schedule>
+			<id>1</id>
+			<fromTime>10.00 AM</fromTime>
+			<toTime>12.00 PM</toTime>
+			<description>Layanan Pagi</description>
+			<inclPublHoliday>false</inclPublHoliday>
+			<days>Mon, Tue, Wed, Thu, Fri</days>
+		</schedule>
+		<schedule>
+			<id>2</id>
+			<fromTime>04.00 PM</fromTime>
+			<toTime>06.00 PM</toTime>
+			<description>Layanan Sore</description>
+			<inclPublHoliday>false</inclPublHoliday>
+			<days>Mon, Tue, Wed, Thu, Fri</days>
+		</schedule>
+	</schedules>
+	<agreements>
+		<agreement>
+			<id>1</id>
+			<description>Perjanjian NCS</description>
+			<date>2011-01-01</date>
+			<expiryDate>2012-01-01</expiryDate>
+			<discLevel>10</discLevel>
+			<ppn>10</ppn>
+			<pucommitment>5</pucommitment>
+			<delcommitment>2</delcommitment>
+		</agreement>
+		
+	</agreements>
+</provider>

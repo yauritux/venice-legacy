@@ -25,7 +25,7 @@ public class VenSettlementRecord implements Serializable {
 	@Column(name="commission_type", nullable=false, length=100)
 	private String commissionType;
 
-	@Column(name="commission_value", nullable=false, precision=20, scale=2)
+	@Column(name="commission_value", nullable=true, precision=20, scale=2)
 	private BigDecimal commissionValue;
 
 	@Column(name="settlement_code", nullable=false, length=100)

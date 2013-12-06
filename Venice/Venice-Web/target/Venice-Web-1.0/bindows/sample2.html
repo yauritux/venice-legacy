@@ -1,0 +1,27 @@
+<html>
+	<head>
+	<title>Bindows gauge sample</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<!-- Import the bindows gauges javascriptpackage -->
+	<script type="text/javascript" src="bindows_gauges/bindows_gauges.js"></script>
+
+	</head>
+	<body>
+
+	<!-- Create a div to hold the gauge -->
+	<div id="gaugeDiv" style="width: 100; height: 100" ></div>
+
+	<script type="text/javascript">
+
+		// Load the gauge into the div
+		var gauge = bindows.loadGaugeIntoDiv("gauges/g_half_circle1.xml", "gaugeDiv");
+
+
+		//gauge.range.endValue = 200;
+		gauge.needle.setValue(50);
+		gauge.label.setText("50");
+
+	</script>
+	</body>
+	</html>

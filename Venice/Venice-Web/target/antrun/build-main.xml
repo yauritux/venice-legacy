@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <property name="src" value="/home/fedora/Documents/Projects/Venice/Venice-Web/src"/>
-  <property name="build" value="/home/fedora/Documents/Projects/Venice/Venice-Web/target/classes"/>
+  <property name="src" value="/home/software/refactor/Venice/Venice-Web/src"/>
   <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"/>
   <delete>
     <fileset dir="${src}">
@@ -16,7 +15,7 @@
       </fileset>
     </src>
   </jrc>
-  <copy todir="org.apache.maven.model.Build@4cd4544">
+  <copy todir="/home/software/refactor/Venice/Venice-Web/target/classes">
     <fileset dir="${src}/main/java">
       <include name="**/*.jasper"/>
     </fileset>

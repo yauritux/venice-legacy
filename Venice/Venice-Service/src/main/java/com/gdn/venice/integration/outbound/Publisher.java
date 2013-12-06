@@ -33,7 +33,6 @@ import com.gdn.integration.jaxb.Party;
 import com.gdn.integration.jaxb.Payment;
 import com.gdn.integration.jaxb.Receiver;
 import com.gdn.venice.persistence.LogAirwayBill;
-import com.gdn.venice.persistence.VenDistributionCart;
 import com.gdn.venice.persistence.VenOrder;
 import com.gdn.venice.persistence.VenOrderItem;
 import com.gdn.venice.persistence.VenOrderPayment;
@@ -341,6 +340,9 @@ public class Publisher {
 		Long orderItemStatus = venOrderItem.getVenOrderStatus().getOrderStatusId();
 		if(orderItemStatus == com.gdn.venice.util.VeniceConstants.VEN_ORDER_STATUS_ES){
 			orderItem.setStatus("ES");
+			if(venOrderItem.getVenOrder().getRmaFlag()!=null && venOrderItem.getVenOrder().getRmaFlag()==true){
+				order.setRmaFlag(venOrderItem.getVenOrder().getRmaFlag());
+			}
 		}else if(orderItemStatus == com.gdn.venice.util.VeniceConstants.VEN_ORDER_STATUS_D){
 			orderItem.setStatus("D");
 			//Include the LogisticsInfo record with the recipeint name, occupation and received date

@@ -1,15 +1,24 @@
 package com.gdn.venice.finance.batch;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.EJBException;
 
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import com.djarum.raf.utilities.Locator;
 import com.djarum.raf.utilities.Log4jLoggerFactory;
@@ -20,7 +29,6 @@ import com.gdn.venice.facade.VenOrderItemStatusHistorySessionEJBRemote;
 import com.gdn.venice.facade.VenOrderPaymentAllocationSessionEJBRemote;
 import com.gdn.venice.facade.VenPartyPromotionShareSessionEJBRemote;
 import com.gdn.venice.facade.VenSettlementRecordSessionEJBRemote;
-import com.gdn.venice.facade.VenTransactionFeeSessionEJBRemote;
 import com.gdn.venice.persistence.FinApprovalStatus;
 import com.gdn.venice.persistence.FinSalesRecord;
 import com.gdn.venice.persistence.VenOrderItem;
@@ -29,17 +37,32 @@ import com.gdn.venice.persistence.VenOrderItemStatusHistory;
 import com.gdn.venice.persistence.VenOrderPaymentAllocation;
 import com.gdn.venice.persistence.VenPartyPromotionShare;
 import com.gdn.venice.persistence.VenSettlementRecord;
-import com.gdn.venice.persistence.VenTransactionFee;
 import com.gdn.venice.util.VeniceConstants;
 
 public class SalesRecordGeneratorBatchJob {
 
     protected static Logger _log = null;
+    protected static final String AIRWAYBILL_ENGINE_PROPERTIES_FILE = System.getenv("VENICE_HOME") +  "/conf/airwaybill-engine.properties";
+    
+    BigDecimal marginFee = new BigDecimal(0);
+    BigDecimal transFee = new BigDecimal(0);
 
     private SalesRecordGeneratorBatchJob() {
         Log4jLoggerFactory loggerFactory = new Log4jLoggerFactory();
         _log = loggerFactory.getLog4JLogger("com.gdn.venice.finance.batch.SalesRecordGeneratorBatchJob");
     }
+    
+    private  Properties getAirwayBillEngineProperties() {
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream(AIRWAYBILL_ENGINE_PROPERTIES_FILE));
+		} catch (Exception e) {
+			_log.error("Error getting airwaybill-engine.properties", e);
+			e.printStackTrace();
+			return null;
+		}
+		return properties;
+	}
 
     public Timestamp getCxMtaDate(Locator<Object> locator, long orderItemId) {
         //get cx from mta date (none, then return null)
@@ -97,64 +120,78 @@ public class SalesRecordGeneratorBatchJob {
                 .lookup(FinSalesRecordSessionEJBRemote.class, "FinSalesRecordSessionEJBBean");
 
         FinSalesRecord finSalesRecord = new FinSalesRecord();
-        finSalesRecord.setVenOrderItem(venOrderItem);
+        
+        try {
+            finSalesRecord.setVenOrderItem(venOrderItem);
 
-        // Calculate the sales record
-        _log.info("calculate sales record for order item id: " + venOrderItem.getWcsOrderItemId());
-        finSalesRecord = this.calculateSalesRecord(locator, finSalesRecord, venOrderItem);
-        FinApprovalStatus finApprovalStatus = new FinApprovalStatus();
-        finApprovalStatus.setApprovalStatusId(VeniceConstants.FIN_APPROVAL_STATUS_NEW);
-        finSalesRecord.setFinApprovalStatus(finApprovalStatus);
-
-        /*
-         * If the sales record for the order item on the AWB does not
-         * exist then create it. If the sales record exists already then update it
-         */
-        List<FinSalesRecord> finSalesRecordList = salesRecordHome.queryByRange("select o from FinSalesRecord o where o.venOrderItem.orderItemId = " + venOrderItem.getOrderItemId(), 0, 0);
-        if (finSalesRecordList.isEmpty()) {
-            _log.debug("create new sales record");
-            finSalesRecord.setSalesTimestamp(new Timestamp(System.currentTimeMillis()));
-
-            finSalesRecord.setCxMtaDate(getCxMtaDate(locator, venOrderItem.getOrderItemId()));
-
-            finSalesRecord.setCxFinanceDate(getCxFinanceDate(locator, venOrderItem.getOrderItemId()));
-
-            finSalesRecord = salesRecordHome.persistFinSalesRecord(finSalesRecord);
-            _log.debug("finSalesRecord id => " + finSalesRecord.getSalesRecordId());
-        } else {
-            FinSalesRecord existingFinSalesRecord = finSalesRecordList.get(0);
-            /*
-             * To ensure that the sales record is only updated to approved status once
-             */
-            if (existingFinSalesRecord.getFinApprovalStatus().getApprovalStatusId() == VeniceConstants.FIN_APPROVAL_STATUS_APPROVED) {
-                _log.info("existing sales record already approved");
-                return null;
+            // Calculate the sales record
+            _log.info("calculate sales record for order item id: " + venOrderItem.getWcsOrderItemId());
+            finSalesRecord = this.calculateSalesRecord(locator, finSalesRecord, venOrderItem);
+            
+            if(finSalesRecord==null){
+            	_log.error("calculate sales record skipped, because can not get margin fee or transfee from MTA service");
+            	return null;
             }
-            _log.debug("update existing sales record");
-            existingFinSalesRecord.setCustomerDownpayment(finSalesRecord.getCustomerDownpayment());
-            existingFinSalesRecord.setFinApprovalStatus(finApprovalStatus);
-            existingFinSalesRecord.setGdnCommissionAmount(finSalesRecord.getGdnCommissionAmount());
-            existingFinSalesRecord.setGdnGiftWrapChargeAmount(finSalesRecord.getGdnGiftWrapChargeAmount());
-            existingFinSalesRecord.setGdnHandlingFeeAmount(finSalesRecord.getGdnHandlingFeeAmount());
-            existingFinSalesRecord.setGdnPromotionAmount(finSalesRecord.getGdnPromotionAmount());
-            existingFinSalesRecord.setGdnTransactionFeeAmount(finSalesRecord.getGdnTransactionFeeAmount());
-            existingFinSalesRecord.setMerchantPaymentAmount(finSalesRecord.getMerchantPaymentAmount());
-            existingFinSalesRecord.setMerchantPromotionAmount(finSalesRecord.getMerchantPromotionAmount());
-            existingFinSalesRecord.setThirdPartyPromotionAmount(finSalesRecord.getThirdPartyPromotionAmount());
-            existingFinSalesRecord.setTotalLogisticsRelatedAmount(finSalesRecord.getTotalLogisticsRelatedAmount());
-            existingFinSalesRecord.setVatAmount(finSalesRecord.getVatAmount());
-            finSalesRecord = salesRecordHome.mergeFinSalesRecord(existingFinSalesRecord);
-            _log.debug("finSalesRecord id => " + finSalesRecord.getSalesRecordId());
-        }
+            
+            FinApprovalStatus finApprovalStatus = new FinApprovalStatus();
+            finApprovalStatus.setApprovalStatusId(VeniceConstants.FIN_APPROVAL_STATUS_NEW);
+            finSalesRecord.setFinApprovalStatus(finApprovalStatus);
 
-        /*
-         * Set the sales record immediately to approved and merge it
-         * This will trigger the sales journal creation
-         */
-        _log.info("Set status to approved and merge to trigger the sales journal creation");
-        finApprovalStatus.setApprovalStatusId(VeniceConstants.FIN_APPROVAL_STATUS_APPROVED);
-        finSalesRecord.setFinApprovalStatus(finApprovalStatus);
-        return salesRecordHome.mergeFinSalesRecord(finSalesRecord);
+            /*
+             * If the sales record for the order item on the AWB does not
+             * exist then create it. If the sales record exists already then update it
+             */
+            List<FinSalesRecord> finSalesRecordList = salesRecordHome.queryByRange("select o from FinSalesRecord o where o.venOrderItem.orderItemId = " + venOrderItem.getOrderItemId(), 0, 0);
+            if (finSalesRecordList.isEmpty()) {
+                _log.debug("create new sales record");
+                finSalesRecord.setSalesTimestamp(new Timestamp(System.currentTimeMillis()));
+
+                finSalesRecord.setCxMtaDate(getCxMtaDate(locator, venOrderItem.getOrderItemId()));
+
+                finSalesRecord.setCxFinanceDate(getCxFinanceDate(locator, venOrderItem.getOrderItemId()));
+
+                finSalesRecord = salesRecordHome.persistFinSalesRecord(finSalesRecord);
+                _log.debug("finSalesRecord id => " + finSalesRecord.getSalesRecordId());
+            } else {
+                FinSalesRecord existingFinSalesRecord = finSalesRecordList.get(0);
+                /*
+                 * To ensure that the sales record is only updated to approved status once
+                 */
+                if (existingFinSalesRecord.getFinApprovalStatus().getApprovalStatusId() == VeniceConstants.FIN_APPROVAL_STATUS_APPROVED) {
+                    _log.info("existing sales record already approved");
+                    return null;
+                }
+                _log.debug("update existing sales record");
+                existingFinSalesRecord.setCustomerDownpayment(finSalesRecord.getCustomerDownpayment());
+                existingFinSalesRecord.setFinApprovalStatus(finApprovalStatus);
+                existingFinSalesRecord.setGdnCommissionAmount(finSalesRecord.getGdnCommissionAmount());
+                existingFinSalesRecord.setGdnGiftWrapChargeAmount(finSalesRecord.getGdnGiftWrapChargeAmount());
+                existingFinSalesRecord.setGdnHandlingFeeAmount(finSalesRecord.getGdnHandlingFeeAmount());
+                existingFinSalesRecord.setGdnPromotionAmount(finSalesRecord.getGdnPromotionAmount());
+                existingFinSalesRecord.setGdnTransactionFeeAmount(finSalesRecord.getGdnTransactionFeeAmount());
+                existingFinSalesRecord.setMerchantPaymentAmount(finSalesRecord.getMerchantPaymentAmount());
+                existingFinSalesRecord.setMerchantPromotionAmount(finSalesRecord.getMerchantPromotionAmount());
+                existingFinSalesRecord.setThirdPartyPromotionAmount(finSalesRecord.getThirdPartyPromotionAmount());
+                existingFinSalesRecord.setTotalLogisticsRelatedAmount(finSalesRecord.getTotalLogisticsRelatedAmount());
+                existingFinSalesRecord.setVatAmount(finSalesRecord.getVatAmount());
+                finSalesRecord = salesRecordHome.mergeFinSalesRecord(existingFinSalesRecord);
+                _log.debug("finSalesRecord id => " + finSalesRecord.getSalesRecordId());
+            }
+
+            /*
+             * Set the sales record immediately to approved and merge it
+             * This will trigger the sales journal creation
+             */
+            _log.info("Set status to approved and merge to trigger the sales journal creation");
+            finApprovalStatus.setApprovalStatusId(VeniceConstants.FIN_APPROVAL_STATUS_APPROVED);
+            finSalesRecord.setFinApprovalStatus(finApprovalStatus);
+            return salesRecordHome.mergeFinSalesRecord(finSalesRecord);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "An exception occured when create Or Update SalesRecord:" + e.getMessage();
+            _log.error(errMsg);
+            return null;
+        }
     }
 
     /**
@@ -241,7 +278,7 @@ public class SalesRecordGeneratorBatchJob {
             VenSettlementRecord venSettlementRecord = settlementRecordList.get(0);
 
             /*
-             * This is the divisor to use when calulating the PPN amount
+             * This is the divisor to use when calculating the PPN amount
              */
             _log.debug("Set ppn divisor");
             BigDecimal gdnPPN_Divisor = new BigDecimal(VeniceConstants.VEN_GDN_PPN_RATE).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP).add(new BigDecimal(1));
@@ -250,9 +287,28 @@ public class SalesRecordGeneratorBatchJob {
              * This is the commission amount before the PPN is taken out
              */
             _log.debug("Set commission");
-            BigDecimal gdnCommissionAmountBeforeTax = venSettlementRecord.getCommissionValue();
+            BigDecimal gdnCommissionAmountBeforeTax = new BigDecimal(0);
             gdnCommissionAmountBeforeTax.setScale(2, RoundingMode.HALF_UP);
-
+                                  	
+            if(venSettlementRecord.getCommissionValue()==null || venOrderItem.getTransactionFeeAmount() == null){	
+            	Boolean result = getMarginFeeAndTransactionFee(venOrderItem.getWcsOrderItemId());
+            	if(result==false){
+            		_log.error("can not get margin fee or trans fee from MTA service");
+            		return null;
+            	}
+            }
+            
+            /*
+             * cek commission value, jika null maka request ke MTA
+             */
+            if(venSettlementRecord.getCommissionValue()==null){
+            	 _log.debug("Commission value null, set value from MTA");
+            	 gdnCommissionAmountBeforeTax = marginFee;
+            }else{            
+            	_log.debug("Commission value not null, set from settlement record");
+            	gdnCommissionAmountBeforeTax = venSettlementRecord.getCommissionValue();            
+            }
+                      
             /*
              * This is the commission amount after the PPN is taken out
              */
@@ -325,12 +381,15 @@ public class SalesRecordGeneratorBatchJob {
                  */
                 _log.debug("[sales record generator] Set transaction fee");
 
-                Boolean flagTransFeeExist = isTransFeeExist(locator, venOrderItem);
-                if (flagTransFeeExist == false) {
-                    _log.debug("[sales record generator] trans fee not exist, set transaction fee");
-                    gdnTransactionFeeAmountBeforeTax = getMerchantTransactionFees(locator, venOrderItem);
+                /*
+                 * Cek trans fee, jika null maka request ke MTA
+                 */
+                if (venOrderItem.getTransactionFeeAmount() == null) {
+                    _log.debug("[sales record generator] trans fee is null, set value from MTA");
+                    gdnTransactionFeeAmountBeforeTax = transFee;        
                 } else {
-                    _log.debug("[sales record generator] trans fee exist, don't set transaction fee");
+                    _log.debug("[sales record generator] trans fee not null , set from order item");
+                    gdnTransactionFeeAmountBeforeTax = venOrderItem.getTransactionFeeAmount();
                 }
 
                 BigDecimal gdnTransactionFeeAmountAfterTax = new BigDecimal(0);
@@ -470,7 +529,7 @@ public class SalesRecordGeneratorBatchJob {
             BigDecimal pph23Amount = new BigDecimal(0);
 
             boolean isPPh23 = (venOrderItem.getVenSettlementRecords() != null && venOrderItem.getVenSettlementRecords().get(0).getPph23() != null) ? venOrderItem.getVenSettlementRecords().get(0).getPph23() : false;
-            if (isPPh23) {
+            if (isPPh23==true) {
                 pph23Amount = (finSalesRecord.getGdnCommissionAmount().add(finSalesRecord.getGdnTransactionFeeAmount())).multiply(new BigDecimal(0.02));
             }
             _log.debug("pph 23 amount: " + pph23Amount);
@@ -481,7 +540,7 @@ public class SalesRecordGeneratorBatchJob {
             String errMsg = "An exception occured when calculating values for the sales record:" + e.getMessage();
             _log.error(errMsg);
             e.printStackTrace();
-            throw new EJBException(errMsg);
+            return null;
         }
         return finSalesRecord;
     }
@@ -576,37 +635,6 @@ public class SalesRecordGeneratorBatchJob {
     }
 
     /**
-     * Gets the merchant specific transaction fees for the order item.
-     *
-     * @param locator is a locator to use
-     * @param venOrderItem is the order item in question
-     * @return the merchant transaction fees
-     */
-    public BigDecimal getMerchantTransactionFees(Locator<Object> locator, VenOrderItem venOrderItem) {
-        _log.debug("get transaction fee from VenTransactionFee");
-        BigDecimal transactionFeeAmount = new BigDecimal(0);
-        try {
-            VenTransactionFeeSessionEJBRemote transactionFeeHome = (VenTransactionFeeSessionEJBRemote) locator
-                    .lookup(VenTransactionFeeSessionEJBRemote.class, "VenTransactionFeeSessionEJBBean");
-
-            List<VenTransactionFee> transactionFeeList = transactionFeeHome.queryByRange("select o from VenTransactionFee o where o.venOrder.orderId =" + venOrderItem.getVenOrder().getOrderId()
-                    + " and o.venMerchant.merchantId =" + venOrderItem.getVenMerchantProduct().getVenMerchant().getMerchantId(), 0, 1);
-
-            if (transactionFeeList.size() > 0) {
-                _log.debug("transaction fee found for order: " + venOrderItem.getVenOrder().getOrderId() + " and merchant id: " + venOrderItem.getVenMerchantProduct().getVenMerchant().getMerchantId());
-                transactionFeeAmount = transactionFeeAmount.add(transactionFeeList.get(0).getFeeAmount());
-                _log.debug("transaction fee amount: " + transactionFeeList.get(0).getFeeAmount());
-            }
-        } catch (Exception e) {
-            String errorText = e.getMessage();
-            e.printStackTrace();
-            throw new EJBException(errorText);
-        }
-
-        return transactionFeeAmount;
-    }
-
-    /**
      * Returns the sum of all the handling fees for payments attached to the
      * order
      *
@@ -670,34 +698,65 @@ public class SalesRecordGeneratorBatchJob {
 
         return flagHandlingFeeExist;
     }
+    
+    private Boolean getMarginFeeAndTransactionFee(String wcsOrderItemId) {
+        _log.debug("start getMarginFeeAndTransactionFee from MTA");        
+    	  
+        marginFee = new BigDecimal(0);
+		marginFee.setScale(2, RoundingMode.HALF_UP);
+		
+        transFee = new BigDecimal(0);
+		transFee.setScale(2, RoundingMode.HALF_UP);
+        
+        try {       
+    		URL obj = new URL(getAirwayBillEngineProperties().getProperty("mtaAddress")+"MtaHttpServices?serviceType=MarginTransactionFeeRequest&orderItemId="+wcsOrderItemId);
+    		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    		con.setRequestMethod("GET");
+        	
+    		con.setRequestProperty("User-Agent",  "GdnWS/1.0");
+        	
+    		if (con.getResponseCode() == HttpStatus.SC_OK) {
+    		
+        		_log.info("service call to MTA service success, response status: "+ con.getResponseCode());
+        		
+        		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        		String inputLine;
+        		StringBuffer response = new StringBuffer();
+         
+        		while ((inputLine = in.readLine()) != null) {
+        			response.append(inputLine);
+        		}
+        		in.close();
 
-    public boolean isTransFeeExist(Locator<Object> locator, VenOrderItem venOrderItem) {
-        _log.debug("check trans fee exist");
-        boolean isTransFeeExist = false;
-        try {
-            FinSalesRecordSessionEJBRemote finSalesRecordHome = (FinSalesRecordSessionEJBRemote) locator
-                    .lookup(FinSalesRecordSessionEJBRemote.class, "FinSalesRecordSessionEJBBean");
+        		if(response!=null){	            	
+	            	_log.info("result from MTA: "+response.toString());
+	            	
+	            	JSONObject jsonObject = new JSONObject(response.toString());
+	            	
+	            	if(jsonObject.getBoolean("success")){	       
+	            		_log.debug("data is available from MTA");
+	            			            		
+	            		marginFee=new BigDecimal(jsonObject.getDouble("marginFee"));
 
-            List<FinSalesRecord> finSalesRecordList = finSalesRecordHome.queryByRange("select o from FinSalesRecord o where o.venOrderItem.venOrder.orderId = " + venOrderItem.getVenOrder().getOrderId()
-                    + " and o.venOrderItem.venMerchantProduct.venMerchant.merchantId=" + venOrderItem.getVenMerchantProduct().getVenMerchant().getMerchantId(), 0, 0);
+	            		_log.debug("marginFee from MTA: "+marginFee);
 
-            if (finSalesRecordList.size() > 0) {
-                for (FinSalesRecord finSalesRecord : finSalesRecordList) {
-                    if (finSalesRecord.getGdnTransactionFeeAmount().compareTo(new BigDecimal(0)) == 1) {
-                        _log.debug("found transaction fee for other sales record with same merchant and amount > 0");
-                        isTransFeeExist = true;
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            String errorText = e.getMessage();
-            _log.error(errorText);
+		            	transFee=new BigDecimal(jsonObject.getDouble("transxFee"));
+	            		_log.debug("transFee from MTA: "+transFee);
+	            	}else{
+	            		_log.debug("data is not available from MTA");
+	            		return false;
+	            	}
+	            }	            
+			}else{
+				_log.error("service call to MTA service failed, response status: "+ con.getResponseCode());
+				return false;
+			}
+        } catch (IOException e) {
             e.printStackTrace();
-            throw new EJBException(errorText);
+            throw new EJBException(e.getMessage());
         }
-
-        return isTransFeeExist;
+          
+          return true;
     }
 
     /**
@@ -717,7 +776,7 @@ public class SalesRecordGeneratorBatchJob {
 
         try {
             Long startTime = System.currentTimeMillis();
-            int count = 0;
+            int count = 0, errorCount = 0;
             locator = new Locator<Object>();
             finSalesRecordHome = (FinSalesRecordSessionEJBRemote) locator
                     .lookup(FinSalesRecordSessionEJBRemote.class, "FinSalesRecordSessionEJBBean");
@@ -725,13 +784,17 @@ public class SalesRecordGeneratorBatchJob {
                     .lookup(VenOrderItemSessionEJBRemote.class, "VenOrderItemSessionEJBBean");
             itemHistoryHome = (VenOrderItemStatusHistorySessionEJBRemote) locator
                     .lookup(VenOrderItemStatusHistorySessionEJBRemote.class, "VenOrderItemStatusHistorySessionEJBBean");
-            String query = "select o from VenOrderItemStatusHistory o where o.venOrderItem.salesBatchStatus = '" + VeniceConstants.FIN_SALES_BATCH_STATUS_READY + "'"
+            String query = "select o from VenOrderItemStatusHistory o "
+                    + " where o.venOrderItem.salesBatchStatus in ( '" + VeniceConstants.FIN_SALES_BATCH_STATUS_READY +  "', '"
+                    + "Failed" + "')"
                     + " and date(o.id.historyTimestamp) = '" + today + "'"
                     + " and o.venOrderStatus.orderStatusCode = 'CX'"
                     + " and o.statusChangeReason = 'Updated by System' ";
             _log.info("Query: " + query);
             List<VenOrderItemStatusHistory> itemsHistory = itemHistoryHome.queryByRange(query, 0, 50);
 
+            _log.info("Query returns: " + itemsHistory.size() + " row(s)");
+            
             VenOrderItem item;
             for (VenOrderItemStatusHistory venOrderItemStatusHistory : itemsHistory) {
                 item = venOrderItemStatusHistory.getVenOrderItem();
@@ -752,10 +815,17 @@ public class SalesRecordGeneratorBatchJob {
                     item.setSalesBatchStatus(VeniceConstants.FIN_SALES_BATCH_STATUS_DONE);
                     itemHome.mergeVenOrderItem(item);
                     count++;
+                } else {
+                    errorCount++;
+                    _log.debug("Sales record/journal creation failed for order item: " + item.getWcsOrderItemId());
+//                    item.setSalesBatchStatus(VeniceConstants.FIN_SALES_BATCH_STATUS_FAILED);
+                    item.setSalesBatchStatus("Failed");
+                    itemHome.mergeVenOrderItem(item);
                 }
             }
             Long endTime = System.currentTimeMillis();
             _log.info(count + " sales record(s) generated, with duration:" + (endTime - startTime) + "ms");
+            _log.info("Sales record/journal not created for: " + errorCount + " item(s)");
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

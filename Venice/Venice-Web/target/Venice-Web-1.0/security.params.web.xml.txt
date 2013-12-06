@@ -1,0 +1,22 @@
+<!--  <security-constraint>-->
+<!--    <web-resource-collection>-->
+<!--      <web-resource-name>Venice</web-resource-name>-->
+<!--      <url-pattern>/*</url-pattern>-->
+<!--      <http-method>GET</http-method>-->
+<!--      <http-method>POST</http-method>-->
+<!--    </web-resource-collection>-->
+<!--    <auth-constraint>-->
+<!--      <role-name>VeniceUsers</role-name>-->
+<!--    </auth-constraint>-->
+<!--  </security-constraint>-->
+<!--  <login-config>-->
+<!--    <auth-method>FORM</auth-method>-->
+<!--    <realm-name>This is not used for FORM login</realm-name>-->
+<!--    <form-login-config>-->
+<!--      <form-login-page>/logon.html</form-login-page>-->
+<!--      <form-error-page>/logonError.html</form-error-page>-->
+<!--    </form-login-config>-->
+<!--  </login-config>-->
+<!--  <security-role>-->
+<!--    <role-name>VeniceUsers</role-name>-->
+<!--  </security-role>-->

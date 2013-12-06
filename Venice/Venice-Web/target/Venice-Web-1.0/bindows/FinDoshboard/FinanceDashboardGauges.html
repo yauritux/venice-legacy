@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<script language="JavaScript" src="JSClass/FusionCharts.js"></script>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="3" align="center">
+    <tr><td valign="top" class="text" align="center"> <div id="pieChartId" align="center"></div>
+
+    <script type="text/javascript">
+    //URL = ............?{data0= {Commission : 180.00}, data1= {Transaction Fee : 80.00}, data2={ Handling Fee : 170.00}}
+       		var sURL = window.document.URL.toString().replace(/%20/gi," ").replace(/{/gi,"").replace(/}/gi,"");
+       		//alert(sURL);
+       		var tempSplitURLs=sURL.split("?");
+       		var tempSplitURL=tempSplitURLs[1].split("&");
+       		if(tempSplitURL[0]!=""){
+			tempSplitURL[0]=tempSplitURL[0].split(",");
+			for(var i=0;i<tempSplitURL[0].length;i++){
+				tempSplitURL[0][i]=tempSplitURL[0][i].split("=");
+				//index 0 is name and index 1 is value
+				tempSplitURL[0][i][1]=tempSplitURL[0][i][1].split(":"); 
+			}    
+			//Make XML
+			  xml="<graph  yAxisName='In Rupiah' caption='Revenue Status' bgColor='00FFFF'  subCaption='Period "+tempSplitURL[1]+"' numberPrefix='Rp ' rotateNames='0' decimalPrecision='2' divlinedecimalPrecision='2' limitsdecimalPrecision='0'>";
+			  for(var i=0;i<tempSplitURL[0].length;i++){
+				  xml+="<set name='"+tempSplitURL[0][i][1][0]+"' value='"+tempSplitURL[0][i][1][1]+"' color='"+get_random_color()+"'/>";
+			  } 		 
+			  xml+="</graph>";
+			  //End XML	
+       		}else{
+       			//Make XML
+			  xml="<graph  yAxisName='In Rupiah' caption='Revenue Status' bgColor='00FFFF'  subCaption='Period "+tempSplitURL[1]+"' numberPrefix='Rp ' rotateNames='0' decimalPrecision='2' divlinedecimalPrecision='2' limitsdecimalPrecision='0'>";
+			  xml+="<set name='Commission' value='' color='"+get_random_color()+"'/>";
+			  xml+="<set name='Transaction Fee' value='' color='"+get_random_color()+"'/>";
+			  xml+="<set name='Handling Fee' value='' color='"+get_random_color()+"'/>";
+			  xml+="</graph>";
+			  //End XML	
+       		}
+   
+		
+		  
+		  var pieChart = new FusionCharts("Charts/FCF_Column3D.swf", "pieChartId", "500", "200");
+		  pieChart.setDataXML(xml);
+		  pieChart.render("pieChartId");		  
+		  
+		  
+		  function get_random_color() {		   	 
+		   	   var rint = Math.round(0xffffff * Math.random());
+		   	   return ('#'+ rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
+		   }
+
+		 
+	</script> </td></tr>
+	
+</table>
+</body>
+</html>

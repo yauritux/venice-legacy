@@ -1,0 +1,21 @@
+function h9(){}
+function n9(){}
+function n6d(){}
+function h6d(){}
+function yob(){}
+function Eob(){}
+function Job(){}
+function Oob(){}
+function Gob(b){this.b=b}
+function Lob(b){this.b=b}
+function Qob(b){this.b=b}
+function p9(b){this.b=b}
+function bV(b){b.c.bf(fN(b.b.b))}
+function II(b,c,d){return new k9(b,c,d)}
+function p6d(){k6d=new n6d;Zad((Wad(),Vad),35);!!$stats&&$stats(Obd(xlg,Bif,-1,-1));k6d.Ve();!!$stats&&$stats(Obd(xlg,kGf,-1,-1))}
+function k9(b,c,d){iY.call(this,b,c);this.d=d;Tld(this.j,15).Wc(this);Tld(Tld(this.j,15).Xc(),3).b=Tld(this.d,16).Tc();tyb(Tld(this.j,15).d,e6())}
+function m6d(){var b,d,e;while(i6d){d=c9c;e=i6d;i6d=i6d.c;!i6d&&(j6d=null);if(!d){bV(e.b)}else{try{bV(e.b)}catch(b){b=ZVd(b);if(!Wld(b,209))throw b}}}}
+function fN(b){var c;!b.t&&(b.t=(c=II((!b.Jc&&(b.Jc=new Tne),b.Jc),(!b.K&&(b.K=new Bob),b.K),(!b.s&&(b.s=new w9),b.s),!b.Ic&&(b.Ic=(new Kme).hf(new tme,new xme))),c.Pc(),c));return b.t}
+function j9(b,c){var d,e,f,g;g=new mse;f=new v4e;for(e=0;e<c.c;++e){f.pl(yRf+(e+1),Tld((D1e(e,c.c),c.b[e]),1))}d=T_e(f);g.M[Hdf]=d;g.M[Idf]=$bd()+tlg;g.M[Kdf]=Ldf;aIe(g.M,Mdf,(bVe(),bVe(),aVe));aIe(g.M,dNf,aVe);$wnd.isc.RPCManager.addClassProperties({promptStyle:(WEe(),VEe).Uk()});dHe();$wnd.isc.RPCManager.defaultPrompt=ulg;$wnd.isc.RPCManager.showPrompt=true;Uze(g,new p9(b))}
+function Bob(){var b,e,f,g;this.c=new w8c;b=new LTe;Qhb(b)?(e=b.fd(),e.setProperty(Tcf,Qcf),undefined):(b.o[Tcf]=Qcf,undefined);Vhb(b,tef,QWe(2));this.f=new RTe;Rhb(this.f,mFf,qFf,true);Tib(this.f,rFf);Rhb(this.f,eif,sFf,true);f=this.f.ud();f.disable();JTe(b,this.f);this.e=new RTe;Rhb(this.e,mFf,tFf,true);Tib(this.e,vlg);Rhb(this.e,eif,dpf,true);JTe(b,this.e);this.b=new RTe;Rhb(this.b,mFf,vFf,true);Tib(this.b,o7f);Rhb(this.b,eif,Ygf,true);g=this.b.ud();g.disable();JTe(b,this.b);this.d=new yyb(this);Xub(this.c,Fld(zVd,{272:1,322:1},137,[b,this.d]));Dib(this.f,new Gob(this));Dib(this.b,new Lob(this));Dib(this.e,new Qob(this));pyb(this.d)}
+var Elg='AsyncLoader35',ylg='JournalPresenter',zlg='JournalPresenter$1',tlg='JournalPresenterServlet?method=submitJournalForApproval&type=RPC',Alg='JournalView',Blg='JournalView$1',Clg='JournalView$2',Dlg='JournalView$3',vlg='Print Journal Details',ulg='Submitting journals for approval...',wlg='Venice/JournalReportLauncherServlet?journalGroupId=',xlg='runCallbacks35';_=k9.prototype=h9.prototype=new NX;_.gC=function l9(){return gqd};_.Rc=function m9(){Sne(this.g,this,new Rqe((S3c(),Q3c),this))};_.cM={35:1,87:1,309:1};_=p9.prototype=n9.prototype=new aI;_.Sc=function q9(b,c,d){var e,f;e=c.tM==$6e||c.cM&&!!c.cM[1]?c.tS():c.toString?c.toString():Kcf;if(e.indexOf(Bjf)==0){uyb(Tld(Tld(this.b.j,15),17).d);$wnd.isc.say(SDf)}else{f=bYe(e,Qdf,0);f.length>1?JIe(f[1],null):JIe(TDf,null)}dHe();$wnd.isc.RPCManager.defaultPrompt=UDf;$wnd.isc.RPCManager.showPrompt=false};_.gC=function r9(){return dqd};_.cM={};_.b=null;_=Bob.prototype=yob.prototype=new yZ;_.Xc=function Cob(){return this.c};_.gC=function Dob(){return fsd};_.cM={15:1,17:1};_.b=null;_.c=null;_.d=null;_.e=null;_.f=null;_=Gob.prototype=Eob.prototype=new aI;_.gC=function Hob(){return csd};_.Yc=function Iob(b){var c,d,e,f,g,i;e=(f=this.b.d.f.ud(),g=f.getSelection(),lkb(g));d=new i3e;for(c=0;c<e.length;++c){X2e(d,(i=e[c].M[MNf],i===undefined||i==null?null:String(i)))}j9(Tld(this.b.B,35),d)};_.cM={292:1,324:1};_.b=null;_=Lob.prototype=Job.prototype=new aI;_.gC=function Mob(){return dsd};_.Yc=function Nob(b){var c,d,e,f,g,i;e=(f=this.b.d.f.ud(),g=f.getSelection(),lkb(g));d=(i=e[0].M[MNf],i===undefined||i==null?null:String(i));c=$bd();c.indexOf(dGf)!=-1&&(c=YFf);c.indexOf(eGf)!=-1&&(c=c.substr(0,c.indexOf(eGf)-0));$wnd.open(c+wlg+d,CJf,null)};_.cM={292:1,324:1};_.b=null;_=Qob.prototype=Oob.prototype=new aI;_.gC=function Rob(){return esd};_.Yc=function Sob(b){E5c(this.b.d)};_.cM={292:1,324:1};_.b=null;_=n6d.prototype=h6d.prototype=new aI;_.gC=function o6d(){return $Nd};_.Ve=function s6d(){m6d()};_.cM={};var gqd=sVe(ltf,ylg),dqd=sVe(ltf,zlg),fsd=sVe(bKf,Alg),csd=sVe(bKf,Blg),dsd=sVe(bKf,Clg),esd=sVe(bKf,Dlg),$Nd=sVe(Uyf,Elg);$entry(p6d)();

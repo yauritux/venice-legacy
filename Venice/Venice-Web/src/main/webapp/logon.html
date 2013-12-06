@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Login</title>
+</head>
+<body onLoad="application.value='none'">
+<div align="center" >
+<form id="loginForm" method="POST" action="j_security_check">
+<table height="430px" width="886px" border="0" cellspacing="2" cellpadding="1" style="background-image:url(images/login.png)">
+<tr>
+  <td height="120px" colspan="4">&nbsp;</td>
+</tr>
+<tr>
+  <td width="225px" height="10px">&nbsp;</td>
+  <td width="140px" height="10px">&nbsp;</td>
+  <td width="80px" style="font-family:arial;font-weight:bold">Username:</td>
+  <td><input size="15" value="" name="j_username" maxlength="25" type="text"></td>
+</tr>
+<tr>
+  <td width="140px" height="10px">&nbsp;</td>
+  <td width="140px" height="10px">&nbsp;</td>
+  <td width="80px" style="font-family:arial;font-weight:bold">Password:</td>
+  <td><input size="15" value="" name="j_password" maxlength="25" type="password" onkeydown="if (event.keyCode == 13) loginForm.submit()"></td>
+</tr>
+<tr>
+  <td colspan="2" height="80px" align="center">&nbsp;
+  </td>
+  <td colspan="2" height="80px" ><span style="font-family:arial;color:red;font-size:14px;font-weight:bold">&nbsp;</span><br/><br/>
+  </td>
+</tr>
+<tr>
+  <td width="140px" height="10px">&nbsp;</td>
+  <td colspan="2" height="40px"><img id="veniceButton" style="cursor:pointer;cursor:hand;display:inline" src="images/VeniceButton.png" onClick="loginForm.submit()"/></td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td height="90px" colspan="4">&nbsp;</td>
+</tr>
+</table>
+</form>
+</div>
+</body>
+</HTML>

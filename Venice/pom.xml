@@ -74,7 +74,6 @@
         <gshell-bootstrap.version>1.0-alpha-1</gshell-bootstrap.version>
         <plexus-classworlds.version>1.2-alpha-10</plexus-classworlds.version>
         <jcl-over-slf4j.version>1.5.5</jcl-over-slf4j.version>
-        <slf4j.version>1.6.0</slf4j.version>
         <jsr88-deploymentfactory.version>2.1.8</jsr88-deploymentfactory.version>
         <geronimo-jaxws-sun-tools.version>2.2</geronimo-jaxws-sun-tools.version>
         <asm.version>3.1</asm.version>
@@ -230,7 +229,6 @@
         <gwt.version>2.1.1</gwt.version>
         <smartgwt.version>3.1</smartgwt.version>
         
-        <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
     </properties>
   
@@ -241,67 +239,8 @@
             <version>${hsqldb.version}</version>
             <scope>test</scope>
         </dependency>
-
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-beans</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<!-- Spring Context -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context-support</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<!-- Spring 3 optional dependency (required if Scope Proxy is being used) -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>${cglib.version}</version>
-		</dependency>
-		<!-- slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<!-- JUnit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>		
-		<!-- Spring Test -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- mockito (fake collaborator testing) -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>    
-		        
     </dependencies>
-        
+    
     <build>
         <plugins>
             <plugin>

@@ -1,0 +1,153 @@
+<logistics>
+	<providers>
+		<provider>
+			<id>1</id>
+			<name>NCS</name>
+		</provider>
+		<provider>
+			<id>2</id>
+			<name>RPX</name>
+		</provider>
+	</providers>
+	<activityreports_airwaybills>
+		<airwaybill>
+			<orderid>O-001</orderid>
+			<orderitemid>OI-001</orderitemid>
+			<seq>001</seq>
+			<merchant>Merchant One</merchant>
+			<id>AWB-1</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-001</airwaybillno>
+			<reportfile>rpt_2011_01_02_rpx.xls</reportfile>
+			<status>Problem exists</status>
+			<approvalstatus>Approved</approvalstatus>
+		</airwaybill>
+		<airwaybill>
+			<orderid>O-001</orderid>
+			<orderitemid>O1-001</orderitemid>
+			<seq>001</seq>
+			<merchant>Merchant One</merchant>
+			<id>AWB-2</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-001</airwaybillno>
+			<reportfile>rpt_2011_01_02_rpx.xls</reportfile>
+			<status>OK</status>
+			<approvalstatus>New</approvalstatus>
+		</airwaybill>
+		<airwaybill>
+			<orderid>O-001</orderid>
+			<orderitemid>O1-001</orderitemid>
+			<seq>001</seq>
+			<merchant>Merchant One</merchant>
+			<id>AWB-3</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-002</airwaybillno>
+			<reportfile>rpt_2011_01_02_rpx.xls</reportfile>
+			<status>Problem exists</status>
+			<approvalstatus>New</approvalstatus>
+		</airwaybill>
+		<airwaybill>
+			<orderid>O-001</orderid>
+			<orderitemid>O1-001</orderitemid>
+			<seq>001</seq>
+			<merchant>Merchant One</merchant>
+			<id>AWB-4</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-003</airwaybillno>
+			<reportfile>rpt_2011_01_02_rpx.xls</reportfile>
+			<status>No Data from MTA</status>
+			<approvalstatus>New</approvalstatus>			
+		</airwaybill>
+		<airwaybill>
+			<orderid>O-001</orderid>
+			<orderitemid>O1-001</orderitemid>
+			<seq>001</seq>
+			<merchant>Merchant One</merchant>
+			<id>AWB-5</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-004</airwaybillno>
+			<reportfile>rpt_2011_01_02_rpx.xls</reportfile>
+			<status>Problem exists</status>	
+			<approvalstatus>New</approvalstatus>		
+		</airwaybill>
+	</activityreports_airwaybills>
+	<activityreports_reconproblems>
+		<problem>
+			<reconciliationrecordid>1</reconciliationrecordid>
+			<airwaybillno>AWB/1/1/2011-003</airwaybillno>
+			<failure>Service Mismatch</failure>
+			<venicedata>Regular</venicedata>
+			<providerdata>Express</providerdata>
+			<status>New</status>
+		</problem>
+		<problem>
+			<reconciliationrecordid>2</reconciliationrecordid>
+			<airwaybillno>AWB/1/1/2011-003</airwaybillno>
+			<failure>Settlement Code Mismatch</failure>
+			<venicedata>STTL-01234</venicedata>
+			<providerdata>STTL-01235</providerdata>
+			<status>New</status>
+		</problem>
+	</activityreports_reconproblems>
+	<invoice_airwaybills>
+		<airwaybill>
+			<id>AWB-1</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-001</airwaybillno>
+			<reportfile>inv_2011_01_02_rpx.xls</reportfile>
+			<amount>100000</amount>
+			<status>Problem exists</status>
+			<approvalstatus>Approved</approvalstatus>
+		</airwaybill>
+		<airwaybill>
+			<id>AWB-2</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-001</airwaybillno>
+			<reportfile>inv_2011_01_02_rpx.xls</reportfile>
+			<amount>110000</amount>
+			<status>OK</status>
+			<approvalstatus>New</approvalstatus>
+		</airwaybill>
+		<airwaybill>
+			<id>AWB-3</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-002</airwaybillno>
+			<reportfile>inv_2011_01_02_rpx.xls</reportfile>
+			<amount>130000</amount>
+			<status>Problem exists</status>
+			<approvalstatus>New</approvalstatus>
+		</airwaybill>
+		<airwaybill>
+			<id>AWB-4</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-003</airwaybillno>
+			<reportfile>inv_2011_01_02_rpx.xls</reportfile>
+			<amount>90000</amount>
+			<status>Data does not exist</status>
+			<approvalstatus>New</approvalstatus>			
+		</airwaybill>
+		<airwaybill>
+			<id>AWB-5</id>
+			<airwaybilltimestamp>2011-01-01T10:00:00Z</airwaybilltimestamp>
+			<airwaybillno>AWB/1/1/2011-004</airwaybillno>
+			<reportfile>inv_2011_01_02_rpx.xls</reportfile>
+			<amount>150000</amount>
+			<status>Problem exists</status>	
+			<approvalstatus>New</approvalstatus>		
+		</airwaybill>
+	</invoice_airwaybills>
+	<invoice_reconproblems>
+		<problem>
+			<airwaybillno>AWB/1/1/2011-003</airwaybillno>
+			<failure>Weight Mismatch</failure>
+			<venicedata>10 kg</venicedata>
+			<providerdata>12 kg</providerdata>
+		</problem>
+		<problem>
+			<airwaybillno>AWB/1/1/2011-003</airwaybillno>
+			<failure>Insurance Cost Mismatch</failure>
+			<venicedata>Rp. 1,000</venicedata>
+			<providerdata>Rp. 1,500</providerdata>
+		</problem>
+	</invoice_reconproblems>
+</logistics>

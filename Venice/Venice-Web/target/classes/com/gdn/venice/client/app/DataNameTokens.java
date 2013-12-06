@@ -357,6 +357,7 @@ public class DataNameTokens {
 	public static String FINSALESRECORD_CUSTOMERDOWNPAYMENT = "FinSalesRecord.customerDownpayment";
 	public static String FINSALESRECORD_FINAPPAYMENT = "FinSalesRecord.finApPayment";
 	public static String FINSALESRECORD_RECONCILEDATE = "FinSalesRecord.reconcileDate";
+	public static String FINSALESRECORD_SALESTIMESTAMP = "FinSalesRecord.salesTimestamp";
 	//Fields for Export Screen - Journal Voucher
 	public static String FINROLLEDUPJOURNALHEADER_RUJOURNALHEADERID = "FinRolledUpJournalHeader.ruJournalHeaderId";
 	public static String FINROLLEDUPJOURNALHEADER_RUJOURNALFILENAMEANDPATH = "FinRolledUpJournalHeader.ruJournalFilenameAndPath";
@@ -1854,7 +1855,7 @@ public class DataNameTokens {
 		fieldClassMap.put(FINSALESRECORD_MCX_DATE, "java.sql.Timestamp");
 		fieldClassMap.put(FINSALESRECORD_CXF_DATE, "java.sql.Timestamp");
 		fieldClassMap.put(FINSALESRECORD_MERCHANTPAYMENTAMOUNT, "java.math.BigDecimal");
-		fieldClassMap.put(FINSALESRECORD_RECONCILEDATE, "java.sql.Timestamp");
+		fieldClassMap.put(FINSALESRECORD_SALESTIMESTAMP, "java.sql.Timestamp");
 		
 		fieldClassMap.put(FINAPPAYMENT_APPAYMENTID, "java.lang.Long");
 		fieldClassMap.put(FINAPPAYMENT_VENPARTY_FULLORLEGALNAME, "java.lang.String");

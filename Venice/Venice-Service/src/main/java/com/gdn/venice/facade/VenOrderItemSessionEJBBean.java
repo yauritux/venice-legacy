@@ -33,6 +33,7 @@ import com.djarum.raf.utilities.Log4jLoggerFactory;
 import com.gdn.venice.facade.callback.SessionCallback;
 import com.gdn.venice.facade.callback.VenOrderItemSessionEJBCallback;
 import com.gdn.venice.facade.finder.FinderReturn;
+import com.gdn.venice.integration.outbound.Publisher;
 import com.gdn.venice.persistence.VenOrderItem;
 
 /**
@@ -67,7 +68,7 @@ public class VenOrderItemSessionEJBBean implements VenOrderItemSessionEJBRemote,
     private EntityManagerFactory emf;
     private EntityManager emForJDBC;
     private static final String COUNT_ORDER_ITEM_SQL = "select count(*) as totalOrderItem from ven_order_item where order_item_id = ?";
-    private static final String MERGE_ORDER_ITEM_SQL = "update ven_order_item set etd = ?,  gift_card_flag = ?,  gift_card_note = ?,  gift_wrap_price = ?,  gift_wrap_flag = ?,  insurance_cost = ?,  max_est_date = ?,  merchant_settlement_flag = ?,  min_est_date = ?,  package_count = ?,  price = ?,  quantity = ?,  salt_code = ?, 	 shipping_cost = ?,  shipping_weight = ?,  special_handling_instructions = ?,	 total = ?,  logistics_price_per_kg = ?,  shipping_address_id = ?,  product_id = ?, order_status_id = ?,  recipient_id = ?,  logistics_service_id = ?, sales_batch_status = ? where order_item_id = ? ";
+    private static final String MERGE_ORDER_ITEM_SQL = "update ven_order_item set etd = ?,  gift_card_flag = ?,  gift_card_note = ?,  gift_wrap_price = ?,  gift_wrap_flag = ?,  insurance_cost = ?,  max_est_date = ?,  merchant_settlement_flag = ?,  min_est_date = ?,  package_count = ?,  price = ?,  quantity = ?,  salt_code = ?, 	 shipping_cost = ?,  shipping_weight = ?,  special_handling_instructions = ?,	 total = ?,  logistics_price_per_kg = ?,  shipping_address_id = ?,  product_id = ?, order_status_id = ?,  recipient_id = ?,  logistics_service_id = ?, sales_batch_status = ?, transaction_fee_amount = ? where order_item_id = ? ";
 
     /**
      * Default constructor.
@@ -453,8 +454,13 @@ public class VenOrderItemSessionEJBBean implements VenOrderItemSessionEJBRemote,
                 } else {
                     psMergeOrderItem.setNull(24, Types.VARCHAR);
                 }
-                psMergeOrderItem.setLong(25, venOrderItem.getOrderItemId());
-
+                if (venOrderItem.getTransactionFeeAmount() != null) {
+                    psMergeOrderItem.setBigDecimal(25, venOrderItem.getTransactionFeeAmount());
+                } else {
+                    psMergeOrderItem.setNull(25, Types.DECIMAL);
+                }
+                psMergeOrderItem.setLong(26, venOrderItem.getOrderItemId());
+                
                 psMergeOrderItem.executeUpdate();
 
             } catch (Exception e) {
@@ -707,5 +713,20 @@ public class VenOrderItemSessionEJBBean implements VenOrderItemSessionEJBRemote,
             _log.error(errMsg);
             throw new EJBException(errMsg);
         }
+    }
+
+    @Override
+    public Boolean republish(VenOrderItem venOrderItem) {
+        if (emForJDBC == null) {
+            emForJDBC = emf.createEntityManager();
+        }
+        Connection conn = ((EntityManagerImpl) emForJDBC).getSession().connection();
+        _log.debug("start publish order item status");
+        Publisher publisher = new Publisher();
+        boolean result = publisher.publishUpdateOrderItemStatus(venOrderItem, conn);
+        if(result){
+            _log.debug("done publish order item status");
+        }
+        return result;
     }
 }

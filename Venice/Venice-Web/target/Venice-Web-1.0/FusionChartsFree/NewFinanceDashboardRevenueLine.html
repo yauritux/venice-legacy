@@ -1,0 +1,101 @@
+
+		   
+		   
+		  
+		<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<script language="JavaScript" src="JSClass/FusionCharts.js"></script>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td valign="top" class="text" align="center"> <div id="chartdiv" align="center"> 
+        FusionCharts. </div>
+      <script type="text/javascript">
+      		  //var value from http
+		//2012-01-30= Commission : 80.0/Transaction Fee : 40.0/Handling Fee : 50.0& 
+		//2012-01-29= Commission : 0.0/Transaction Fee : 0.0/Handling Fee : 0.0&
+		//2012-01-28= Commission : 120.0/Transaction Fee : 160.0/Handling Fee : 140.0& 
+		//2012-01-27= Commission : 160.0/Transaction Fee : 80.0/Handling Fee : 100.0& 
+		//2012-01-26= Commission : 160.0/Transaction Fee : 80.0/Handling Fee : 100.0  
+
+		var sURL = window.document.URL.toString().replace(/%20/gi," ").replace(/{/gi,"").replace(/}/gi,"").replace(/,/gi,"");
+      		  //alert(sURL);
+      		  
+      		  var tempSplitURLs=sURL.split("?");
+      		  //2012-01-30= Commission : 80.0/Transaction Fee : 40.0/Handling Fee : 50.0 & 2012-01-29= Commission : 0.0/Transaction Fee : 0.0/Handling Fee : 0.0&
+      		  var tempSplitURL=tempSplitURLs[1].split("&");
+      		  if(tempSplitURL[0]!=""){  
+      		  	 for(var i=0;i<tempSplitURL.length;i++){
+      		  	 	 //2012-01-30= Commission : 80.0/Transaction Fee : 40.0/Handling Fee : 50.0
+				tempSplitURL[i]=tempSplitURL[i].split("=");
+				//Commission : 80.0/Transaction Fee : 40.0/Handling Fee : 50.0
+				tempSplitURL[i][2]=tempSplitURL[i][2].split("/");
+				for(var j=0;j<tempSplitURL[i][2].length;j++){
+					//Commission : 80.0
+					tempSplitURL[i][2][j]=tempSplitURL[i][2][j].split(":");
+				}
+				
+			}    
+      		  
+      		  
+      		  }
+		   var Yaxis="Rupiah";
+		   var Xaxis="Date";
+		   var seriesName=new Array("Transaction Fee","Commission","Handling Fee");
+		   var color= new Array("FFF000","FF0F00","000FFF");
+		   var val=new Array([0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]);
+		   //make XML
+		   var xml="<graph xaxisname='"+Xaxis+"' yaxisname='"+Yaxis+"' hovercapbg='DEDEBE' hovercapborder='889E6D' rotateNames='0'  numdivlines='5' divLineColor='CCCCCC' divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' AlternateHGridColor='CCCCCC'>";
+		   xml+="<categories font='Arial' fontSize='11' fontColor='000000'>";
+		
+		    if(tempSplitURL[0]!=""){  
+			   for(var i=0;i<tempSplitURL.length;i++){
+				   xml+="<category name='"+tempSplitURL[i][1]+"' />";
+			   }   
+			   xml+="</categories>";
+			    for(var i=0;i<tempSplitURL[0][2].length;i++){		   	  
+			    	    xml+="<dataset seriesname='"+tempSplitURL[0][2][i][0]+"' color='"+color[i]+"'>";
+					    for(var k=0;k<tempSplitURL.length;k++){				    	  
+						    xml+="<set value='"+tempSplitURL[k][2][i][1]+"' />";
+						   
+					   }
+					   xml+="</dataset>";
+				   
+			    }
+		    }else{
+		    	    
+		    	   for(var i=0;i<5;i++){
+				   xml+="<category name='0000/00/00' />";
+			   }   
+			   xml+="</categories>";
+			    for(var i=0;i<seriesName.length;i++){		   	  
+			    	    xml+="<dataset seriesname='"+seriesName[i]+"' color='"+get_random_color()+"'>";
+					    for(var k=0;k<5;k++){				    	  
+						    xml+="<set value='"+val[i][k]+"' />";						   
+					   }
+					   xml+="</dataset>";				   
+			    }  		    	    
+		    }		   
+		   xml+="</graph>";
+		   //End XML
+		   		
+		   var chart = new FusionCharts("Charts/FCF_MSLine.swf", "ChartId", "500", "180");
+		   chart.setDataXML(xml);	
+		   //chart.setDataURL("data/revenueData.xml");		   
+		   chart.render("chartdiv");
+		   
+		   
+		   function get_random_color() {
+		   	   var rint = Math.round(0xffffff * Math.random());
+		   	   return ('#0' + rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
+		   }
+
+		</script> </td>
+  </tr>
+</table>
+</body>
+</html>

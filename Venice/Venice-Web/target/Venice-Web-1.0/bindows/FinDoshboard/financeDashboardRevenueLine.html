@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<script language="JavaScript" src="JSClass/FusionCharts.js"></script>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td valign="top" class="text" align="center"> <div id="chartdiv" align="center"> 
+        FusionCharts. </div>
+      <script type="text/javascript">
+      		  //var value from http
+		   var Yaxis="Rupiah";
+		   var Xaxis="Date";
+		   var name=new Array("01/01/2011","02/01/2011","03/01/2011","04/01/2011","05/01/2011");
+		   var seriesName=new Array("Transaction Fee","Commission","Handling Fee");
+		   var val=new Array([30,26,29,31,30],[67,98,79,73,80],[27,25,28,26,20]);
+		  
+		   //make XML
+		   var xml="<graph xaxisname='"+Xaxis+"' yaxisname='"+Yaxis+"' hovercapbg='DEDEBE' hovercapborder='889E6D' rotateNames='0'  numdivlines='5' divLineColor='CCCCCC' divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' AlternateHGridColor='CCCCCC'>";
+		   xml+="<categories font='Arial' fontSize='11' fontColor='000000'>";
+		   for(var i=0;i<name.length;i++){
+		   	   xml+="<category name='"+name[i]+"' />";
+		   }   
+		   xml+="</categories>";
+		   for(var j=0;j<seriesName.length;j++){
+		   	  
+		   	   xml+="<dataset seriesname='"+seriesName[j]+"' color='"+get_random_color()+"'>";
+		   	   //alert(col);
+		   	   for(var k=0;k<name.length;k++){
+		   	   	   xml+="<set value='"+val[j][k]+"' />";
+		   	   	   
+		   	   }
+		   	   xml+="</dataset>";
+		   }
+		   xml+="</graph>";
+		   //End XML
+		   
+		   var chart = new FusionCharts("Charts/FCF_MSLine.swf", "ChartId", "500", "170");
+		   chart.setDataXML(xml);	
+		   //chart.setDataURL("data/revenueData.xml");		   
+		   chart.render("chartdiv");
+		   
+		   
+		   function get_random_color() {
+		   	   var rint = Math.round(0xffffff * Math.random());
+		   	   return ('#0' + rint.toString(16)).replace(/^#0([0-9a-f]{6})$/i, '#$1');
+		   }
+
+		</script> </td>
+  </tr>
+</table>
+</body>
+</html>

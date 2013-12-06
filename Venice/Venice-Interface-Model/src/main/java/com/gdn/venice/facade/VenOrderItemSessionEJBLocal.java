@@ -98,5 +98,5 @@ public interface VenOrderItemSessionEJBLocal {
 	public FinderReturn findByVenOrderItemLikeFR(VenOrderItem venOrderItem,
 			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
 	
-
+        public Boolean republish(VenOrderItem venOrderItem);
 }

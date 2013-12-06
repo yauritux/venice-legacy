@@ -244,6 +244,7 @@ public interface VeniceConstants {
 	public static final String FIN_SALES_BATCH_STATUS_READY = "Ready";
 	public static final String FIN_SALES_BATCH_STATUS_IN_PROCESS = "In process";
 	public static final String FIN_SALES_BATCH_STATUS_DONE = "Done";
+        public static final String FIN_SALES_BATCH_STATUS_FAILED = "Failed";
 		
 	public static final long FIN_APPROVAL_STATUS_NEW = 0;
 	public static final long FIN_APPROVAL_STATUS_SUBMITTED = 1;

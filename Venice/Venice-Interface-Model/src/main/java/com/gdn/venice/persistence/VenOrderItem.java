@@ -87,6 +87,9 @@ public class VenOrderItem implements Serializable {
 	@Column(name="logistic_discount_amount", precision=20, scale=2)
 	private BigDecimal logisticDiscountAmount;
 	
+	@Column(name="transaction_fee_amount", precision=20, scale=2)
+	private BigDecimal transactionFeeAmount;
+	
 	@Column(name="delivery_recipient_name")
 	private String deliveryRecipientName;
 	
@@ -607,5 +610,13 @@ public class VenOrderItem implements Serializable {
 
 	public void setSalesBatchStatus(String salesBatchStatus) {
 		this.salesBatchStatus = salesBatchStatus;
+	}
+	
+	public BigDecimal getTransactionFeeAmount() {
+		return transactionFeeAmount;
+	}
+
+	public void setTransactionFeeAmount(BigDecimal transactionFeeAmount) {
+		this.transactionFeeAmount = transactionFeeAmount;
 	}
 }

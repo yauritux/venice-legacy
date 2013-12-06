@@ -1,0 +1,5 @@
+<chart isSliced='1' slicingDistance='3' decimalPrecision='0'>
+	<set name='Fraud' value='21' color='FF0000' alpha='85'/>
+	<set name='Suspected Fraud' value='126' color='FFFF00'  alpha='85'/>
+	<set name='Confirmed Orders' value='180' color='333333' alpha='85'/>
+</chart>

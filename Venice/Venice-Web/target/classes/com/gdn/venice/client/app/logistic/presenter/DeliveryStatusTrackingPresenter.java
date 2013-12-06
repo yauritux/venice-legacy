@@ -90,7 +90,7 @@ public class DeliveryStatusTrackingPresenter
 	public List<DataSource> onShowDeliveryStatusTrackingDetail(String airwayBillId, String orderItemId) {
 		ArrayList<DataSource> dataSources = new ArrayList<DataSource>();
 		dataSources.add(LogisticsData.getDeliveryStatusTrackingDetailData(airwayBillId));
-		dataSources.add(GeneralData.getOrderHistoryOrderItemData(orderItemId));
+		dataSources.add(GeneralData.getOrderHistoryOrderItemDataByOrderItemId(orderItemId));
 		return dataSources;
 	}
 

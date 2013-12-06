@@ -13,14 +13,14 @@ public class DeliveryStatusTrackingContentLayout extends HLayout {
 			final DataSource airwayBillData,
 			final DataSource historyOrderItemData
 			) {
-		TabSet fraudCaseManagementTabSet = new TabSet();
+		TabSet deliveryStatusTrackingDetailTabSet = new TabSet();
 
-		fraudCaseManagementTabSet.setTabBarPosition(Side.TOP);
-		fraudCaseManagementTabSet.setWidth100();
-		fraudCaseManagementTabSet.setHeight100();
+		deliveryStatusTrackingDetailTabSet.setTabBarPosition(Side.TOP);
+		deliveryStatusTrackingDetailTabSet.setWidth100();
+		deliveryStatusTrackingDetailTabSet.setHeight100();
 		
-		fraudCaseManagementTabSet.addTab(new DeliveryStatusTrackingDetailTab("Delivery Status Tracking Detail", airwayBillData, historyOrderItemData));	
-		fraudCaseManagementTabSet.addTabSelectedHandler(new TabSelectedHandler() {			
+		deliveryStatusTrackingDetailTabSet.addTab(new DeliveryStatusTrackingDetailTab("Delivery Status Tracking Detail", airwayBillData, historyOrderItemData));	
+		deliveryStatusTrackingDetailTabSet.addTabSelectedHandler(new TabSelectedHandler() {			
 			@Override
 			public void onTabSelected(TabSelectedEvent event) {
 				if (event.getTab() instanceof DeliveryStatusTrackingDetailTab) {
@@ -39,6 +39,6 @@ public class DeliveryStatusTrackingContentLayout extends HLayout {
 		
 		setWidth100();
 		setHeight100();		
-		setMembers(fraudCaseManagementTabSet);
+		setMembers(deliveryStatusTrackingDetailTabSet);
 	}	
 }

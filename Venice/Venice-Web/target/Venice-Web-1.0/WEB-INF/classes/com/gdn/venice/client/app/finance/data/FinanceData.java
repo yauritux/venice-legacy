@@ -200,6 +200,7 @@ public class FinanceData {
 		DataSourceField[] dataSourceFields = {
 				new DataSourceIntegerField(DataNameTokens.FINSALESRECORD_SALESRECORDID, "ID"),
 				new DataSourceDateField(DataNameTokens.FINSALESRECORD_RECONCILEDATE, "Reconcile Date"),
+				new DataSourceDateField(DataNameTokens.FINSALESRECORD_SALESTIMESTAMP, "Sales Timestamp"),
 				new DataSourceDateField(DataNameTokens.FINSALESRECORD_VENORDERITEM_VENORDER_ORDERDATE, "Order Date"),
 				new DataSourceDateField(DataNameTokens.FINSALESRECORD_MCX_DATE, "CX Merchant Date"),
 				new DataSourceDateField(DataNameTokens.FINSALESRECORD_CXF_DATE, "CX Finance Date"),

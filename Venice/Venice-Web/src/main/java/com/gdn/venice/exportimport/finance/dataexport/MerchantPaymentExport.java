@@ -198,7 +198,10 @@ public class MerchantPaymentExport {
 			            }
 			        } catch(UnrecognizedPropertyException uex){
 			            System.out.println("Get bank data for merchant: " + merchant.getWcsMerchantId() + " failed: merchant code is not exist");
-			        }
+			        } finally {
+			            method.releaseConnection();
+			          }
+
 					//No Rekening
 					nameCell = row.createCell(startCol + 3);
 					nameCell.setCellValue(new HSSFRichTextString(merchantBank==null?"":merchantBank.getAcctNo()));

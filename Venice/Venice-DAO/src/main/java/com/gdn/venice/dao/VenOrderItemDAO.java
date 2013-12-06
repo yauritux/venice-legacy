@@ -43,6 +43,6 @@ public interface VenOrderItemDAO extends JpaRepository<VenOrderItem, Long>{
 	@Query(FIND_WITH_VENORDERSTATUS_AND_LOGAIRWAYBILL_BY_VENORDERITEM_SQL)
 	public VenOrderItem findWithVenOrderStatusAndLogAirwayBillByVenOrderItem(VenOrderItem venOrderItem);
 	
-	public List<VenOrderItem> findByWcsOrderItemId(String wcsOrderItemId);
+	public VenOrderItem findByWcsOrderItemId(String wcsOrderItemId);
 	
 }

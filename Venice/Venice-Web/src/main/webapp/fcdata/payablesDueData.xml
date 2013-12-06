@@ -1,0 +1,44 @@
+<graph xaxisname='Payables Due' yaxisname='Rupiah' hovercapbg='DEDEBE' hovercapborder='889E6D' rotateNames='0' numdivlines='5' divLineColor='CCCCCC' divLineAlpha='80' decimalPrecision='0' showAlternateHGridColor='1' AlternateHGridAlpha='30' AlternateHGridColor='CCCCCC' caption='Payables Due (Rp.)'>
+   <categories font='Arial' fontSize='11' fontColor='000000'>
+      <category name='01/01/2011' />
+      <category name='02/01/2011' />
+      <category name='03/01/2011' />
+      <category name='04/01/2011' />
+      <category name='05/01/2011' />
+   </categories>
+   <dataset seriesname='Merchants (d)' color='FF0000'>
+      <set value='30000' />
+      <set value='26000' />
+      <set value='29000' />
+      <set value='31000' />
+      <set value='34000' />
+   </dataset>
+   <dataset seriesname='Merchants (p)' color='FF0000'>
+      <set value='3000' />
+      <set value='2600' />
+      <set value='2900' />
+      <set value='3100' />
+      <set value='3400' />
+   </dataset>
+    <dataset seriesname='Logistics (d)' color='ECE355'>
+      <set value='67000' />
+      <set value='98000' />
+      <set value='79000' />
+      <set value='73000' />
+      <set value='80000' />
+   </dataset>
+   <dataset seriesname='Logistics (p)' color='ECE355'>
+      <set value='6700' />
+      <set value='9800' />
+      <set value='7900' />
+      <set value='7300' />
+      <set value='8000' />
+   </dataset>
+    <dataset seriesname='Refund (d)' color='0000FF' >
+      <set value='27000' />
+      <set value='25000' />
+      <set value='28000' />
+      <set value='26000' />
+      <set value='10000' />
+   </dataset>
+</graph>

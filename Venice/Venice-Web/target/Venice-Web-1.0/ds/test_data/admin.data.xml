@@ -1,0 +1,102 @@
+<admin>
+	<users>
+		<user>
+			<userid>abagoes</userid>
+			<username>Agoes Bagoes</username>
+			<userdesc></userdesc>
+		</user>
+		<user>
+			<userid>bbedjodjo</userid>
+			<username>Boedi Bedjodjo</username>
+			<userdesc></userdesc>
+		</user>		
+	</users>
+	<groups>
+		<group>
+			<groupid>operations</groupid>
+			<groupname>Operations Group</groupname>
+			<groupdesc></groupdesc>
+		</group>
+		<group>
+			<groupid>finance</groupid>
+			<groupname>Finance Group</groupname>
+			<groupdesc></groupdesc>
+		</group>		
+	</groups>
+	<profiles>
+		<profile>
+			<profilename>Operations Head</profilename>
+			<profiledesc>This is the Operations Head profile</profiledesc>
+		</profile>
+		<profile>
+			<profilename>Operations Officer</profilename>
+			<profiledesc>This is the Operations Officer profile</profiledesc>
+		</profile>
+		<profile>
+			<profilename>Operations Staff</profilename>
+			<profiledesc>This is the Operations Staff profile</profiledesc>
+		</profile>
+		<profile>
+			<profilename>Finance Head</profilename>
+			<profiledesc>This is the Finance Head profile</profiledesc>
+		</profile>
+		<profile>
+			<profilename>Finance Officer</profilename>
+			<profiledesc>This is the Finance Officer profile</profiledesc>
+		</profile>
+		<profile>
+			<profilename>Finance Staff</profilename>
+			<profiledesc>This is the Finance Staff profile</profiledesc>
+		</profile>
+	</profiles>
+	<screens>
+		<screen>
+			<name>Fraud Case Management</name>
+			<field>Description</field>
+			<edit>false</edit>
+			<view>true</view>
+			<delete>false</delete>
+		</screen>
+		<screen>
+			<name>Fraud Case Management</name>
+			<field>Status</field>
+			<edit>false</edit>
+			<view>true</view>
+			<delete>false</delete>
+		</screen>
+		<screen>
+			<name>Fraud Case Management</name>
+			<field>Reason</field>
+			<edit>false</edit>
+			<view>true</view>
+			<delete>false</delete>
+		</screen>
+		<screen>
+			<name>Provider Management</name>
+			<field>Name</field>
+			<edit>true</edit>
+			<view>true</view>
+			<delete>true</delete>
+		</screen>
+	</screens>
+	<modules>
+		<module>
+			<moduleid>M1</moduleid>
+			<uuid>12345678</uuid>
+			<type>screen</type>
+			<name>FraudDashboard</name>
+		</module>
+		<module>
+			<moduleid>M2</moduleid>
+			<uuid>87654321</uuid>
+			<type>screen</type>
+			<name>FraudCaseManagement</name>
+		</module>
+		<module>
+			<moduleid>M3</moduleid>
+			<uuid>12348765</uuid>
+			<type>screen</type>
+			<name>FinanceDashboard</name>
+		</module>
+	</modules>
+</admin>

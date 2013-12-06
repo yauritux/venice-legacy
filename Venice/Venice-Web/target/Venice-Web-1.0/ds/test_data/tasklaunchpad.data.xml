@@ -1,0 +1,29 @@
+<tasklaunchpad>
+	<tasks>
+		<task>
+			<id>1</id>
+			<type>Human Resources</type>
+			<name>Travel Request</name>
+		</task>
+		<task>
+			<id>2</id>		
+			<type>Human Resources</type>
+			<name>FPTK Request</name>
+		</task>
+		<task>
+			<id>3</id>		
+			<type>Human Resources</type>
+			<name>Medical Claim</name>
+		</task>
+		<task>
+			<id>4</id>
+			<type>Procurement</type>
+			<name>Item Purchase Request</name>
+		</task>
+		<task>
+			<id>5</id>		
+			<type>Finance</type>
+			<name>Cash Advance</name>
+		</task>				
+	</tasks>
+</tasklaunchpad>

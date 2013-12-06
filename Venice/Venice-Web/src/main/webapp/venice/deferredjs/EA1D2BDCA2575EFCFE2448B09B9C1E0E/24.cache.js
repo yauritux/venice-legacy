@@ -1,0 +1,14 @@
+function d8(){}
+function P9(){}
+function ZWb(){}
+function TWb(){}
+function az(b){b.c.Zd(Yt(b.b.b))}
+function gr(b,c,d){return new f8(b,c,d)}
+function Tdc(){Xcc.call(this,$sd,(Plc(),Nlc))}
+function f8(b,c,d){RB.call(this,b,c);this.c=d;uyb(this.i,55).Zb(this);uyb(uyb(this.i,55).$b(),3).b=uyb(this.c,56).Wb()}
+function _Wb(){WWb=new ZWb;Fnb((Cnb(),Bnb),24);!!$stats&&$stats(uob(btd,QVc,-1,-1));WWb.Rd();!!$stats&&$stats(uob(btd,pcd,-1,-1))}
+function YWb(){var b,d,e;while(UWb){d=Mlb;e=UWb;UWb=UWb.c;!UWb&&(VWb=null);if(!d){az(e.b)}else{try{az(e.b)}catch(b){b=wPb(b);if(!xyb(b,200))throw b}}}}
+function Yt(b){var c;!b.ob&&(b.ob=(c=gr((!b.Jb&&(b.Jb=new j8b),b.Jb),(!b.vb&&(b.vb=new S9),b.vb),(!b.nb&&(b.nb=new m8),b.nb),!b.Ib&&(b.Ib=(new a7b).ce(new L6b,new P6b))),c.Tb(),c));return b.ob}
+function X7(){var b,c,d,e,f,g,i;if(V7){return V7}else{V7=new heb;V7.kd(Rsd);c=new Tdc;Xqc(c.q,gcd,(ZBc(),ZBc(),YBc));i=new Udc(Fid,Gid);f=new Udc(Ssd,Yfd);b=new Udc(Tsd,Usd);e=new Ldc(Vsd,Wsd);g=new Ldc(Xsd,Ysd);d=new Udc(gkd,Bmd);eeb(V7,gyb(xOb,{192:1,247:1},89,[c,i,f,b,e,g,d]));V7.jd(Zsd);Hdb(V7,Dcd,YBc,false);return V7}}
+function S9(){var b,c,d,e,f,g,i,j,k,n;this.b=new Lkb;TN(this.b,gyb(ZOb,{192:1,247:1},119,[(b=new VJ,cI(b)?(j=b.Rb(),j.setProperty(SRc,PRc),undefined):(b.i[SRc]=PRc,undefined),cI(b)?(k=b.Rb(),k.setProperty(ORc,PRc),undefined):(b.i[ORc]=PRc,undefined),kI(b,aed,(ZBc(),ZBc(),YBc),true),cI(b)?(n=b.Rb(),n.setProperty(bed,0),undefined):(b.i[bed]=0,undefined),f=new txc($sd,_bd,100),i=new txc(Fid,Gid,200),i.q[Qcd]=lqc(gyb(nPb,{192:1,247:1,248:1},1,[_sd,atd])),d=new txc(Ssd,Yfd,400),c=new txc(Vsd,Wsd,100),e=new txc(Xsd,Ysd,100),g=new sxc(gkd,Bmd),cI(b)?sI(b,jcd,lqc(gyb(bPb,{192:1,247:1},175,[f,i,d,c,e,g]))):(b.i[jcd]=lqc(gyb(bPb,{192:1,247:1},175,[f,i,d,c,e,g])),undefined),kI(b,_cd,YBc,true),kI(b,Ycd,YBc,true),iI(b,icd,Edb(X7())),kI(b,lcd,YBc,false),cI(b)?undefined:(b.i[$nd]=Fid,undefined),eI(b,($lc(),Xlc)),kI(b,Zcd,YBc,true),kI(b,$cd,YBc,true),b)]))}
+var Rsd='/assignedtask/tasks/task',ctd='AssignedTaskPresenter',dtd='AssignedTaskView',etd='AsyncLoader24',_sd='Human Resources - Recruitment',atd='Human Resources - Travel Management',Tsd='assignee',Zsd='ds/test_data/assignedtask.data.xml',btd='runCallbacks24',Vsd='taskdate',Ssd='taskdesc',Xsd='taskduedate',$sd='taskid';var V7=null;_=f8.prototype=d8.prototype=new uB;_.gC=function g8(){return WEb};_.Vb=function h8(){i8b(this.f,this,new hbc(($fb(),Yfb),this))};_.cM={210:1,230:1};_=S9.prototype=P9.prototype=new WC;_.$b=function T9(){return this.b};_.gC=function U9(){return iFb};_.cM={55:1};_.b=null;_=ZWb.prototype=TWb.prototype=new pq;_.gC=function $Wb(){return HIb};_.Rd=function cXb(){YWb()};_.cM={};_=Tdc.prototype=Rdc.prototype;var WEb=oCc(V4c,ctd),iFb=oCc(znd,dtd),HIb=oCc(m8c,etd);$entry(_Wb)();

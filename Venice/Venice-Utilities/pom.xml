@@ -9,6 +9,7 @@
     </parent>
     <!--   <groupId>com.gdn.venice</groupId> -->
     <artifactId>Venice-Utilities</artifactId>
+    <version>1.0</version>
     <name>Venice-Utilities</name>
     <url>http://maven.apache.org</url>
     <build>
@@ -76,5 +77,20 @@
             <version>1.2.8</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.4.2</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.1</version>
+		</dependency>   
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20131018</version>
+		</dependency>
     </dependencies>
 </project>

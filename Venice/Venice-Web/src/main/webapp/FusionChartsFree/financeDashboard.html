@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Free Documentation</title>
+<script language="JavaScript" src="JSClass/FusionCharts.js"></script>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td valign="top" class="text" align="center"> <div id="chartdiv" align="center"> 
+        FusionCharts. </div>
+      <script type="text/javascript">
+		   var chart = new FusionCharts("Charts/FCF_MSLine.swf", "ChartId", "400", "200");
+		   chart.setDataURL("data/revenueData.xml");		   
+		   chart.render("chartdiv");
+		</script> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text" align="center">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

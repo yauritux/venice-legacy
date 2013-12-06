@@ -1,0 +1,32 @@
+<navigation>
+	<item>
+		<id>1</id>
+		<shortcut>TM1</shortcut>
+		<description>Task Management</description>	
+	</item>
+	<item>
+		<id>2</id>
+		<shortcut>TM2</shortcut>
+		<description>Task Summary</description>	
+	</item>	
+	<item>
+		<id>3</id>
+		<shortcut>TM3</shortcut>
+		<description>To Do List</description>	
+	</item>
+	<item>
+		<id>4</id>
+		<shortcut>LM1</shortcut>
+		<description>Logistic Module</description>	
+	</item>
+	<item>
+		<id>5</id>
+		<shortcut>LM2</shortcut>
+		<description>Report Upload</description>	
+	</item>	
+	<item>
+		<id>6</id>
+		<shortcut>LM3</shortcut>
+		<description>Provider Management</description>	
+	</item>
+</navigation>

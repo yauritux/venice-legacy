@@ -5,9 +5,10 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import com.gdn.venice.persistence.VenOrder;
 import com.djarum.raf.utilities.JPQLAdvancedQueryCriteria;
 import com.gdn.venice.facade.finder.FinderReturn;
+import com.gdn.venice.persistence.VenOrder;
+import com.gdn.venice.persistence.VenOrderPayment;
 
 @Remote
 public interface VenOrderSessionEJBRemote {
@@ -92,4 +93,8 @@ public interface VenOrderSessionEJBRemote {
 	 */
 	public FinderReturn findByVenOrderLikeFR(VenOrder venOrder,
 			JPQLAdvancedQueryCriteria criteria, int firstResult, int maxResults);
+	
+	public Boolean republish(VenOrder venOrder, String blockingSource);
+	
+	public Boolean republish(String wcsOrderId, VenOrderPayment venOrderPayment);
 }

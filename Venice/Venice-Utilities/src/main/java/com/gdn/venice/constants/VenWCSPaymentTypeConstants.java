@@ -1,37 +1,43 @@
 package com.gdn.venice.constants;
 
-public enum VenWCSPaymentTypeConstants {
+public enum VenWCSPaymentTypeConstants {	
 
-	 VEN_WCS_PAYMENT_TYPE_KlikBCA("KlikBCA"),
-	 VEN_WCS_PAYMENT_TYPE_DebitMandiri("DebitMandiri"),
-	 VEN_WCS_PAYMENT_TYPE_MandiriKlikpay("MandiriKlikpay"),
-	 VEN_WCS_PAYMENT_TYPE_VirtualAccount("VirtualAccount"),
-	 VEN_WCS_PAYMENT_TYPE_MIGSCreditCard("MIGSCreditCard"),
-	 VEN_WCS_PAYMENT_TYPE_KlikPAYFullPayment("KlikPAYFullPayment"),
-
-	 // 2 constants below are replacing KlikPAYFullPayment
-	 VEN_WCS_PAYMENT_TYPE_KlikPAYKartuKredit("KlikPAYKartuKredit"),
-	 VEN_WCS_PAYMENT_TYPE_KlikPAYKlikBCA("KlikPAYKlikBCA"),
-	
-	 VEN_WCS_PAYMENT_TYPE_KlikPAYZeroPercentInstallment("KlikPAYZeroPercentInstallment"),
-	 VEN_WCS_PAYMENT_TYPE_KlikPAYXPercentInstallment("KlikPAYXPercentInstallment"),
-	 VEN_WCS_PAYMENT_TYPE_MIGSBCAInstallment("MIGSBCAInst"),
-	 VEN_WCS_PAYMENT_TYPE_KlikPAYInstallment("KlikPayInst"),
-	 VEN_WCS_PAYMENT_TYPE_CIMBClicks("CIMBClicks"),
-	 VEN_WCS_PAYMENT_TYPE_XLTunai("XLTunai"),
-	 VEN_WCS_PAYMENT_TYPE_MandiriInstallment("MandiriInstallment"),
-	 VEN_WCS_PAYMENT_TYPE_BIIngkisan("BIIngkisan"),
-	 VEN_WCS_PAYMENT_TYPE_BRI("BRI"),
-	 VEN_WCS_PAYMENT_TYPE_MandiriDebit("MandiriDebit"),
-	 VEN_WCS_PAYMENT_TYPE_CSPayment("CSPayment"),
-	
-	//this is only for wcs
-	 VEN_WCS_PAYMENT_TYPE_PartialFulfillment("PartialFulfillment");
+	 VEN_WCS_PAYMENT_TYPE_KlikBCA(0, "KlikBCA"),
+	 VEN_WCS_PAYMENT_TYPE_MandiriKlikpay(1, "MandiriKlikpay"),
+	 VEN_WCS_PAYMENT_TYPE_VirtualAccount(2, "VirtualAccount"),
+	 VEN_WCS_PAYMENT_TYPE_MIGSCreditCard(3, "MIGSCreditCard"),
+	 VEN_WCS_PAYMENT_TYPE_KlikPAYFullPayment(4, "KlikPAYFullPayment"),
+	 VEN_WCS_PAYMENT_TYPE_KlikPAYZeroPercentInstallment(5, "KlikPAYZeroPercentInstallment"),
+	 VEN_WCS_PAYMENT_TYPE_KlikPAYXPercentInstallment(6, "KlikPAYXPercentInstallment"),
+	 VEN_WCS_PAYMENT_TYPE_MIGSBCAInstallment(7, "MIGSBCAInst"),
+	 VEN_WCS_PAYMENT_TYPE_KlikPAYInstallment(8, "KlikPayInst"),
+	 VEN_WCS_PAYMENT_TYPE_CIMBClicks(9, "CIMBClicks"),
+	 VEN_WCS_PAYMENT_TYPE_XLTunai(10, "XLTunai"),
+	 VEN_WCS_PAYMENT_TYPE_MandiriInstallment(11, "MandiriInstallment"),
+	 VEN_WCS_PAYMENT_TYPE_BIIngkisan(12, "BIIngkisan"),
+	 VEN_WCS_PAYMENT_TYPE_BRI(13, "BRI"),
+	 VEN_WCS_PAYMENT_TYPE_MandiriDebit(14, "MandiriDebit"),
+	 VEN_WCS_PAYMENT_TYPE_CSPayment(15, "CSPayment"),
 	 
+	 // 2 constants below are replacing KlikPAYFullPayment
+	 VEN_WCS_PAYMENT_TYPE_KlikPAYKartuKredit(16, "KlikPAYKartuKredit"),
+	 VEN_WCS_PAYMENT_TYPE_KlikPAYKlikBCA(17, "KlikPAYKlikBCA"),
+	 
+	 VEN_WCS_PAYMENT_TYPE_DebitMandiri(18, "DebitMandiri"),
+	 		
+	//this is only for wcs
+	 VEN_WCS_PAYMENT_TYPE_PartialFulfillment(19, "PartialFulfillment");
+	 
+	 private long id;
 	 private String desc;
 	 
-	 private VenWCSPaymentTypeConstants(String desc) {
+	 private VenWCSPaymentTypeConstants(long id, String desc) {
+		 this.id = id;
 		 this.desc = desc;
+	 }
+	 
+	 public long id() {
+		 return id;
 	 }
 	 
 	 public String desc() {

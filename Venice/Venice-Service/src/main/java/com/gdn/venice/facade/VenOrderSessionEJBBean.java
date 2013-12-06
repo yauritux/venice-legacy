@@ -24,7 +24,9 @@ import com.djarum.raf.utilities.JPQLQueryStringBuilder;
 import com.djarum.raf.utilities.Log4jLoggerFactory;
 import com.gdn.venice.facade.callback.SessionCallback;
 import com.gdn.venice.facade.finder.FinderReturn;
+import com.gdn.venice.integration.outbound.Publisher;
 import com.gdn.venice.persistence.VenOrder;
+import com.gdn.venice.persistence.VenOrderPayment;
 
 /**
  * Session Bean implementation class VenOrderSessionEJBBean
@@ -641,4 +643,16 @@ public class VenOrderSessionEJBBean implements VenOrderSessionEJBRemote,
 		}		
 	}
 
+	@Override
+	public Boolean republish(VenOrder venOrder, String blockingSource) {
+		Publisher publisher = new Publisher();
+        return publisher.publishUpdateOrderStatus(venOrder, blockingSource);
+	}
+
+	@Override
+	public Boolean republish(String wcsOrderId, VenOrderPayment venOrderPayment) {
+		Publisher publisher = new Publisher();
+        return publisher.publishUpdateOrderVAPaymentStatus(wcsOrderId, venOrderPayment);
+	}
+	
 }
