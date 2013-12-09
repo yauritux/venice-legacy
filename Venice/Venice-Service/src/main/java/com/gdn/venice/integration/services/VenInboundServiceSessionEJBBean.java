@@ -53,7 +53,7 @@ import com.gdn.venice.dao.VenOrderItemDAO;
 import com.gdn.venice.dao.VenOrderStatusDAO;
 import com.gdn.venice.dao.VenOrderStatusHistoryDAO;
 import com.gdn.venice.dao.VenTransactionFeeDAO;
-import com.gdn.venice.exception.InvalidOrderException;
+import com.gdn.venice.exception.VeniceInternalException;
 import com.gdn.venice.facade.FinArFundsInReconRecordSessionEJBLocal;
 import com.gdn.venice.facade.FinSalesRecordSessionEJBLocal;
 import com.gdn.venice.facade.KpiPartyMeasurementPeriodSessionEJBLocal;
@@ -195,7 +195,6 @@ import com.gdn.venice.persistence.VenReturStatusHistoryPK;
 import com.gdn.venice.persistence.VenSettlementRecord;
 import com.gdn.venice.persistence.VenState;
 import com.gdn.venice.persistence.VenTransactionFee;
-import com.gdn.venice.persistence.VenTransactionFeePK;
 import com.gdn.venice.persistence.VenWcsPaymentType;
 import com.gdn.venice.util.VeniceConstants;
 
@@ -297,7 +296,7 @@ public class VenInboundServiceSessionEJBBean implements VenInboundServiceSession
 		
 		try {
 			orderService.createOrder(order);
-		} catch (InvalidOrderException e) {
+		} catch (VeniceInternalException e) {
 			_log.error(e);
 			throw new EJBException(e.getMessage());
 		}

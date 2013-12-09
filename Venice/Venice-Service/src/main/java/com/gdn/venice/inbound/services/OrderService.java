@@ -3,7 +3,7 @@ package com.gdn.venice.inbound.services;
 import org.springframework.stereotype.Component;
 
 import com.gdn.integration.jaxb.Order;
-import com.gdn.venice.exception.InvalidOrderException;
+import com.gdn.venice.exception.VeniceInternalException;
 
 /**
  * 
@@ -13,5 +13,5 @@ import com.gdn.venice.exception.InvalidOrderException;
 @Component
 public interface OrderService {
 	
-	public boolean createOrder(Order order) throws InvalidOrderException;
+	public boolean createOrder(Order order) throws VeniceInternalException;
 }

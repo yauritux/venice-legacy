@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.gdn.venice.inbound.services.OrderCreationTest
--------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.653 sec

@@ -10,6 +10,7 @@ import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.djarum.raf.utilities.JPQLStringEscapeUtility;
 import com.gdn.integration.jaxb.Order;
@@ -126,6 +127,7 @@ import com.gdn.venice.util.VeniceConstants;
  * @author yauritux
  *
  */
+@Service
 public class OrderReceiverImpl implements OrderReceiver {
 
 	@Autowired
@@ -415,7 +417,7 @@ public class OrderReceiverImpl implements OrderReceiver {
 						if( venMerchantList.size()>0 || venMerchantList!=null ){
 							if(venMerchantList.get(0).getVenParty()==null){
 								//List<VenParty> vePartyList = venPartyHome.queryByRange("select o from VenParty o where o.fullOrLegalName ='" +temp[1]+ "'", 0, 1);
-								List<VenParty> venPartyList = venPartyDAO.findByFullOrLegalName(temp[1]);
+								List<VenParty> venPartyList = venPartyDAO.findByLegalName(temp[1]);
 									if(venPartyList==null || venPartyList.isEmpty()){
 										VenParty venPartyitem = new VenParty();
 										VenPartyType venPartyType = new VenPartyType();
