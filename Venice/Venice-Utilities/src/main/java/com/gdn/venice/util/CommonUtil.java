@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
 
 import com.gdn.venice.constants.LoggerLevel;
 import com.gdn.venice.exception.VeniceInternalException;

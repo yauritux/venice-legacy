@@ -13,5 +13,5 @@ import com.gdn.venice.persistence.VenWcsPaymentType;
  */
 public interface VenWcsPaymentTypeDAO extends JpaRepository<VenWcsPaymentType, Long>{
 
-	public List<VenWcsPaymentType> findByWcsPaymentTypeCode(String wcsPaymentTypeCode);
+	public VenWcsPaymentType findByWcsPaymentTypeCode(String wcsPaymentTypeCode);
 }

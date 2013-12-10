@@ -13,5 +13,5 @@ import com.gdn.venice.persistence.LogLogisticsProvider;
  */
 public interface LogLogisticsProviderDAO extends JpaRepository<LogLogisticsProvider, Long>{
 
-	public List<LogLogisticsProvider> findByLogisticsProviderCode(String logisticsProviderCode);
+	public LogLogisticsProvider findByLogisticsProviderCode(String logisticsProviderCode);
 }

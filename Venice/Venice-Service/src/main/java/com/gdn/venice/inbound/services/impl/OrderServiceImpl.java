@@ -6,13 +6,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.djarum.raf.utilities.JPQLStringEscapeUtility;
+import com.djarum.raf.utilities.Locator;
+import com.djarum.raf.utilities.Log4jLoggerFactory;
 import com.gdn.integration.jaxb.Order;
 import com.gdn.integration.jaxb.OrderItem;
 import com.gdn.integration.jaxb.Payment;
@@ -70,12 +72,13 @@ import com.gdn.venice.exception.InvalidOrderItemException;
 import com.gdn.venice.exception.InvalidOrderLogisticInfoException;
 import com.gdn.venice.exception.InvalidOrderVAPaymentException;
 import com.gdn.venice.exception.VeniceInternalException;
+import com.gdn.venice.facade.VenAddressSessionEJBLocal;
+import com.gdn.venice.facade.VenContactDetailSessionEJBLocal;
+import com.gdn.venice.facade.VenCustomerSessionEJBLocal;
+import com.gdn.venice.facade.VenPartyAddressSessionEJBLocal;
+import com.gdn.venice.facade.VenProductCategorySessionEJBLocal;
+import com.gdn.venice.facade.VenProductTypeSessionEJBLocal;
 import com.gdn.venice.factory.VeninboundFactory;
-/*
-import com.gdn.venice.inbound.commands.Command;
-import com.gdn.venice.inbound.receivers.OrderReceiver;
-import com.gdn.venice.inbound.receivers.impl.OrderReceiverImpl;
-*/
 import com.gdn.venice.inbound.services.OrderService;
 import com.gdn.venice.persistence.FinApprovalStatus;
 import com.gdn.venice.persistence.FinArFundsInActionApplied;
@@ -128,6 +131,7 @@ import com.gdn.venice.util.CommonUtil;
 import com.gdn.venice.util.OrderUtil;
 import com.gdn.venice.util.VeniceConstants;
 import com.gdn.venice.validator.factory.OrderCreationValidatorFactory;
+import com.rits.cloning.Cloner;
 
 /**
  * 
@@ -220,15 +224,21 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	VenCityDAO venCityDAO;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(OrderServiceImpl.class);
+	private static Log4jLoggerFactory loggerFactory = new Log4jLoggerFactory();
+	private static final Logger LOG = loggerFactory.getLog4JLogger("com.gdn.venice.inbound.services.impl.OrderServiceImpl");
 	
-	//private Order order;
+	private Mapper mapper = DozerBeanMapperSingletonWrapper.getInstance();	
+	private Cloner cloner = new Cloner();
 	
-	private Mapper mapper;	
-	
+	private Locator<Object> _genericLocator;
 
 	@Override
 	public boolean createOrder(Order order) throws VeniceInternalException {
+		try {
+			this._genericLocator = new Locator<Object>();
+		} catch (Exception e) {
+			CommonUtil.logException(new VeniceInternalException("failed to create locator object",  e), LOG, LoggerLevel.ERROR);
+		}
 		OrderUtil.checkOrder(order, VeninboundFactory.getOrderValidator(new OrderCreationValidatorFactory()));
 				
 		//OrderReceiver orderReceiver = new OrderReceiverImpl(order);
@@ -707,6 +717,8 @@ public class OrderServiceImpl implements OrderService {
 
 					// Persist the billing address
 					next.setVenAddress(this.persistAddress(next.getVenAddress()));
+					
+					CommonUtil.logDebug(LOG, "venaddress has successfully persisted");
 
 					/*
 					VenOrderPaymentSessionEJBLocal paymentHome = (VenOrderPaymentSessionEJBLocal) this._genericLocator
@@ -720,15 +732,18 @@ public class OrderServiceImpl implements OrderService {
 					 */
 					//List<VenOrderPayment> paymentList = paymentHome.queryByRange("select o from VenOrderPayment o where o.wcsPaymentId = '" + next.getWcsPaymentId() + "'", 0, 1);
 					List<VenOrderPayment> paymentList = venOrderPaymentDAO.findByWcsPaymentId(next.getWcsPaymentId());
+					
+					CommonUtil.logDebug(LOG, "paymentList found : " + paymentList.size());
 
 					if (paymentList.isEmpty()) {
 						CommonUtil.logDebug(LOG, "Payment not found so persisting it...");
 						// Persist the object
 						//newVenOrderPaymentList.add((VenOrderPayment) paymentHome.persistVenOrderPayment(next));
-						newVenOrderPaymentList.add(venOrderPaymentDAO.saveAndFlush(next));
+						newVenOrderPaymentList.add(venOrderPaymentDAO.save(next));
 						// Persist the allocations
 						next.setVenOrderPaymentAllocations(this.persistOrderPaymentAllocationList(venOrderPaymentAllocationList));
 					} else {
+						CommonUtil.logDebug(LOG, "persist the allocations");
 						// Persist the allocations
 						next.setVenOrderPaymentAllocations(this.persistOrderPaymentAllocationList(venOrderPaymentAllocationList));
 						// Just put it back into the new list
@@ -737,7 +752,7 @@ public class OrderServiceImpl implements OrderService {
 				}
 			} catch (Exception e) {
 				String errMsg = "An exception occured when persisting VenOrderItem:";
-				throw CommonUtil.logAndReturnException(new InvalidOrderItemException(errMsg, VeniceExceptionConstants.VEN_EX_000021)
+				throw CommonUtil.logAndReturnException(new VeniceInternalException(errMsg, e)
 						, LOG, LoggerLevel.ERROR);
 			}
 			return newVenOrderPaymentList;
@@ -769,7 +784,7 @@ public class OrderServiceImpl implements OrderService {
 							.lookupLocal(VenOrderPaymentAllocationSessionEJBLocal.class,"VenOrderPaymentAllocationSessionEJBBeanLocal");
 					newVenOrderPaymentAllocationList.add((VenOrderPaymentAllocation) paymentAllocationHome.mergeVenOrderPaymentAllocation(next));
 					*/
-					newVenOrderPaymentAllocationList.add(venOrderPaymentAllocationDAO.saveAndFlush(next));
+					newVenOrderPaymentAllocationList.add(venOrderPaymentAllocationDAO.save(next));
 				}
 			} catch (Exception e) {
 				String errMsg = "An exception occured when persisting VenOrderPaymentAllocation:";
@@ -779,7 +794,8 @@ public class OrderServiceImpl implements OrderService {
 		}else{
 			CommonUtil.logDebug(LOG, "Persisting VenOrderPaymentAllocation list is null");
 		}
-		return newVenOrderPaymentAllocationList;
+		List<VenOrderPaymentAllocation> newVenOrderPaymentAllocationCloned = cloner.deepClone(newVenOrderPaymentAllocationList);
+		return newVenOrderPaymentAllocationCloned;
 	}	
 	
 	/**
@@ -1244,14 +1260,12 @@ public class OrderServiceImpl implements OrderService {
 	private VenCustomer persistCustomer(VenCustomer venCustomer) throws VeniceInternalException {
 		if (venCustomer != null) {
 			try {
-				CommonUtil.logDebug(LOG, "Persisting VenCustomer... :" + venCustomer.getCustomerUserName());
-				/*
+				CommonUtil.logDebug(LOG, "Persisting VenCustomer... :" + venCustomer.getCustomerUserName());				
 				VenCustomerSessionEJBLocal customerHome = (VenCustomerSessionEJBLocal) this._genericLocator
-						.lookupLocal(VenCustomerSessionEJBLocal.class, "VenCustomerSessionEJBBeanLocal");
-				*/
+						.lookupLocal(VenCustomerSessionEJBLocal.class, "VenCustomerSessionEJBBeanLocal");				
 				// If the customer already exists then return it, else persist everything
-				//List<VenCustomer> venCustomerList = customerHome.queryByRange( "select o from VenCustomer o where o.wcsCustomerId = '" + venCustomer.getWcsCustomerId() + "'", 0, 0);
-				List<VenCustomer> venCustomerList = venCustomerDAO.findByWcsCustomerId(venCustomer.getWcsCustomerId());
+				List<VenCustomer> venCustomerList = customerHome.queryByRange( "select o from VenCustomer o where o.wcsCustomerId = '" + venCustomer.getWcsCustomerId() + "'", 0, 0);
+				//List<VenCustomer> venCustomerList = venCustomerDAO.findByWcsCustomerId(venCustomer.getWcsCustomerId());
 				if (venCustomerList != null && !venCustomerList.isEmpty()) {
 					venCustomer.setCustomerId(venCustomerList.get(0).getCustomerId());
 				}
@@ -1271,11 +1285,12 @@ public class OrderServiceImpl implements OrderService {
 
 				// Persist the object
 				VenCustomer customer = venCustomer;
-				//venCustomer = customerHome.mergeVenCustomer(venCustomer);
-				venCustomer = venCustomerDAO.saveAndFlush(venCustomer);
+				venCustomer = customerHome.mergeVenCustomer(venCustomer);
+				//venCustomer = venCustomerDAO.save(venCustomer);
 				venCustomer.setVenParty(customer.getVenParty());
 			} catch (Exception e) {
 				String errMsg = "An exception occured when persisting VenCustomer:";
+				e.printStackTrace();
 				throw CommonUtil.logAndReturnException(new InvalidOrderException(errMsg, VeniceExceptionConstants.VEN_EX_100001)
 				  , LOG, LoggerLevel.ERROR);
 			}
@@ -1389,12 +1404,22 @@ public class OrderServiceImpl implements OrderService {
 	 * @param venPartyAddressList
 	 * @return the persisted object
 	 */
-	List<VenPartyAddress> persistPartyAddresses(List<VenPartyAddress> venPartyAddressList) {
+	List<VenPartyAddress> persistPartyAddresses(List<VenPartyAddress> venPartyAddressList) throws VeniceInternalException {
 		List<VenPartyAddress> newVenPartyAddressList = new ArrayList<VenPartyAddress>();
 		if (venPartyAddressList != null && !venPartyAddressList.isEmpty()) {
 			//try {
 				CommonUtil.logDebug(LOG, "Persisting VenPartyAddress list...:" + venPartyAddressList.size());
 				Iterator<VenPartyAddress> i = venPartyAddressList.iterator();
+				/*
+				VenPartyAddressSessionEJBLocal addressHome = null;				
+				try {
+					*addressHome = (VenPartyAddressSessionEJBLocal) this._genericLocator
+							.lookupLocal(VenPartyAddressSessionEJBLocal.class, "VenPartyAddressSessionEJBBeanLocal");
+				} catch (Exception e) {
+					throw CommonUtil.logAndReturnException(new VeniceInternalException("failed to instantiate addressHome bean", e)
+					, LOG, LoggerLevel.ERROR);
+				}
+				*/
 				while (i.hasNext()) {
 					VenPartyAddress next = i.next();
 
@@ -1405,10 +1430,12 @@ public class OrderServiceImpl implements OrderService {
 					id.setAddressTypeId(next.getVenAddressType().getAddressTypeId());
 					next.setId(id);
 					// Persist the object
-					/*VenPartyAddressSessionEJBLocal addressHome = (VenPartyAddressSessionEJBLocal) this._genericLocator
-							.lookupLocal(VenPartyAddressSessionEJBLocal.class, "VenPartyAddressSessionEJBBeanLocal"); */
+					/*
+					VenPartyAddressSessionEJBLocal addressHome = (VenPartyAddressSessionEJBLocal) this._genericLocator
+							.lookupLocal(VenPartyAddressSessionEJBLocal.class, "VenPartyAddressSessionEJBBeanLocal");
+					*/ 
 					//newVenPartyAddressList.add((VenPartyAddress) addressHome.persistVenPartyAddress(next));
-					newVenPartyAddressList.add(venPartyAddressDAO.saveAndFlush(next));
+					newVenPartyAddressList.add(venPartyAddressDAO.save(next));
 				}
 				/*
 			} catch (Exception e) {
@@ -1418,7 +1445,9 @@ public class OrderServiceImpl implements OrderService {
 			}
 			*/
 		}
-		return newVenPartyAddressList;
+		List<VenPartyAddress> venPartyAddressListCloned = cloner.deepClone(newVenPartyAddressList);
+		//return newVenPartyAddressList;
+		return venPartyAddressListCloned;
 	}	
 	
 	VenParty persistParty(VenParty venParty, String type) throws VeniceInternalException {
@@ -1497,10 +1526,15 @@ public class OrderServiceImpl implements OrderService {
 						
 						CommonUtil.logDebug(LOG, "persist Party Addresses ");
 						//Persist the new VenPartyAddress records
-						venPartyAddressList = this.persistPartyAddresses(venPartyAddressList);						
+						venPartyAddressList = this.persistPartyAddresses(venPartyAddressList);
+						CommonUtil.logDebug(LOG, "venPartyAddressList=" + venPartyAddressList);
+						CommonUtil.logDebug(LOG, "size=" + venPartyAddressList.size());
 						
 						if(updatedAddressList.size() == 0){
-							for(VenAddress updatedAddress:tempAddressList){
+							CommonUtil.logDebug(LOG, "updatedAddressList.size == 0");
+							for(VenAddress updatedAddress:tempAddressList){					
+								CommonUtil.logDebug(LOG, "updatedAddress = " + updatedAddress);
+								CommonUtil.logDebug(LOG, "total venparty addresses : " + updatedAddress.getVenPartyAddresses().size() );
 								venPartyAddressList.addAll(updatedAddress.getVenPartyAddresses());	
 								for(VenPartyAddress venPartyAddress:venPartyAddressList){
 									CommonUtil.logDebug(LOG, "VenPartyAddress => " + venPartyAddress.getVenAddress().getAddressId());
@@ -1814,10 +1848,14 @@ public class OrderServiceImpl implements OrderService {
 				// Synchronize the reference data
 				venAddress = this.synchronizeVenAddressReferenceData(venAddress);
 				// Persist the object
-				/*
-				VenAddressSessionEJBLocal addressHome = (VenAddressSessionEJBLocal) this._genericLocator
-						.lookupLocal(VenAddressSessionEJBLocal.class, "VenAddressSessionEJBBeanLocal");
-				*/
+				VenAddressSessionEJBLocal addressHome = null;
+				try {
+					addressHome = (VenAddressSessionEJBLocal) this._genericLocator
+							.lookupLocal(VenAddressSessionEJBLocal.class, "VenAddressSessionEJBBeanLocal");
+				} catch (Exception e) {
+					CommonUtil.logException(new VeniceInternalException("failed to instantiate addressHome bean", e)
+					, LOG, LoggerLevel.ERROR);
+				}
 
 				if (venAddress.getAddressId() == null) {
 					if(venAddress.getStreetAddress1()==null && venAddress.getKecamatan()==null && venAddress.getKelurahan()==null && venAddress.getVenCity()==null &&
@@ -1851,8 +1889,8 @@ public class OrderServiceImpl implements OrderService {
 							venAddress.setVenCountry(null);
 						}			
 						
-						//venAddress = (VenAddress) addressHome.persistVenAddress(venAddress);
-						venAddress = venAddressDAO.saveAndFlush(venAddress);
+						venAddress = (VenAddress) addressHome.persistVenAddress(venAddress);
+						//venAddress = venAddressDAO.saveAndFlush(venAddress);
 						
 						//attach lagi setelah persist
 						venAddress.setVenCity(city);
@@ -1860,13 +1898,13 @@ public class OrderServiceImpl implements OrderService {
 						venAddress.setVenCountry(country);
 						
 						CommonUtil.logDebug(LOG, "persist address");
-						//venAddress = (VenAddress) addressHome.mergeVenAddress(venAddress);
-						venAddress = venAddressDAO.saveAndFlush(venAddress);
+						venAddress = (VenAddress) addressHome.mergeVenAddress(venAddress);
+						//venAddress = venAddressDAO.saveAndFlush(venAddress);
 					}
 				} else {
 					CommonUtil.logDebug(LOG, "merge address");
-					//venAddress = (VenAddress) addressHome.mergeVenAddress(venAddress);
-					venAddress = venAddressDAO.saveAndFlush(venAddress);
+					venAddress = (VenAddress) addressHome.mergeVenAddress(venAddress);
+					//venAddress = venAddressDAO.saveAndFlush(venAddress);
 				}
 
 				/*
@@ -1905,6 +1943,7 @@ public class OrderServiceImpl implements OrderService {
 	private List<Object> synchronizeReferenceData(List<Object> references) throws VeniceInternalException {
 		List<Object> retVal = new ArrayList<Object>();
 		Iterator<Object> i = references.iterator();
+		Cloner cloner = new Cloner();
 		while (i.hasNext()) {
 			Object next = i.next();
 			if (next != null) {
@@ -1958,13 +1997,15 @@ public class OrderServiceImpl implements OrderService {
 							CommonUtil.logDebug(LOG, "Restricting VenBank... :" + ((VenBank) next).getBankCode());
 							//VenBankSessionEJBLocal bankHome = (VenBankSessionEJBLocal) this._genericLocator .lookupLocal(VenBankSessionEJBLocal.class, "VenBankSessionEJBBeanLocal");
 							//List<VenBank> bankList = bankHome.queryByRange("select o from VenBank o where o.bankCode ='" + ((VenBank) next).getBankCode() + "'", 0, 1);
-							List<VenBank> bankList = venBankDAO.findByBankCode(((VenBank) next).getBankCode());
-							if (bankList == null || bankList.isEmpty()) {
+							VenBank bank = venBankDAO.findByBankCode(((VenBank) next).getBankCode());
+							if (bank == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderException(
 										"Bank does not exist", VeniceExceptionConstants.VEN_EX_200001)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(bankList.get(0));
+								// clone to prevent data unexpectedly changed in DB
+								VenBank venBankClone = cloner.deepClone(bank);
+								retVal.add(venBankClone);
 							}
 						/*
 						} catch (Exception e) {
@@ -2009,13 +2050,14 @@ public class OrderServiceImpl implements OrderService {
 							List<LogLogisticsProvider> logisticsProviderList = logisticsProviderHome
 									.queryByRange("select o from LogLogisticsProvider o where o.logisticsProviderCode ='" + ((LogLogisticsProvider) next).getLogisticsProviderCode() + "'", 0, 1);
 							*/
-							List<LogLogisticsProvider> logisticsProviderList = logLogisticProviderDAO.findByLogisticsProviderCode(((LogLogisticsProvider) next).getLogisticsProviderCode());
-							if (logisticsProviderList == null || logisticsProviderList.isEmpty()) {
+							LogLogisticsProvider logisticsProvider = logLogisticProviderDAO.findByLogisticsProviderCode(((LogLogisticsProvider) next).getLogisticsProviderCode());
+							if (logisticsProvider == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderLogisticInfoException(
 										"Logistics provider does not exist", VeniceExceptionConstants.VEN_EX_000011)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(logisticsProviderList.get(0));
+								LogLogisticsProvider logisticsProviderClone = cloner.deepClone(logisticsProvider);
+								retVal.add(logisticsProviderClone);
 							}
 							/*
 						} catch (Exception e) {
@@ -2063,13 +2105,14 @@ public class OrderServiceImpl implements OrderService {
 									.lookupLocal(LogLogisticServiceSessionEJBLocal.class, "LogLogisticServiceSessionEJBBeanLocal");
 							List<LogLogisticService> logisticServiceList = logisticServiceHome
 									.queryByRange("select o from LogLogisticService o where o.serviceCode ='" + ((LogLogisticService) next).getServiceCode() + "'", 0, 1);*/
-							List<LogLogisticService> logisticServiceList = logLogisticServiceDAO.findByServiceCode(((LogLogisticService) next).getServiceCode());
-							if (logisticServiceList == null || logisticServiceList.isEmpty()) {
+							LogLogisticService logisticService = logLogisticServiceDAO.findByServiceCode(((LogLogisticService) next).getServiceCode());
+							if (logisticService == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderException(
 										"Logistics service does not exist", VeniceExceptionConstants.VEN_EX_000011)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(logisticServiceList.get(0));
+								LogLogisticService logLogisticServiceClone = cloner.deepClone(logisticService);
+								retVal.add(logLogisticServiceClone);
 							}
 							/*
 						} catch (Exception e) {
@@ -2088,13 +2131,18 @@ public class OrderServiceImpl implements OrderService {
 						         + ((VenPartyAddress) next).getVenAddress().getStreetAddress1());
 							// Synchronize the reference data
 							next = this.synchronizeVenPartyAddressReferenceData((VenPartyAddress) next);
-							// Synchronize the object
-							/*
-							VenPartyAddressSessionEJBLocal partyAddressHome = (VenPartyAddressSessionEJBLocal) this._genericLocator
-									.lookupLocal(VenPartyAddressSessionEJBLocal.class, "VenPartyAddressSessionEJBBeanLocal");
+							// Synchronize the object		
+							VenPartyAddressSessionEJBLocal partyAddressHome = null;
+							try {
+								partyAddressHome = (VenPartyAddressSessionEJBLocal) this._genericLocator
+										.lookupLocal(VenPartyAddressSessionEJBLocal.class, "VenPartyAddressSessionEJBBeanLocal");
+							} catch (Exception e) {
+								throw CommonUtil.logAndReturnException(new VeniceInternalException("Cannot instantiate partyAddressHome bean", e)
+								   , LOG, LoggerLevel.ERROR);
+							}
 							VenPartyAddress partyAddress = (VenPartyAddress) partyAddressHome.persistVenPartyAddress((VenPartyAddress) next);
-							*/
-							VenPartyAddress partyAddress = (VenPartyAddress) venPartyAddressDAO.saveAndFlush((VenPartyAddress) next);
+							
+							//VenPartyAddress partyAddress = (VenPartyAddress) venPartyAddressDAO.saveAndFlush((VenPartyAddress) next);
 							retVal.add(partyAddress);
 
 							/*
@@ -2153,26 +2201,26 @@ public class OrderServiceImpl implements OrderService {
 				// Contact details need to be synchronized
 				if (next instanceof VenContactDetail) {
 					if (((VenContactDetail) next).getVenContactDetailType() != null) {
-						//try {
+						try {
 							CommonUtil.logDebug(LOG, "Synchronizing VenContactDetail... :" + ((VenContactDetail) next).getVenContactDetailType());
 							// Synchronize the reference data
 							next = this.synchronizeVenContactDetailReferenceData((VenContactDetail) next);
-							// Synchronize the object
-							/*
+							// Synchronize the object							
 							VenContactDetailSessionEJBLocal contactDetailHome = (VenContactDetailSessionEJBLocal) this._genericLocator
 									.lookupLocal(VenContactDetailSessionEJBLocal.class, "VenContactDetailSessionEJBBeanLocal");
-							VenContactDetail contactDetail = (VenContactDetail) contactDetailHome.persistVenContactDetail((VenContactDetail) next);
-							*/
-							VenContactDetail contactDetail = venContactDetailDAO.saveAndFlush((VenContactDetail) next);
+							VenContactDetail contactDetail = (VenContactDetail) contactDetailHome.persistVenContactDetail((VenContactDetail) next);							
+							//VenContactDetail contactDetail = venContactDetailDAO.saveAndFlush((VenContactDetail) next);
 							retVal.add(contactDetail);
-
-							/*
+							
 						} catch (Exception e) {
+							/*
 							LOG.error("An exception occured when looking up VenContactDetailSessionEJBBean:" + e.getMessage());
 							e.printStackTrace();
 							throw new EJBException("An exception occured when looking up VenContactDetailSessionEJBBean:");
-						}
-						*/
+							*/
+							CommonUtil.logAndReturnException(new VeniceInternalException("cannot persisting VenContactDetail", e)
+							   , LOG, LoggerLevel.ERROR);
+						}						
 					}
 				}
 				// Contact detail types need to be restricted to Venice values
@@ -2316,13 +2364,14 @@ public class OrderServiceImpl implements OrderService {
 							List<VenWcsPaymentType> wcsPaymentTypeList = wcsPaymentTypeHome
 									.queryByRange("select o from VenWcsPaymentType o where o.wcsPaymentTypeCode ='" + ((VenWcsPaymentType) next).getWcsPaymentTypeCode() + "'", 0, 1);
 							*/
-							List<VenWcsPaymentType> wcsPaymentTypeList = venWcsPaymentTypeDAO.findByWcsPaymentTypeCode(((VenWcsPaymentType) next).getWcsPaymentTypeCode()); 
-							if (wcsPaymentTypeList == null || wcsPaymentTypeList.isEmpty()) {
+							VenWcsPaymentType wcsPaymentType = venWcsPaymentTypeDAO.findByWcsPaymentTypeCode(((VenWcsPaymentType) next).getWcsPaymentTypeCode()); 
+							if (wcsPaymentType == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderException(
 										"WCS Payment type does not exist", VeniceExceptionConstants.VEN_EX_999999)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(wcsPaymentTypeList.get(0));
+								VenWcsPaymentType venWcsPaymentTypeClone = cloner.deepClone(wcsPaymentType);
+								retVal.add(venWcsPaymentTypeClone);
 							}
 							/*
 						} catch (Exception e) {
@@ -2337,58 +2386,64 @@ public class OrderServiceImpl implements OrderService {
 				// Product categories need to be synchronized
 				if (next instanceof VenProductCategory) {
 					if (((VenProductCategory) next).getProductCategory() != null) {
-						//try {
+						try {
 							CommonUtil.logDebug(LOG, "Synchronizing VenProductCategory... :" + ((VenProductCategory) next).getProductCategory());
-							/*
+							
 							VenProductCategorySessionEJBLocal productCategoryHome = (VenProductCategorySessionEJBLocal) this._genericLocator
 									.lookupLocal(VenProductCategorySessionEJBLocal.class, "VenProductCategorySessionEJBBeanLocal");
 							List<VenProductCategory> productCategoryList = productCategoryHome
 									.queryByRange("select o from VenProductCategory o where o.productCategory ='" + ((VenProductCategory) next).getProductCategory() + "'", 0, 1);
-							*/
-							List<VenProductCategory> productCategoryList = venProductCategoryDAO.findByProductCategory(((VenProductCategory) next).getProductCategory());
+							
+							//List<VenProductCategory> productCategoryList = venProductCategoryDAO.findByProductCategory(((VenProductCategory) next).getProductCategory());
 							if (productCategoryList == null || productCategoryList.isEmpty()) {
-								//VenProductCategory productCategory = (VenProductCategory) productCategoryHome.persistVenProductCategory((VenProductCategory) next);
-								VenProductCategory productCategory = venProductCategoryDAO.saveAndFlush((VenProductCategory) next);
+								VenProductCategory productCategory = (VenProductCategory) productCategoryHome.persistVenProductCategory((VenProductCategory) next);
+								//VenProductCategory productCategory = venProductCategoryDAO.saveAndFlush((VenProductCategory) next);
 								retVal.add(productCategory);
 							} else {
 								retVal.add(productCategoryList.get(0));
 							}
-							/*
+							
 						} catch (Exception e) {
+							/*
 							LOG.error("An exception occured when looking up VenProductCategorySessionEJBBean:" + e.getMessage());
 							e.printStackTrace();
 							throw new EJBException("An exception occured when looking up VenProductCategorySessionEJBBean:");
-						}
-						*/
+							*/
+							throw CommonUtil.logAndReturnException(new VeniceInternalException("cannot persisting product category", e)
+							   , LOG, LoggerLevel.ERROR);
+						}						
 					}
 				}
 				// Product types need to be synchronized
 				if (next instanceof VenProductType) {
 					if (((VenProductType) next).getProductTypeCode() != null) {
-						//try {
+						try {
 							CommonUtil.logDebug(LOG, "Synchronizing VenProductType... :" + ((VenProductType) next).getProductTypeCode());
-							/*
+							
 							VenProductTypeSessionEJBLocal productTypeHome = (VenProductTypeSessionEJBLocal) this._genericLocator
 									.lookupLocal(VenProductTypeSessionEJBLocal.class, "VenProductTypeSessionEJBBeanLocal");
 							List<VenProductType> productTypeList = productTypeHome
 									.queryByRange("select o from VenProductType o where o.productTypeCode ='" + ((VenProductType) next).getProductTypeCode() + "'", 0, 1);
-							*/
-							List<VenProductType> productTypeList = venProductTypeDAO.findByProductTypeCode(((VenProductType) next).getProductTypeCode());
+							
+							//List<VenProductType> productTypeList = venProductTypeDAO.findByProductTypeCode(((VenProductType) next).getProductTypeCode());
 							if (productTypeList == null || productTypeList.isEmpty()) {
-								//VenProductType productType = (VenProductType) productTypeHome.persistVenProductType((VenProductType) next);
-								VenProductType productType = venProductTypeDAO.saveAndFlush((VenProductType) next);
+								VenProductType productType = (VenProductType) productTypeHome.persistVenProductType((VenProductType) next);
+								//VenProductType productType = venProductTypeDAO.saveAndFlush((VenProductType) next);
 								retVal.add(productType);
 
 							} else {
 								retVal.add(productTypeList.get(0));
-							}
-							/*
+							}							
 						} catch (Exception e) {
+							/*
 							LOG.error("An exception occured when looking up VenProductTypeSessionEJBBean:" + e.getMessage());
 							e.printStackTrace();
 							throw new EJBException("An exception occured when looking up VenProductTypeSessionEJBBean:");
+							*/
+							throw CommonUtil.logAndReturnException(new VeniceInternalException("cannot persisting VenProductType", e)
+							   , LOG, LoggerLevel.ERROR);
 						}
-						*/
+						
 					}
 				}
 				// Promotions need to be synchronized
@@ -2753,7 +2808,8 @@ public class OrderServiceImpl implements OrderService {
 			//Add the persisted addresses to the new list
 			updatedVenAddressList.addAll(persistVenAddressList);
 		}
-		return updatedVenAddressList;
+		List<VenAddress> updatedVenAddressListCloned = cloner.deepClone(updatedVenAddressList);
+		return updatedVenAddressListCloned;
 	}		
 	
 	private VenOrder retrieveExistingOrder(String wcsOrderId) {

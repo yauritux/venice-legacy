@@ -14,6 +14,11 @@ public class InvalidOrderItemException extends InvalidOrderException {
 		this.errorCode = errorCode;
 	}
 	
+	public InvalidOrderItemException(String message, VeniceExceptionConstants errorCode
+			, Throwable cause) {
+		super(message, cause, errorCode);
+	}
+	
 	private static final long serialVersionUID = 736569445215351357L;	
 	
 }

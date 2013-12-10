@@ -94,7 +94,7 @@ public class VenOrderItemMergeProcessorTest {
 	
 	private void commonPreMergeTest(VenOrderItem existingOrderItem, VenOrderItem newOrderItem){
 		when(venOrderItemDAO
-				.findWithVenOrderStatusAndLogAirwayBillByVenOrderItem(newOrderItem))
+				.findWithVenOrderStatusAndLogAirwayBillByWcsOrderItemId(newOrderItem.getWcsOrderItemId()))
 					.thenReturn(existingOrderItem);
 		
 		processor.preMerge(newOrderItem);

@@ -15,8 +15,8 @@ import com.gdn.venice.persistence.VenPromotion;
 public interface VenPromotionDAO extends JpaRepository<VenPromotion, Long>{
 
 	String FIND_BY_PROMOTION_AND_MARGIN 
-	  = "select o from VenPromotion o where o.promotionCode =:promotionCode and o.promotionName =:promotionName "
-	  		+ "and o.gdnMargin =:gdnMargin and o.merchantMargin =:merchantMargin and o.othersMargin =:othersMargin";
+	  = "select o from VenPromotion o where o.promotionCode = ?1 and o.promotionName = ?2 "
+	  		+ "and o.gdnMargin = ?3 and o.merchantMargin = ?4 and o.othersMargin = ?5";
 	
 	@Query(FIND_BY_PROMOTION_AND_MARGIN)
 	public List<VenPromotion> findByPromotionAndMargin(String promotionCode, String promotionName

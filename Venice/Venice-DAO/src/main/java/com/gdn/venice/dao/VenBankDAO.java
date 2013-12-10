@@ -13,5 +13,5 @@ import com.gdn.venice.persistence.VenBank;
  */
 public interface VenBankDAO extends JpaRepository<VenBank, Long>{
 
-	public List<VenBank> findByBankCode(String bankCode);
+	public VenBank findByBankCode(String bankCode);
 }

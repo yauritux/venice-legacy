@@ -13,5 +13,5 @@ import com.gdn.venice.persistence.LogLogisticService;
  */
 public interface LogLogisticServiceDAO extends JpaRepository<LogLogisticService, Long>{
 
-	public List<LogLogisticService> findByServiceCode(String serviceCode);
+	public LogLogisticService findByServiceCode(String serviceCode);
 }

@@ -10,7 +10,7 @@ import com.gdn.venice.facade.spring.VenOrderItemStatusHistoryService;
 import com.gdn.venice.persistence.VenOrderItem;
 import com.gdn.venice.util.VeniceConstants;
 
-@Component
+@Component("orderItemMergeProcessor")
 public class VenOrderItemMergeProcessor extends MergeProcessor{
 	
 	@Autowired
@@ -24,13 +24,12 @@ public class VenOrderItemMergeProcessor extends MergeProcessor{
 	
 	@Autowired
 	VenOrderItemDAO venOrderItemDAO;
-	
-	
 	@Override
 	public boolean preMerge(Object obj) {
 		VenOrderItem newVenOrderItem = (VenOrderItem) obj;
 
-		VenOrderItem existingVenOrderItem = venOrderItemDAO.findWithVenOrderStatusAndLogAirwayBillByVenOrderItem(newVenOrderItem);
+		VenOrderItem existingVenOrderItem = venOrderItemDAO
+				.findWithVenOrderStatusAndLogAirwayBillByWcsOrderItemId(newVenOrderItem.getWcsOrderItemId());
 		
 		Long existingOrderItemStatusId = existingVenOrderItem.getVenOrderStatus().getOrderStatusId();
 		Long newOrderItemStatusId = newVenOrderItem.getVenOrderStatus().getOrderStatusId();

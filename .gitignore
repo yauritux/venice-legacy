@@ -5,4 +5,5 @@ target/classes
 .swp
 *~
 .svn
+.svn/*.*
 .Servers

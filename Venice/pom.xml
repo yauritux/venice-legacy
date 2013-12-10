@@ -8,19 +8,13 @@
     <name>Venice</name>
   
     <repositories>
-        <!--  
         <repository>
             <id>DALMATIANO81</id>
             <url>http://172.16.247.66:8081/artifactory/gdnRepo/</url>
         </repository>
-        -->
         <repository>
             <id>org.apache.maven.repo</id>
             <url>http://repo.maven.apache.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>maven.org</id>
-            <url>http://repo1.maven.org/maven2/</url>
         </repository>
         <repository>
             <id>org.apache.maven.repo1</id>
@@ -70,6 +64,10 @@
             <id>gwt-maven</id>
             <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
         </repository>  
+        <repository>
+                <id>sonatype.releases</id>
+                <url>http://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
     </repositories>
     
     <properties>

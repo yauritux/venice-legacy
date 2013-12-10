@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.djarum.raf.utilities.JPQLStringEscapeUtility;
+import com.djarum.raf.utilities.Log4jLoggerFactory;
 import com.gdn.integration.jaxb.Order;
 import com.gdn.integration.jaxb.OrderItem;
 import com.gdn.integration.jaxb.Payment;
@@ -121,13 +121,14 @@ import com.gdn.venice.persistence.VenWcsPaymentType;
 import com.gdn.venice.util.CommonUtil;
 import com.gdn.venice.util.OrderUtil;
 import com.gdn.venice.util.VeniceConstants;
+import com.rits.cloning.Cloner;
 
 /**
  * 
  * @author yauritux
  *
  */
-@Service
+//@Service
 public class OrderReceiverImpl implements OrderReceiver {
 
 	@Autowired
@@ -207,16 +208,25 @@ public class OrderReceiverImpl implements OrderReceiver {
 	@Autowired
 	VenCityDAO venCityDAO;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(OrderReceiverImpl.class);
+	private static Log4jLoggerFactory loggerFactory = new Log4jLoggerFactory();
+	private static final Logger LOG = loggerFactory.getLog4JLogger("com.gdn.venice.inbound.receivers.impl.OrderReceiverImpl");
 	
 	private Order order;
 	
 	private Mapper mapper;
 	
+	public OrderReceiverImpl() {
+	}
+	
 	public OrderReceiverImpl(Order order) {
 		super();
 		this.order = order;
 	}
+	
+//	@Autowired
+//	public void setOrder(Order order){
+//		this.order = order;
+//	}
 	
 	public void setMapper(Mapper mapper) {
 		this.mapper = mapper;
@@ -224,6 +234,7 @@ public class OrderReceiverImpl implements OrderReceiver {
 
 	@Override
 	public boolean createOrder() throws VeniceInternalException {	
+		CommonUtil.logDebug(LOG, "\n OrderReceiverImpl");
 		/*
 		 * Check that none of the order items already exist and remove any party
 		 * record from merchant to prevent data problems from WCS
@@ -1900,6 +1911,7 @@ public class OrderReceiverImpl implements OrderReceiver {
 	private List<Object> synchronizeReferenceData(List<Object> references) throws VeniceInternalException {
 		List<Object> retVal = new ArrayList<Object>();
 		Iterator<Object> i = references.iterator();
+		Cloner cloner = new Cloner();
 		while (i.hasNext()) {
 			Object next = i.next();
 			if (next != null) {
@@ -1953,13 +1965,14 @@ public class OrderReceiverImpl implements OrderReceiver {
 							CommonUtil.logDebug(LOG, "Restricting VenBank... :" + ((VenBank) next).getBankCode());
 							//VenBankSessionEJBLocal bankHome = (VenBankSessionEJBLocal) this._genericLocator .lookupLocal(VenBankSessionEJBLocal.class, "VenBankSessionEJBBeanLocal");
 							//List<VenBank> bankList = bankHome.queryByRange("select o from VenBank o where o.bankCode ='" + ((VenBank) next).getBankCode() + "'", 0, 1);
-							List<VenBank> bankList = venBankDAO.findByBankCode(((VenBank) next).getBankCode());
-							if (bankList == null || bankList.isEmpty()) {
+							VenBank bank = venBankDAO.findByBankCode(((VenBank) next).getBankCode());
+							if (bank == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderException(
 										"Bank does not exist", VeniceExceptionConstants.VEN_EX_200001)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(bankList.get(0));
+								VenBank bankClone = cloner.deepClone(bank);
+								retVal.add(bankClone);
 							}
 						/*
 						} catch (Exception e) {
@@ -2004,13 +2017,14 @@ public class OrderReceiverImpl implements OrderReceiver {
 							List<LogLogisticsProvider> logisticsProviderList = logisticsProviderHome
 									.queryByRange("select o from LogLogisticsProvider o where o.logisticsProviderCode ='" + ((LogLogisticsProvider) next).getLogisticsProviderCode() + "'", 0, 1);
 							*/
-							List<LogLogisticsProvider> logisticsProviderList = logLogisticProviderDAO.findByLogisticsProviderCode(((LogLogisticsProvider) next).getLogisticsProviderCode());
-							if (logisticsProviderList == null || logisticsProviderList.isEmpty()) {
+							LogLogisticsProvider logisticsProvider = logLogisticProviderDAO.findByLogisticsProviderCode(((LogLogisticsProvider) next).getLogisticsProviderCode());
+							if (logisticsProvider == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderLogisticInfoException(
 										"Logistics provider does not exist", VeniceExceptionConstants.VEN_EX_000011)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(logisticsProviderList.get(0));
+								LogLogisticsProvider logisticsProviderClone = cloner.deepClone(logisticsProvider);
+								retVal.add(logisticsProviderClone);
 							}
 							/*
 						} catch (Exception e) {
@@ -2058,13 +2072,14 @@ public class OrderReceiverImpl implements OrderReceiver {
 									.lookupLocal(LogLogisticServiceSessionEJBLocal.class, "LogLogisticServiceSessionEJBBeanLocal");
 							List<LogLogisticService> logisticServiceList = logisticServiceHome
 									.queryByRange("select o from LogLogisticService o where o.serviceCode ='" + ((LogLogisticService) next).getServiceCode() + "'", 0, 1);*/
-							List<LogLogisticService> logisticServiceList = logLogisticServiceDAO.findByServiceCode(((LogLogisticService) next).getServiceCode());
-							if (logisticServiceList == null || logisticServiceList.isEmpty()) {
+							LogLogisticService logisticService = logLogisticServiceDAO.findByServiceCode(((LogLogisticService) next).getServiceCode());
+							if (logisticService == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderException(
 										"Logistics service does not exist", VeniceExceptionConstants.VEN_EX_000011)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(logisticServiceList.get(0));
+								LogLogisticService logisticServiceClone = cloner.deepClone(logisticService);
+								retVal.add(logisticServiceClone);
 							}
 							/*
 						} catch (Exception e) {
@@ -2311,13 +2326,14 @@ public class OrderReceiverImpl implements OrderReceiver {
 							List<VenWcsPaymentType> wcsPaymentTypeList = wcsPaymentTypeHome
 									.queryByRange("select o from VenWcsPaymentType o where o.wcsPaymentTypeCode ='" + ((VenWcsPaymentType) next).getWcsPaymentTypeCode() + "'", 0, 1);
 							*/
-							List<VenWcsPaymentType> wcsPaymentTypeList = venWcsPaymentTypeDAO.findByWcsPaymentTypeCode(((VenWcsPaymentType) next).getWcsPaymentTypeCode()); 
-							if (wcsPaymentTypeList == null || wcsPaymentTypeList.isEmpty()) {
+							VenWcsPaymentType wcsPaymentType = venWcsPaymentTypeDAO.findByWcsPaymentTypeCode(((VenWcsPaymentType) next).getWcsPaymentTypeCode()); 
+							if (wcsPaymentType == null) {
 								throw CommonUtil.logAndReturnException(new InvalidOrderException(
 										"WCS Payment type does not exist", VeniceExceptionConstants.VEN_EX_999999)
 								  , LOG, LoggerLevel.ERROR);
 							} else {
-								retVal.add(wcsPaymentTypeList.get(0));
+								VenWcsPaymentType wcsPaymentTypeClone = cloner.deepClone(wcsPaymentType);
+								retVal.add(wcsPaymentTypeClone);
 							}
 							/*
 						} catch (Exception e) {
@@ -2802,9 +2818,14 @@ public class OrderReceiverImpl implements OrderReceiver {
 	}
 	
 	private boolean isItemWCSExistInDB(String wcsOrderItemId) {
+		try{
 		VenOrderItem venOrderItem = venOrderItemDAO.findByWcsOrderItemId(wcsOrderItemId);
 		if (venOrderItem != null) return true;
 		return false;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

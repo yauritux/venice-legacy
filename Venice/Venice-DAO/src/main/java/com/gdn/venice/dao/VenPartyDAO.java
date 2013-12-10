@@ -13,10 +13,9 @@ import com.gdn.venice.persistence.VenParty;
  *
  */
 public interface VenPartyDAO extends JpaRepository<VenParty, Long>{
-
 	String FIND_BY_LEGAL_NAME 
-	   = "select o from VenParty o where o.fullOrLegalName = :name";
+	   = "select o from VenParty o where o.fullOrLegalName = ?1";
 	
 	@Query(FIND_BY_LEGAL_NAME)
-	public List<VenParty> findByLegalName(String name);
+	public List<VenParty> findByLegalName(String fullOrLegalName);
 }

@@ -16,7 +16,7 @@ import com.gdn.venice.persistence.VenOrderPaymentAllocation;
 public interface VenOrderPaymentAllocationDAO extends JpaRepository<VenOrderPaymentAllocation, Long>{
 
 	String FIND_BY_VEN_ORDER 
-	  = "select o from VenOrderPaymentAllocation o where o.venOrder =:venOrder";
+	  = "select o from VenOrderPaymentAllocation o where o.venOrder = ?1";
 	
 	@Query(FIND_BY_VEN_ORDER)
 	public List<VenOrderPaymentAllocation> findByVenOrder(VenOrder venOrder);

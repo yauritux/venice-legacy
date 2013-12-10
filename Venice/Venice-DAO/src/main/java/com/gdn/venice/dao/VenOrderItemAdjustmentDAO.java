@@ -11,7 +11,7 @@ import com.gdn.venice.persistence.VenPromotion;
 
 public interface VenOrderItemAdjustmentDAO extends JpaRepository<VenOrderItemAdjustment, Long> {
 	String FIND_BY_ORDERITEM_AND_PROMOTION 
-		= "select o from VenOrderItemAdjustment o where o.venPromotion = :venPromotion and o.venOrderItem = :venOrderItem";
+		= "select o from VenOrderItemAdjustment o where o.venPromotion = ?1 and o.venOrderItem = ?2";
 	
 //	select o from VenOrderItemAdjustment o where o.venOrderItem.orderItemId
 	public List<VenOrderItemAdjustment> findByVenOrderItem(VenOrderItem venOrderItem);

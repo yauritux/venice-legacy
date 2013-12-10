@@ -1,0 +1,21 @@
+function h9(){}
+function n9(){}
+function yob(){}
+function Eob(){}
+function Job(){}
+function Oob(){}
+function CYd(){}
+function wYd(){}
+function p9(b){this.b=b}
+function Gob(b){this.b=b}
+function Lob(b){this.b=b}
+function Qob(b){this.b=b}
+function sQ(b){b.c.bf(fN(b.b.b))}
+function II(b,c,d){return new k9(b,c,d)}
+function EYd(){zYd=new CYd;Zad((Wad(),Vad),12);!!$stats&&$stats(Obd(GXf,Bif,-1,-1));zYd.Ve();!!$stats&&$stats(Obd(GXf,dFf,-1,-1))}
+function k9(b,c,d){iY.call(this,b,c);this.d=d;Tld(this.j,15).Wc(this);Tld(Tld(this.j,15).Xc(),3).b=Tld(this.d,16).Tc();tyb(Tld(this.j,15).d,e6())}
+function BYd(){var b,d,e;while(xYd){d=c9c;e=xYd;xYd=xYd.c;!xYd&&(yYd=null);if(!d){sQ(e.b)}else{try{sQ(e.b)}catch(b){b=ZVd(b);if(!Wld(b,209))throw b}}}}
+function fN(b){var c;!b.t&&(b.t=(c=II((!b.Jc&&(b.Jc=new Tne),b.Jc),(!b.K&&(b.K=new Bob),b.K),(!b.s&&(b.s=new w9),b.s),!b.Ic&&(b.Ic=(new Kme).hf(new tme,new xme))),c.Pc(),c));return b.t}
+function j9(b,c){var d,e,f,g;g=new mse;f=new v4e;for(e=0;e<c.c;++e){f.pl(mVf+(e+1),Tld((D1e(e,c.c),c.b[e]),1))}d=T_e(f);g.M[Hdf]=d;g.M[Idf]=$bd()+BXf;g.M[Kdf]=Ldf;aIe(g.M,Mdf,(bVe(),bVe(),aVe));aIe(g.M,URf,aVe);$wnd.isc.RPCManager.addClassProperties({promptStyle:(WEe(),VEe).Uk()});dHe();$wnd.isc.RPCManager.defaultPrompt=CXf;$wnd.isc.RPCManager.showPrompt=true;Uze(g,new p9(b))}
+function Bob(){var b,e,f,g;this.c=new w8c;b=new LTe;Qhb(b)?(e=b.fd(),e.setProperty(Tcf,Qcf),undefined):(b.o[Tcf]=Qcf,undefined);Vhb(b,tef,QWe(2));this.f=new RTe;Rhb(this.f,qGf,NLf,true);Tib(this.f,OLf);Rhb(this.f,eif,PLf,true);f=this.f.ud();f.disable();JTe(b,this.f);this.e=new RTe;Rhb(this.e,qGf,pHf,true);Tib(this.e,DXf);Rhb(this.e,eif,dpf,true);JTe(b,this.e);this.b=new RTe;Rhb(this.b,qGf,zIf,true);Tib(this.b,EXf);Rhb(this.b,eif,Ygf,true);g=this.b.ud();g.disable();JTe(b,this.b);this.d=new yyb(this);Xub(this.c,Fld(zVd,{272:1,322:1},137,[b,this.d]));Dib(this.f,new Gob(this));Dib(this.b,new Lob(this));Dib(this.e,new Qob(this));pyb(this.d)}
+var NXf='AsyncLoader12',HXf='JournalPresenter',IXf='JournalPresenter$1',BXf='JournalPresenterServlet?method=submitJournalForApproval&type=RPC',JXf='JournalView',KXf='JournalView$1',LXf='JournalView$2',MXf='JournalView$3',DXf='Print Journal Details',CXf='Submitting journals for approval...',FXf='Venice/JournalReportLauncherServlet?journalGroupId=',GXf='runCallbacks12';_=k9.prototype=h9.prototype=new NX;_.gC=function l9(){return gqd};_.Rc=function m9(){Sne(this.g,this,new Rqe((S3c(),Q3c),this))};_.cM={35:1,87:1,309:1};_=p9.prototype=n9.prototype=new aI;_.Sc=function q9(b,c,d){var e,f;e=c.tM==$6e||c.cM&&!!c.cM[1]?c.tS():c.toString?c.toString():Kcf;if(e.indexOf(Bjf)==0){uyb(Tld(Tld(this.b.j,15),17).d);$wnd.isc.say(jKf)}else{f=bYe(e,Qdf,0);f.length>1?JIe(f[1],null):JIe(kKf,null)}dHe();$wnd.isc.RPCManager.defaultPrompt=kOf;$wnd.isc.RPCManager.showPrompt=false};_.gC=function r9(){return dqd};_.cM={};_.b=null;_=Bob.prototype=yob.prototype=new yZ;_.Xc=function Cob(){return this.c};_.gC=function Dob(){return fsd};_.cM={15:1,17:1};_.b=null;_.c=null;_.d=null;_.e=null;_.f=null;_=Gob.prototype=Eob.prototype=new aI;_.gC=function Hob(){return csd};_.Yc=function Iob(b){var c,d,e,f,g,i;e=(f=this.b.d.f.ud(),g=f.getSelection(),lkb(g));d=new i3e;for(c=0;c<e.length;++c){X2e(d,(i=e[c].M[ySf],i===undefined||i==null?null:String(i)))}j9(Tld(this.b.B,35),d)};_.cM={292:1,324:1};_.b=null;_=Lob.prototype=Job.prototype=new aI;_.gC=function Mob(){return dsd};_.Yc=function Nob(b){var c,d,e,f,g,i;e=(f=this.b.d.f.ud(),g=f.getSelection(),lkb(g));d=(i=e[0].M[ySf],i===undefined||i==null?null:String(i));c=$bd();c.indexOf(tHf)!=-1&&(c=uHf);c.indexOf(vHf)!=-1&&(c=c.substr(0,c.indexOf(vHf)-0));$wnd.open(c+FXf+d,xHf,null)};_.cM={292:1,324:1};_.b=null;_=Qob.prototype=Oob.prototype=new aI;_.gC=function Rob(){return esd};_.Yc=function Sob(b){E5c(this.b.d)};_.cM={292:1,324:1};_.b=null;_=CYd.prototype=wYd.prototype=new aI;_.gC=function DYd(){return FMd};_.Ve=function HYd(){BYd()};_.cM={};var gqd=sVe(ltf,HXf),dqd=sVe(ltf,IXf),fsd=sVe(fIf,JXf),csd=sVe(fIf,KXf),dsd=sVe(fIf,LXf),esd=sVe(fIf,MXf),FMd=sVe(Uyf,NXf);$entry(EYd)();

@@ -15,7 +15,7 @@ import com.gdn.venice.persistence.VenCustomer;
 public interface VenCustomerDAO extends JpaRepository<VenCustomer, Long>{
 	
 	String FIND_BY_CUSTOMER_NAME = 
-			  "select o from VenCustomer o where o.customerUserName = :customerName order by o.customerId desc";
+			  "select o from VenCustomer o where o.customerUserName = ?1 order by o.customerId desc";
 	
 	public List<VenCustomer> findByWcsCustomerId(String wcsCustomerId);
 	

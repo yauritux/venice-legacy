@@ -1,8 +1,8 @@
 package com.gdn.venice.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
+import com.djarum.raf.utilities.Log4jLoggerFactory;
 import com.gdn.integration.jaxb.Order;
 import com.gdn.integration.jaxb.Payment;
 import com.gdn.venice.constants.VenPaymentTypeConstants;
@@ -14,8 +14,8 @@ import com.gdn.venice.validator.OrderValidator;
 
 
 public class OrderUtil {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(OrderUtil.class);
+	private static Log4jLoggerFactory loggerFactory = new Log4jLoggerFactory();
+	private static final Logger LOG = loggerFactory.getLog4JLogger(OrderUtil.class.getName());
 	
 	public static void checkOrder(Order order, OrderValidator validator) throws InvalidOrderException {
 		LOG.debug("Order=" + order);

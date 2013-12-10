@@ -16,7 +16,7 @@ import com.gdn.venice.persistence.VenParty;
 public interface VenContactDetailDAO extends JpaRepository<VenContactDetail, Long>{
 	
 	String FIND_BY_PARTY 
-	   = "SELECT vcd FROM VenContactDetail	vcd INNER JOIN vcd.VenParty vp WHERE vp.party = :venParty";
+	   = "SELECT vcd FROM VenContactDetail vcd INNER JOIN vcd.venParty vp WHERE vp = ?1";
 
     @Query(FIND_BY_PARTY)
 	public List<VenContactDetail> findByParty(VenParty venParty);
