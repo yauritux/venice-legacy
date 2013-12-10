@@ -14,11 +14,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,14 +40,20 @@ import com.gdn.venice.exception.InvalidOrderTimestampException;
  * @author yauritux
  *
  */
-/*
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:OrderServiceTest-context.xml"})
-*/
-@RunWith(JUnit4.class)
 public class OrderCreationTest {
+	
 	/*
+	static {
+		ClassPathXmlApplicationContext appContext
+		    =new ClassPathXmlApplicationContext(
+		    		new String[]{"classpath:spring/application-context.xml","classpath:spring/model-context.xml"}
+		     );		
+	}
+	*/
+	
 	@Autowired
 	@InjectMocks
 	OrderService orderService;
@@ -162,9 +168,5 @@ public class OrderCreationTest {
         }
         
         return calendar;
-	}
-    */
-	@Test
-	public void test() {		
 	}
 }

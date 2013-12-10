@@ -22,8 +22,9 @@
             </dep:dependency>
         </dep:dependencies>
         <dep:hidden-classes>
-		    <dep:filter>org.springframework</dep:filter>
-		    <dep:filter>org.aspectj</dep:filter>
+        	<dep:filter>org.aspectj.</dep:filter>
+		    <dep:filter>org.springframework.</dep:filter>
+		    <dep:filter>META-INF/spring</dep:filter>
 		</dep:hidden-classes>
     </dep:environment>
     <ejb:enterprise-beans>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <jar destfile="/home/software/refactor/Venice/Venice-Batch/target/batch-jars/SalesRecordCleanupGeneratorBatchJob.jar">
-    <fileset dir="/home/software/refactor/Venice/Venice-Batch/target/classes">
+  <jar destfile="/home/fedora/Projects/venice-legacy/Venice/Venice-Batch/target/batch-jars/SalesRecordCleanupGeneratorBatchJob.jar">
+    <fileset dir="/home/fedora/Projects/venice-legacy/Venice/Venice-Batch/target/classes">
       <include name="**/SalesRecordCleanupGeneratorBatchJob.class"/>
     </fileset>
     <manifest>

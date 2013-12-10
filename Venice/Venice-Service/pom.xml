@@ -149,20 +149,40 @@
     </dependencies>
         
     <build>
+        <!-- 
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </testResource>
+        </testResources>
+        -->
+        <!-- 
     	<testResources>
     		<testResource>
 		        <directory>${project.basedir}/src/test/resources</directory>
 		        <filtering>true</filtering>
 	        </testResource>
     	</testResources>
+    	-->
         <resources>
         	<resource>
+		        <filtering>true</filtering>         	
 		        <directory>${project.basedir}/src/main/resources</directory>
-		        <filtering>true</filtering>
+		        <includes>
+		            <include>**/*.xml</include>
+		        </includes>
 	        </resource>
 	        <resource>
+		        <filtering>true</filtering> 	        
 		        <directory>${project.basedir}/src/test/resources</directory>
-		        <filtering>true</filtering>
+		        <includes>
+		            <include>**/*.xml</include>
+		        </includes>
 	        </resource>
             <resource>
                 <directory>${project.basedir}/src/main/java/com/djarum/raf/facade/generator</directory>
@@ -172,9 +192,6 @@
                 </includes>
                 <targetPath>com/djarum/raf/facade/generator</targetPath>
             </resource>
-<!--             <resource> -->
-<!--                 <directory>${project.basedir}/src/main/resources</directory> -->
-<!--             </resource> -->
         </resources>
         <plugins>
             <plugin>
